@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.EventQueue;
+
 import view.Hauptmenue;
 
 
@@ -12,15 +14,21 @@ public class Controller {
 	
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new Controller();
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Controller controller = new Controller();
+					Hauptmenue hauptmenue = new Hauptmenue(controller);
+					hauptmenue.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 	
 	public Controller()
 	{
-		
-		
-		hauptmenue = new Hauptmenue(this);
 		
 	}
 }
