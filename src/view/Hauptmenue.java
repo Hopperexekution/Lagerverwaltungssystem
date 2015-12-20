@@ -34,6 +34,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
+import javax.swing.JMenu;
+import javax.swing.SwingConstants;
 
 public class Hauptmenue extends JFrame {
 	public Hauptmenue( Controller controller) {
@@ -41,97 +43,83 @@ public class Hauptmenue extends JFrame {
 		setBounds(800,600,800,600);
 		getContentPane().setLayout(null);
 		
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 870, 46);
-		getContentPane().add(menuBar);
+		JMenuBar menueLeiste = new JMenuBar();
+		menueLeiste.setBounds(0, 0, 794, 24);
+		getContentPane().add(menueLeiste);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Laden");
-		mntmNewMenuItem.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-			}
-		});
-		menuBar.add(mntmNewMenuItem);
+		JMenu menueListe = new JMenu("Men\u00FC");
+		menueLeiste.add(menueListe);
 		
-		JMenuItem mntmSpeichern = new JMenuItem("Speichern");
-		mntmSpeichern.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-			}
-		});
-		menuBar.add(mntmSpeichern);
+		JMenuItem menueLaden = new JMenuItem("Laden");
+		menueListe.add(menueLaden);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Beenden");
-		mntmNewMenuItem_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
-		menuBar.add(mntmNewMenuItem_1);
+		JMenuItem menueSpeichern = new JMenuItem("Speichern");
+		menueListe.add(menueSpeichern);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(0, 50, 870, 466);
-		getContentPane().add(tabbedPane);
+		JMenuItem menueBeenden = new JMenuItem("Programm beenden");
+		menueListe.add(menueBeenden);
 		
-		JSplitPane splitPane = new JSplitPane();
-		splitPane.setDividerLocation(0.5);
-		tabbedPane.addTab("Lager\u00FCbersicht", null, splitPane, null);
+		JTabbedPane tabLeiste = new JTabbedPane();
+		tabLeiste.setBounds(0, 23, 794, 548);
+		getContentPane().add(tabLeiste,null);
 		
-		JPanel panel_1 = new JPanel();
-		splitPane.setRightComponent(panel_1);
-		panel_1.setLayout(null);
+		JSplitPane lageruebersichtTab = new JSplitPane();
+		lageruebersichtTab.setDividerLocation(0.5);
+		tabLeiste.addTab("Lager\u00FCbersicht", null, lageruebersichtTab, null);
 		
-		JLabel lblLagerOptionen = new JLabel("Lager Optionen");
-		lblLagerOptionen.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblLagerOptionen.setBounds(10, 11, 107, 14);
-		panel_1.add(lblLagerOptionen);
+		JPanel lagerPane = new JPanel();
+		lageruebersichtTab.setRightComponent(lagerPane);
+		lagerPane.setLayout(null);
 		
-		JButton btnNeuesLagerErstellen = new JButton("Neues Lager erstellen");
-		btnNeuesLagerErstellen.addMouseListener(new MouseAdapter() {
+		JLabel lagerOptionenUeberschrift = new JLabel("Lager Optionen");
+		lagerOptionenUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
+		lagerOptionenUeberschrift.setBounds(220, 11, 107, 23);
+		lagerOptionenUeberschrift.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lagerPane.add(lagerOptionenUeberschrift);
+		
+		JButton neuesLagerErstellenButton = new JButton("Neues Lager erstellen");
+		neuesLagerErstellenButton.setBounds(20, 48, 170, 23);
+		neuesLagerErstellenButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
-		btnNeuesLagerErstellen.setBounds(10, 36, 143, 23);
-		panel_1.add(btnNeuesLagerErstellen);
+		lagerPane.add(neuesLagerErstellenButton);
 		
-		JButton btnLagerLschen = new JButton("Lager l\u00F6schen");
-		btnLagerLschen.addMouseListener(new MouseAdapter() {
+		JButton lagerLoeschenButton = new JButton("Lager l\u00F6schen");
+		lagerLoeschenButton.setBounds(200, 48, 161, 23);
+		lagerLoeschenButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
-		btnLagerLschen.setBounds(163, 36, 143, 23);
-		panel_1.add(btnLagerLschen);
+		lagerPane.add(lagerLoeschenButton);
 		
-		JButton btnLagerVerschieben = new JButton("Lager verschieben");
-		btnLagerVerschieben.addMouseListener(new MouseAdapter() {
+		JButton lagerVerschiebenButton = new JButton("Lager verschieben");
+		lagerVerschiebenButton.setBounds(371, 48, 152, 23);
+		lagerVerschiebenButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
-		btnLagerVerschieben.setBounds(316, 36, 143, 23);
-		panel_1.add(btnLagerVerschieben);
+		lagerPane.add(lagerVerschiebenButton);
 		
-		JSeparator separator = new JSeparator();
-		separator.setBounds(0, 82, 757, 2);
-		panel_1.add(separator);
+		JSeparator lagerUebersichtSeperator = new JSeparator();
+		lagerUebersichtSeperator.setBounds(0, 82, 533, 2);
+		lagerPane.add(lagerUebersichtSeperator);
 		
-		JLabel lblLagerDetails = new JLabel("Lager Details");
-		lblLagerDetails.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblLagerDetails.setBounds(10, 95, 86, 14);
-		panel_1.add(lblLagerDetails);
+		JLabel buchungenUeberschrift = new JLabel("Buchungen");
+		buchungenUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
+		buchungenUeberschrift.setBounds(220, 90, 107, 23);
+		lagerPane.add(buchungenUeberschrift);
 		
-		JLabel lblBuchungen = new JLabel("Buchungen");
-		lblBuchungen.setBounds(10, 130, 60, 14);
-		panel_1.add(lblBuchungen);
+		JScrollBar buchungsListeScrollBar = new JScrollBar();
+		buchungsListeScrollBar.setBounds(512, 119, 17, 222);
+		lagerPane.add(buchungsListeScrollBar);
 		
-		JScrollBar scrollBar = new JScrollBar();
-		scrollBar.setBounds(659, 155, 17, 186);
-		panel_1.add(scrollBar);
-		
-		JList list = new JList();
-		list.setModel(new AbstractListModel() {
+		JList buchungsListe = new JList();
+		buchungsListe.setBounds(20, 124, 492, 222);
+		buchungsListe.setModel(new AbstractListModel() {
 			String[] values = new String[] {"Niedersachsen; 100; 10.12.2015"};
 			public int getSize() {
 				return values.length;
@@ -140,43 +128,46 @@ public class Hauptmenue extends JFrame {
 				return values[index];
 			}
 		});
-		list.setBounds(10, 155, 666, 186);
-		panel_1.add(list);
+		lagerPane.add(buchungsListe);
 		
-		JLabel lblLagerDetails_1 = new JLabel("Lager Details");
-		lblLagerDetails_1.setBounds(10, 364, 86, 14);
-		panel_1.add(lblLagerDetails_1);
+		JLabel lagerDetailsUeberschrift = new JLabel("Lager Details");
+		lagerDetailsUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
+		lagerDetailsUeberschrift.setBounds(220, 352, 107, 23);
+		lagerPane.add(lagerDetailsUeberschrift);
 		
-		JLabel lblKapazitt = new JLabel("Kapazit\u00E4t");
-		lblKapazitt.setBounds(259, 389, 60, 14);
-		panel_1.add(lblKapazitt);
+		JLabel lagerKapazitaetUeberschrift = new JLabel("Kapazit\u00E4t");
+		lagerKapazitaetUeberschrift.setBounds(20, 425, 79, 14);
+		lagerPane.add(lagerKapazitaetUeberschrift);
 		
-		JLabel label = new JLabel("100");
-		label.setBounds(326, 389, 112, 14);
-		panel_1.add(label);
+		JLabel lagerKapazitaet = new JLabel("100");
+		lagerKapazitaet.setHorizontalAlignment(SwingConstants.CENTER);
+		lagerKapazitaet.setBounds(163, 425, 360, 14);
+		lagerPane.add(lagerKapazitaet);
 		
-		JLabel lblName = new JLabel("Name");
-		lblName.setBounds(24, 389, 46, 14);
-		panel_1.add(lblName);
+		JLabel lagerNameUeberschrift = new JLabel("Name");
+		lagerNameUeberschrift.setBounds(24, 389, 75, 14);
+		lagerPane.add(lagerNameUeberschrift);
 		
-		JLabel lblNiedersachsen = new JLabel("Niedersachsen");
-		lblNiedersachsen.setBounds(70, 389, 143, 14);
-		panel_1.add(lblNiedersachsen);
+		JLabel lagerName = new JLabel("Niedersachsen");
+		lagerName.setHorizontalAlignment(SwingConstants.CENTER);
+		lagerName.setBounds(163, 389, 360, 14);
+		lagerPane.add(lagerName);
 		
-		JLabel lblBestand = new JLabel("Bestand");
-		lblBestand.setBounds(508, 389, 46, 14);
-		panel_1.add(lblBestand);
+		JLabel lagerBestandUeberschrift = new JLabel("Bestand");
+		lagerBestandUeberschrift.setBounds(20, 464, 79, 14);
+		lagerPane.add(lagerBestandUeberschrift);
 		
-		JLabel label_1 = new JLabel("50");
-		label_1.setBounds(582, 389, 107, 14);
-		panel_1.add(label_1);
+		JLabel lagerBestand = new JLabel("50");
+		lagerBestand.setHorizontalAlignment(SwingConstants.CENTER);
+		lagerBestand.setBounds(163, 464, 360, 14);
+		lagerPane.add(lagerBestand);
 		
-		JTree tree = new JTree();
-		tree.addTreeSelectionListener(new TreeSelectionListener() {
+		JTree lagerTree = new JTree();
+		lagerTree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent arg0) {
 			}
 		});
-		tree.setModel(new DefaultTreeModel(
+		lagerTree.setModel(new DefaultTreeModel(
 			new DefaultMutableTreeNode("Lager") {
 				{
 					DefaultMutableTreeNode node_1;
@@ -189,64 +180,73 @@ public class Hauptmenue extends JFrame {
 				}
 			}
 		));
-		splitPane.setLeftComponent(tree);
+		lageruebersichtTab.setLeftComponent(lagerTree);
+		lageruebersichtTab.setDividerLocation(250);
 		
-		JSplitPane splitPane_1 = new JSplitPane();
-		tabbedPane.addTab("Lieferungs\u00FCbersicht", null, splitPane_1, null);
+		JSplitPane lieferungsuebersichtTab = new JSplitPane();
+		tabLeiste.addTab("Lieferungs\u00FCbersicht", null, lieferungsuebersichtTab, null);
 		
-		JTree tree_1 = new JTree();
-		tree_1.addTreeSelectionListener(new TreeSelectionListener() {
+		JTree lieferungsTree = new JTree();
+		lieferungsTree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 			}
 		});
-		tree_1.setModel(new DefaultTreeModel(
+		lieferungsTree.setModel(new DefaultTreeModel(
 			new DefaultMutableTreeNode("Lieferungen") {
 				{
 					//getContentPane().add(new DefaultMutableTreeNode("Lieferung1"));
 				}
 			}
 		));
-		splitPane_1.setLeftComponent(tree_1);
+		lieferungsuebersichtTab.setLeftComponent(lieferungsTree);
+		lieferungsuebersichtTab.setDividerLocation(250);
 		
-		JPanel panel = new JPanel();
-		splitPane_1.setRightComponent(panel);
-		panel.setLayout(null);
+		JPanel lieferungPane = new JPanel();
+		lieferungsuebersichtTab.setRightComponent(lieferungPane);
+		lieferungPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Lieferungsoptionen");
-		lblNewLabel.setBounds(10, 11, 103, 14);
-		panel.add(lblNewLabel);
+		JLabel lieferungsoptionenUeberschrift = new JLabel("Lieferungsoptionen");
+		lieferungsoptionenUeberschrift.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lieferungsoptionenUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
+		lieferungsoptionenUeberschrift.setBounds(220, 11, 123, 14);
+		lieferungPane.add(lieferungsoptionenUeberschrift);
 		
-		JButton btnNeueZulieferung = new JButton("Neue Zulieferung");
-		btnNeueZulieferung.addMouseListener(new MouseAdapter() {
+		JButton neueZulieferungButton = new JButton("Neue Zulieferung");
+		neueZulieferungButton.setBounds(20, 48, 170, 23);
+		neueZulieferungButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
-		btnNeueZulieferung.setBounds(10, 36, 123, 23);
-		panel.add(btnNeueZulieferung);
+		lieferungPane.add(neueZulieferungButton);
 		
-		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(0, 109, 786, 2);
-		panel.add(separator_1);
+		JSeparator lieferungsUebersichtSeperator = new JSeparator();
+		lieferungsUebersichtSeperator.setBounds(0, 82, 533, 2);
+		lieferungPane.add(lieferungsUebersichtSeperator);
 		
-		JLabel lblLieferbezeichnung = new JLabel("Lieferbezeichnung");
-		lblLieferbezeichnung.setBounds(24, 133, 109, 14);
-		panel.add(lblLieferbezeichnung);
+		JLabel lieferbezeichnungUeberschrift = new JLabel("Lieferbezeichnung");
+		lieferbezeichnungUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
+		lieferbezeichnungUeberschrift.setBounds(24, 133, 121, 14);
+		lieferungPane.add(lieferbezeichnungUeberschrift);
 		
-		JLabel label_2 = new JLabel("000");
-		label_2.setBounds(34, 157, 62, 14);
-		panel.add(label_2);
+		JLabel lieferBezeichung = new JLabel("000");
+		lieferBezeichung.setHorizontalAlignment(SwingConstants.CENTER);
+		lieferBezeichung.setBounds(24, 157, 121, 14);
+		lieferungPane.add(lieferBezeichung);
 		
-		JLabel lblLieferdatum = new JLabel("Lieferdatum");
-		lblLieferdatum.setBounds(165, 133, 68, 14);
-		panel.add(lblLieferdatum);
+		JLabel lieferdatumUeberschrift = new JLabel("Lieferdatum");
+		lieferdatumUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
+		lieferdatumUeberschrift.setBounds(211, 133, 101, 14);
+		lieferungPane.add(lieferdatumUeberschrift);
 		
-		JLabel label_3 = new JLabel("10.12.2012");
-		label_3.setBounds(165, 157, 68, 14);
-		panel.add(label_3);
+		JLabel lieferDatum = new JLabel("10.12.2012");
+		lieferDatum.setHorizontalAlignment(SwingConstants.CENTER);
+		lieferDatum.setBounds(211, 157, 101, 14);
+		lieferungPane.add(lieferDatum);
 		
-		JList list_1 = new JList();
-		list_1.setModel(new AbstractListModel() {
+		JList lieferungsListe = new JList();
+		lieferungsListe.setBounds(24, 198, 509, 215);
+		lieferungsListe.setModel(new AbstractListModel() {
 			String[] values = new String[] {"Lager1 100", "Lager2 50"};
 			public int getSize() {
 				return values.length;
@@ -255,7 +255,6 @@ public class Hauptmenue extends JFrame {
 				return values[index];
 			}
 		});
-		list_1.setBounds(24, 198, 730, 215);
-		panel.add(list_1);
+		lieferungPane.add(lieferungsListe);
 	}
 }
