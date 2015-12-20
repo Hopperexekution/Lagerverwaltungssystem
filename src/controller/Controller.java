@@ -11,15 +11,16 @@ import javax.swing.JOptionPane;
 import javax.swing.tree.TreeNode;
 
 import model.Buchung;
-
+import model.Lager;
+import model.LagerModel;
 import view.Hauptmenue;
 
 
 public class Controller {
 
 	static Hauptmenue hauptmenue;
-	List<Buchung> buchungsListe = new ArrayList<Buchung>();
-	TreeNode lagerListe;
+	private List<Buchung> buchungsListe = new ArrayList<Buchung>();
+	private static LagerModel lagerModel;
 	
 	//Variablen-Deklarationen
 	
@@ -29,7 +30,8 @@ public class Controller {
 			public void run() {
 				try {
 					Controller controller = new Controller();
-					hauptmenue = new Hauptmenue(controller);
+					erstelleLagerListe();
+					hauptmenue = new Hauptmenue(controller, lagerModel);
 					hauptmenue.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,6 +59,21 @@ public class Controller {
 		}
 	}
 	private static void erstelleLagerListe(){
-		
+		Lager root = new Lager("Lager");
+		addDefaultLager(root, new String[]{"Deutschland", "Europa", "Groﬂbritannien"});
+			addDefaultLager(root.getChildList().get(0), new String[]{"Niedersachsen", "NRW", "Bremen", "Hessen", "Sachsen", "Brandenburg", "MV"});	
+				addDefaultLager(root.getChildList().get(0).getChildList().get(0), new String[]{"Hannover-Misburg", "Nienburg"});
+			addDefaultLager(root.getChildList().get(1), new String[]{"Frankreich", "Italien", "Spanien"});
+				addDefaultLager(root.getChildList().get(1).getChildList().get(0),new String[]{"Paris-Nord", "Orleans", "Marseille", "Nimes"});
+				addDefaultLager(root.getChildList().get(1).getChildList().get(1), new String[]{"Mailand", "L'Aquila"});
+		lagerModel = new LagerModel(root);
+	}	
+	private static void addDefaultLager(Lager vater, String[] kinder){
+		for(String kind: kinder){
+			vater.getChildList().add(new Lager(kind));
+		}
+	}
+	private LagerModel getLagerModel(){
+		return lagerModel;
 	}
 }

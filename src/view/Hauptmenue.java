@@ -22,6 +22,7 @@ import java.awt.Font;
 import javax.swing.tree.DefaultTreeModel;
 
 import controller.Controller;
+import model.LagerModel;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.AbstractListModel;
@@ -40,7 +41,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 public class Hauptmenue extends JFrame {
-	public Hauptmenue( Controller controller) {
+	public Hauptmenue( Controller controller, LagerModel lagerModel) {
 		setResizable(false);
 		setBounds(800,600,800,600);
 		getContentPane().setLayout(null);
@@ -175,19 +176,7 @@ public class Hauptmenue extends JFrame {
 			public void valueChanged(TreeSelectionEvent arg0) {
 			}
 		});
-		lagerTree.setModel(new DefaultTreeModel(
-			new DefaultMutableTreeNode("Lager") {
-				{
-					DefaultMutableTreeNode node_1;
-					node_1 = new DefaultMutableTreeNode("Deutschland");
-						node_1.add(new DefaultMutableTreeNode("Niedersachsen"));
-					//getContentPane().add(node_1);
-					node_1 = new DefaultMutableTreeNode("Europa");
-						node_1.add(new DefaultMutableTreeNode("Frankreich"));
-					//getContentPane().add(node_1);
-				}
-			}
-		));
+		lagerTree.setModel(lagerModel);
 		lageruebersichtTab.setLeftComponent(lagerTree);
 		lageruebersichtTab.setDividerLocation(250);
 		

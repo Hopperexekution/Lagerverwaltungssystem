@@ -1,6 +1,8 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.tree.MutableTreeNode;
 
@@ -8,20 +10,24 @@ import javax.swing.tree.MutableTreeNode;
 
 public class Lager  {
 	
-	String name;
-	int kapazität;
-	int bestand;
-	LinkedList<Buchung> buchungen = new LinkedList<Buchung>();
+	private String name;
+	private int kapazität;
+	private int bestand;
+	private LinkedList<Buchung> buchungen = new LinkedList<Buchung>();
+	private List<Lager> children = new ArrayList<Lager>();
 	
 	/**
 	 * Einfügen Lager auf unterster Ebene
 	 * @param name Lagername
 	 * @param kapazität Lagerkapazität
 	 */
-	public Lager(String name, int kapazität){
+	public Lager(String name, int kapazität, int bestand){
 		this.name = name;
 		this.kapazität = kapazität;
-		this.bestand = 0;
+		this.bestand = bestand;
+	}
+	public Lager(String name){
+		this.name = name;
 	}
 	
 	/**
@@ -51,6 +57,9 @@ public class Lager  {
 			}
 				
 		}
+	}
+	public List<Lager> getChildList(){
+		return children;
 	}
 	
 	public String getName(){
