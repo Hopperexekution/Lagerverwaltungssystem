@@ -36,6 +36,8 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.JMenu;
 import javax.swing.SwingConstants;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 public class Hauptmenue extends JFrame {
 	public Hauptmenue( Controller controller) {
@@ -57,6 +59,12 @@ public class Hauptmenue extends JFrame {
 		menueListe.add(menueSpeichern);
 		
 		JMenuItem menueBeenden = new JMenuItem("Programm beenden");
+		menueBeenden.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				controller.programmBeenden();
+			}
+		});
 		menueListe.add(menueBeenden);
 		
 		JTabbedPane tabLeiste = new JTabbedPane();
@@ -256,5 +264,13 @@ public class Hauptmenue extends JFrame {
 			}
 		});
 		lieferungPane.add(lieferungsListe);
+	}
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "SwingAction");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+		}
 	}
 }
