@@ -57,7 +57,7 @@ public class Hauptmenue extends JFrame {
 		JMenu menueListe = new JMenu("Men\u00FC");
 		menueLeiste.add(menueListe);
 		
-		JMenuItem menueLaden = new JMenuItem("Laden");//#laden
+		JMenuItem menueLaden = new JMenuItem("Laden");
 		menueLaden.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
@@ -66,7 +66,7 @@ public class Hauptmenue extends JFrame {
 		});
 		menueListe.add(menueLaden);
 		
-		JMenuItem menueSpeichern = new JMenuItem("Speichern");//#speichern
+		JMenuItem menueSpeichern = new JMenuItem("Speichern");
 		menueSpeichern.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {

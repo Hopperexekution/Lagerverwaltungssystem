@@ -54,12 +54,12 @@ public class Controller {
 		
 	}
 	
-	public void laden()//#
+	public void laden()
 	{
 		jFileChooser.showOpenDialog(null);
 	}	
 	
-	public void speichern()//#
+	public void speichern()
 	{
 		jFileChooser.showSaveDialog(null);
 	}	
