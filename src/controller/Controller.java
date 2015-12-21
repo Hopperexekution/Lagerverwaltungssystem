@@ -164,6 +164,12 @@ public class Controller {
 	public void loeschen(Lager lager) {
 		if(!lagerModel.isRoot(lager)){
 			Lager vater = lager.getVater();
+			if(!lager.getChildList().isEmpty()){
+				for(Lager kindLager : lager.getChildList()){
+					kindLager.setVater(vater);
+					vater.getChildList().add(kindLager);
+				}
+			}
 			vater.getChildList().remove(lager);
 		}
 		else{

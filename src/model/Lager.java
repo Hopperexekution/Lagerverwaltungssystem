@@ -22,6 +22,12 @@ public class Lager  {
 	 * @param name Lagername
 	 * @param kapazität Lagerkapazität
 	 */
+	public Lager(String name, int kapazität, int bestand, Lager vater){
+		this.name = name;
+		this.kapazität = kapazität;
+		this.bestand = bestand;
+		this.vater = vater;
+	}
 	public Lager(String name, int kapazität, int bestand){
 		this.name = name;
 		this.kapazität = kapazität;
