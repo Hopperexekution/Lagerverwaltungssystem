@@ -46,6 +46,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 public class Hauptmenue extends JFrame {
+
 	public Hauptmenue( Controller controller, LagerModel lagerModel) {
 		setResizable(false);
 		setBounds(0,0,800,600);
@@ -245,7 +246,7 @@ public class Hauptmenue extends JFrame {
 		lieferungPane.add(neueAuslieferungButton);
 		
 		JSeparator lieferungsUebersichtSeperator = new JSeparator();
-		lieferungsUebersichtSeperator.setBounds(0, 82, 533, 2);
+		lieferungsUebersichtSeperator.setBounds(0, 120, 533, 2);
 		lieferungPane.add(lieferungsUebersichtSeperator);
 		
 		JLabel lieferbezeichnungUeberschrift = new JLabel("Lieferbezeichnung");
@@ -268,6 +269,16 @@ public class Hauptmenue extends JFrame {
 		lieferDatum.setBounds(211, 157, 101, 14);
 		lieferungPane.add(lieferDatum);
 		
+		
+		JTextField gesamtmengeEingabe = new JTextField();
+		gesamtmengeEingabe.setBounds(257, 89, 97, 20);
+		lieferungPane.add(gesamtmengeEingabe);
+		gesamtmengeEingabe.setColumns(10);
+		
+		JLabel gesamtmenge = new JLabel("Gesamtmenge:");
+		gesamtmenge.setBounds(183, 89, 72, 20);
+		lieferungPane.add(gesamtmenge);
+		
 		/*JList<Lieferung> lieferungsListe = new JList<Lieferung>();
 		lieferungsListe.setBounds(24, 198, 509, 215);
 		lieferungsListe.setModel(new AbstractListModel() {
@@ -289,4 +300,5 @@ public class Hauptmenue extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 		}
 	}*/
-}}
+}	
+}
