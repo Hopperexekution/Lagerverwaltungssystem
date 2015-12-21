@@ -217,6 +217,15 @@ public class Hauptmenue extends JFrame {
 		});
 		lieferungPane.add(neueZulieferungButton);
 		
+		JButton neueAuslieferungButton = new JButton("Neue Auslieferung");
+		neueAuslieferungButton.setBounds(340, 48, 170, 23);
+		neueAuslieferungButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		lieferungPane.add(neueAuslieferungButton);
+		
 		JSeparator lieferungsUebersichtSeperator = new JSeparator();
 		lieferungsUebersichtSeperator.setBounds(0, 82, 533, 2);
 		lieferungPane.add(lieferungsUebersichtSeperator);
