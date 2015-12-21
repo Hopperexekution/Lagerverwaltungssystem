@@ -23,6 +23,7 @@ import java.awt.Font;
 import javax.swing.tree.DefaultTreeModel;
 
 import controller.Controller;
+import model.Lager;
 import model.LagerModel;
 import model.Lieferung;
 
@@ -189,7 +190,10 @@ public class Hauptmenue extends JFrame {
 		
 		JTree lagerTree = new JTree();
 		lagerTree.addTreeSelectionListener(new TreeSelectionListener() {
-			public void valueChanged(TreeSelectionEvent arg0) {
+			public void valueChanged(TreeSelectionEvent event) {
+				if(lagerTree.getLastSelectedPathComponent() instanceof Lager){
+					controller.loeschen((Lager)(lagerTree.getLastSelectedPathComponent()));
+				}
 			}
 		});
 		lagerTree.setModel(lagerModel);

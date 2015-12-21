@@ -160,4 +160,9 @@ public class Controller {
 	{
 		return lagerModel;
 	}
+
+	public void loeschen(Lager lager) {
+		Lager vater = lager.getVater();
+		vater.getChildList().remove(lager);
+	}
 }
