@@ -6,6 +6,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.Box;
+import javax.swing.DefaultListModel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -23,6 +24,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 import controller.Controller;
 import model.LagerModel;
+import model.Lieferung;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.AbstractListModel;
@@ -33,6 +35,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
+
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.JMenu;
@@ -53,7 +57,7 @@ public class Hauptmenue extends JFrame {
 		JMenu menueListe = new JMenu("Men\u00FC");
 		menueLeiste.add(menueListe);
 		
-		JMenuItem menueLaden = new JMenuItem("Laden");
+		JMenuItem menueLaden = new JMenuItem("Laden");//#laden
 		menueLaden.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
@@ -62,7 +66,7 @@ public class Hauptmenue extends JFrame {
 		});
 		menueListe.add(menueLaden);
 		
-		JMenuItem menueSpeichern = new JMenuItem("Speichern");
+		JMenuItem menueSpeichern = new JMenuItem("Speichern");//#speichern
 		menueSpeichern.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
@@ -195,20 +199,13 @@ public class Hauptmenue extends JFrame {
 		JSplitPane lieferungsuebersichtTab = new JSplitPane();
 		tabLeiste.addTab("Lieferungs\u00FCbersicht", null, lieferungsuebersichtTab, null);
 		
-		JTree lieferungsTree = new JTree();
-		lieferungsTree.addTreeSelectionListener(new TreeSelectionListener() {
-			public void valueChanged(TreeSelectionEvent e) {
-			}
-		});
-		lieferungsTree.setModel(new DefaultTreeModel(
-			new DefaultMutableTreeNode("Lieferungen") {
-				{
-					//getContentPane().add(new DefaultMutableTreeNode("Lieferung1"));
-				}
-			}
-		));
-		lieferungsuebersichtTab.setLeftComponent(lieferungsTree);
+		JList<Lieferung> lieferungsListe = new JList<Lieferung>();
+		DefaultListModel<Lieferung> lieferungModel = new DefaultListModel<Lieferung>();
+		lieferungsListe.setModel(lieferungModel);
+		lieferungModel.addElement(new Lieferung(1000));
+		lieferungsuebersichtTab.setLeftComponent(lieferungsListe);
 		lieferungsuebersichtTab.setDividerLocation(250);
+
 		
 		JPanel lieferungPane = new JPanel();
 		lieferungsuebersichtTab.setRightComponent(lieferungPane);
@@ -222,9 +219,12 @@ public class Hauptmenue extends JFrame {
 		
 		JButton neueZulieferungButton = new JButton("Neue Zulieferung");
 		neueZulieferungButton.setBounds(20, 48, 170, 23);
-		neueZulieferungButton.addMouseListener(new MouseAdapter() {
+		neueZulieferungButton.addActionListener(new ActionListener() {
+			
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
+				ZulieferungsView zulieferung = new ZulieferungsView();
+				
 			}
 		});
 		lieferungPane.add(neueZulieferungButton);
@@ -262,7 +262,7 @@ public class Hauptmenue extends JFrame {
 		lieferDatum.setBounds(211, 157, 101, 14);
 		lieferungPane.add(lieferDatum);
 		
-		JList lieferungsListe = new JList();
+		/*JList<Lieferung> lieferungsListe = new JList<Lieferung>();
 		lieferungsListe.setBounds(24, 198, 509, 215);
 		lieferungsListe.setModel(new AbstractListModel() {
 			String[] values = new String[] {"Lager1 100", "Lager2 50"};
@@ -274,13 +274,13 @@ public class Hauptmenue extends JFrame {
 			}
 		});
 		lieferungPane.add(lieferungsListe);
-	}
-	private class SwingAction extends AbstractAction {
+	}*/
+	/*private class SwingAction extends AbstractAction {
 		public SwingAction() {
 			putValue(NAME, "SwingAction");
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
 		}
-	}
-}
+	}*/
+}}
