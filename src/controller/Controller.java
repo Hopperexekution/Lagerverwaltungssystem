@@ -162,7 +162,12 @@ public class Controller {
 	}
 
 	public void loeschen(Lager lager) {
-		Lager vater = lager.getVater();
-		vater.getChildList().remove(lager);
+		if(!lagerModel.isRoot(lager)){
+			Lager vater = lager.getVater();
+			vater.getChildList().remove(lager);
+		}
+		else{
+			
+		}
 	}
 }

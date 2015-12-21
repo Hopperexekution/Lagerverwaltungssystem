@@ -76,4 +76,10 @@ public class LagerModel implements TreeModel{
 		// TODO Auto-generated method stub
 		
 	}
+	public boolean isRoot(Lager object){
+		if(object.equals(root)){
+			return true;
+		}
+		return false;
+	}
 }

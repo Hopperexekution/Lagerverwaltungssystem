@@ -103,6 +103,15 @@ public class Hauptmenue extends JFrame {
 		lagerOptionenUeberschrift.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lagerPane.add(lagerOptionenUeberschrift);
 		
+		JTree lagerTree = new JTree();
+		lagerTree.addTreeSelectionListener(new TreeSelectionListener() {
+			public void valueChanged(TreeSelectionEvent event) {
+			}
+		});
+		lagerTree.setModel(lagerModel);
+		lageruebersichtTab.setLeftComponent(lagerTree);
+		lageruebersichtTab.setDividerLocation(250);
+		
 		JButton neuesLagerErstellenButton = new JButton("Neues Lager erstellen");
 		neuesLagerErstellenButton.setBounds(20, 48, 170, 23);
 		neuesLagerErstellenButton.addMouseListener(new MouseAdapter() {
@@ -117,6 +126,11 @@ public class Hauptmenue extends JFrame {
 		lagerLoeschenButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(lagerTree.getLastSelectedPathComponent() instanceof Lager){
+					controller.loeschen((Lager)(lagerTree.getLastSelectedPathComponent()));
+					lagerTree.setModel(null);
+					lagerTree.setModel(lagerModel);
+				}
 			}
 		});
 		lagerPane.add(lagerLoeschenButton);
@@ -187,18 +201,6 @@ public class Hauptmenue extends JFrame {
 		lagerBestand.setHorizontalAlignment(SwingConstants.CENTER);
 		lagerBestand.setBounds(163, 464, 360, 14);
 		lagerPane.add(lagerBestand);
-		
-		JTree lagerTree = new JTree();
-		lagerTree.addTreeSelectionListener(new TreeSelectionListener() {
-			public void valueChanged(TreeSelectionEvent event) {
-				if(lagerTree.getLastSelectedPathComponent() instanceof Lager){
-					controller.loeschen((Lager)(lagerTree.getLastSelectedPathComponent()));
-				}
-			}
-		});
-		lagerTree.setModel(lagerModel);
-		lageruebersichtTab.setLeftComponent(lagerTree);
-		lageruebersichtTab.setDividerLocation(250);
 		
 		JSplitPane lieferungsuebersichtTab = new JSplitPane();
 		tabLeiste.addTab("Lieferungs\u00FCbersicht", null, lieferungsuebersichtTab, null);
