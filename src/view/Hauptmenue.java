@@ -50,6 +50,7 @@ public class Hauptmenue extends JFrame {
 		setResizable(false);
 		setBounds(0,0,800,600);
 		getContentPane().setLayout(null);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		JMenuBar menueLeiste = new JMenuBar();
 		menueLeiste.setBounds(0, 0, 794, 24);
