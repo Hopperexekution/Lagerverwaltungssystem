@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
 import java.awt.Component;
@@ -143,14 +144,6 @@ public class Hauptmenue extends JFrame {
 		});
 		lagerPane.add(lagerLoeschenButton);
 		
-		JButton lagerVerschiebenButton = new JButton("Lager verschieben");
-		lagerVerschiebenButton.setBounds(371, 48, 152, 23);
-		lagerVerschiebenButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
-		lagerPane.add(lagerVerschiebenButton);
 		
 		JSeparator lagerUebersichtSeperator = new JSeparator();
 		lagerUebersichtSeperator.setBounds(0, 82, 533, 2);
@@ -230,13 +223,29 @@ public class Hauptmenue extends JFrame {
 		lieferungsoptionenUeberschrift.setBounds(220, 11, 123, 14);
 		lieferungPane.add(lieferungsoptionenUeberschrift);
 		
+		JTextField gesamtmengeEingabe = new JTextField();
+		gesamtmengeEingabe.setBounds(257, 89, 97, 20);
+		lieferungPane.add(gesamtmengeEingabe);
+		
 		JButton neueZulieferungButton = new JButton("Neue Zulieferung");
 		neueZulieferungButton.setBounds(20, 48, 170, 23);
 		neueZulieferungButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ZulieferungsView zulieferung = new ZulieferungsView(controller);
+				try{
+				int gesamtMenge = Integer.parseInt(gesamtmengeEingabe.getText());
+				if(gesamtMenge <= 0){
+					JOptionPane.showMessageDialog(null, "Bitte nur positivie Zahlen verwenden und nicht Null verwenden.");
+				}else if(gesamtMenge > 2000000000){
+					JOptionPane.showMessageDialog(null, "Bitte verwenden sie nur ganzzahlige Zahlen bis zu einem Maximum von zwei Milliarden.");
+				}
+				else{
+				ZulieferungsView zulieferung = new ZulieferungsView(controller, gesamtMenge);
+				}
+				}catch(NumberFormatException f){
+					JOptionPane.showMessageDialog(null, "Bitte verwenden sie nur ganzzahlige Zahlen bis zu einem Maximum von zwei Milliarden.");
+				}
 				
 			}
 		});
@@ -275,11 +284,6 @@ public class Hauptmenue extends JFrame {
 		lieferDatum.setBounds(211, 157, 101, 14);
 		lieferungPane.add(lieferDatum);
 		
-		
-		JTextField gesamtmengeEingabe = new JTextField();
-		gesamtmengeEingabe.setBounds(257, 89, 97, 20);
-		lieferungPane.add(gesamtmengeEingabe);
-		gesamtmengeEingabe.setColumns(10);
 		
 		JLabel gesamtmenge = new JLabel("Gesamtmenge:");
 		gesamtmenge.setBounds(183, 89, 72, 20);

@@ -30,11 +30,9 @@ import java.util.List;
 import java.util.Vector;
 
 public class ZulieferungsView extends JFrame {
-	private JTextField textField;
-	private JTextField textField_1;
 	private Controller controller;
 
-	public ZulieferungsView(Controller controller/* , int gesamtMenge */) {
+	public ZulieferungsView(Controller controller, int gesamtMenge ) {
 		this.controller = controller;
 		getContentPane().setLayout(null);
 
@@ -51,16 +49,11 @@ public class ZulieferungsView extends JFrame {
 		lblGesamtmenge.setBounds(20, 45, 85, 14);
 		getContentPane().add(lblGesamtmenge);
 
-		textField = new JTextField();
-		textField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				int key = e.getKeyCode();
-			}
-		});
-		textField.setBounds(121, 42, 86, 20);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+		JTextField gesamtMengeEinheiten = new JTextField();
+		gesamtMengeEinheiten.setText(gesamtMenge + "");
+		gesamtMengeEinheiten.setEditable(false);
+		gesamtMengeEinheiten.setBounds(121, 42, 86, 20);
+		getContentPane().add(gesamtMengeEinheiten);
 
 		JLabel lblLager = new JLabel("Lager");
 		lblLager.setBounds(20, 90, 46, 14);
@@ -73,20 +66,24 @@ public class ZulieferungsView extends JFrame {
 		} else if (wurzel.getChildList().isEmpty()) {
 			auswaehlbareLager.add(wurzel);
 		}
+		
 		JComboBox<Lager> lagerAuswahl = new JComboBox<Lager>(auswaehlbareLager);
 		lagerAuswahl.setBounds(20, 115, 130, 20);
 		getContentPane().add(lagerAuswahl);
+		
 		JLabel lblProzent = new JLabel("Prozent");
 		lblProzent.setBounds(170, 90, 46, 14);
 		getContentPane().add(lblProzent);
+		
 		JTextField lblAngabeProzent = new JTextField();
 		lblAngabeProzent.setBounds(170, 115, 86, 20);
 		getContentPane().add(lblAngabeProzent);
-		lblAngabeProzent.setColumns(5);
+		lblAngabeProzent.setColumns(30);
 
 		JLabel lblEinheiten = new JLabel("Einheiten");
 		lblEinheiten.setBounds(367, 90, 55, 14);
 		getContentPane().add(lblEinheiten);
+		
 		JLabel labelAnzahlEinheiten = new JLabel("0");
 		labelAnzahlEinheiten.setEnabled(false);
 		labelAnzahlEinheiten.setBounds(367, 116, 46, 14);
@@ -95,6 +92,7 @@ public class ZulieferungsView extends JFrame {
 		JList zulieferungLager = new JList();
 		DefaultListModel<Buchung> lieferungsBuchungen = new DefaultListModel<Buchung>();
 		zulieferungLager.setModel(lieferungsBuchungen);
+		
 		JScrollPane scrollbarLieferung = new JScrollPane(zulieferungLager);
 		scrollbarLieferung.setBounds(20, 160, 550, 120);
 		getContentPane().add(scrollbarLieferung);
@@ -128,7 +126,7 @@ public class ZulieferungsView extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				
 			}
 		});
 		butBesttigen.setBounds(440, 294, 100, 14);
@@ -140,21 +138,29 @@ public class ZulieferungsView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int einheiten;
-				if (lblAngabeProzent.equals("")) {
+				if (lblAngabeProzent.getText().length() != 0) {
+					try{
 					double prozent = Double.parseDouble(lblAngabeProzent.getText());
-					if (prozent > 100 || prozent <= 0) {
+
+					if (prozent > 100 || prozent <= 0) 
+					{
 						JOptionPane.showMessageDialog(null,
 								"Prozentangabe liegt entweder über 100% oder ist kleiner gleich 0%. Bitte andere Angabe eintragen.");
 					} else {
+						controller.erstelleBuchung(prozent, gesamtMenge);
 						// einheiten = (int) (Math.floor((double)(gesamtMenge *
 						// (prozent/100))));
 						// Buchung neueBuchung = new
 						// Buchung(labelAnzahlEinheiten.get, zugehoerigesLager,
 						// datum, zubuchung)
 					}
+					}catch(NumberFormatException f){
+						JOptionPane.showMessageDialog(null, "Bitte nur Zahlen verwenden.");
+					}	
 				} else {
 					JOptionPane.showMessageDialog(null, "Es ist eine Prozentangabe für die Verteilung notwendig");
 				}
+
 
 			}
 		});
