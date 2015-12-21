@@ -47,7 +47,7 @@ import javax.swing.Action;
 public class Hauptmenue extends JFrame {
 	public Hauptmenue( Controller controller, LagerModel lagerModel) {
 		setResizable(false);
-		setBounds(800,600,800,600);
+		setBounds(300,200,800,600);
 		getContentPane().setLayout(null);
 		
 		JMenuBar menueLeiste = new JMenuBar();
@@ -202,7 +202,6 @@ public class Hauptmenue extends JFrame {
 		JList<Lieferung> lieferungsListe = new JList<Lieferung>();
 		DefaultListModel<Lieferung> lieferungModel = new DefaultListModel<Lieferung>();
 		lieferungsListe.setModel(lieferungModel);
-		lieferungModel.addElement(new Lieferung(1000));
 		lieferungsuebersichtTab.setLeftComponent(lieferungsListe);
 		lieferungsuebersichtTab.setDividerLocation(250);
 
