@@ -230,7 +230,7 @@ public class Hauptmenue extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ZulieferungsView zulieferung = new ZulieferungsView();
+				ZulieferungsView zulieferung = new ZulieferungsView(controller);
 				
 			}
 		});

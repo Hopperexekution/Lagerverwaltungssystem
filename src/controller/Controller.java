@@ -156,7 +156,7 @@ public class Controller {
 		}
 	}
 	
-	private LagerModel getLagerModel()
+	public LagerModel getLagerModel()
 	{
 		return lagerModel;
 	}
