@@ -81,4 +81,7 @@ public class Lager  {
 	public void hinzufuegenBuchung(Buchung buchung){
 		this.buchungen.add(buchung);
 	}
+	public String toString(){
+		return name;
+	}
 }
