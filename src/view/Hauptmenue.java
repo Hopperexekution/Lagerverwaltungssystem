@@ -54,9 +54,21 @@ public class Hauptmenue extends JFrame {
 		menueLeiste.add(menueListe);
 		
 		JMenuItem menueLaden = new JMenuItem("Laden");
+		menueLaden.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				controller.laden();
+			}
+		});
 		menueListe.add(menueLaden);
 		
 		JMenuItem menueSpeichern = new JMenuItem("Speichern");
+		menueSpeichern.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				controller.speichern();
+			}
+		});
 		menueListe.add(menueSpeichern);
 		
 		JMenuItem menueBeenden = new JMenuItem("Programm beenden");
