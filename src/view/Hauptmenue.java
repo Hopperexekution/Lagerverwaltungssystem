@@ -119,6 +119,12 @@ public class Hauptmenue extends JFrame {
 		neuesLagerErstellenButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(lagerTree.getLastSelectedPathComponent() instanceof Lager){
+					Lager ausgewaehltesLager = (Lager) lagerTree.getLastSelectedPathComponent();
+					LagerHinzufuegenView lagerHinzufuegenView = new LagerHinzufuegenView(controller,ausgewaehltesLager);
+					lagerHinzufuegenView.setAlwaysOnTop(true);
+				}
+				
 			}
 		});
 		lagerPane.add(neuesLagerErstellenButton);
