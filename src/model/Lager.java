@@ -13,7 +13,8 @@ public class Lager  {
 	private String name;
 	private int kapazität;
 	private int bestand;
-	private LinkedList<Buchung> buchungen = new LinkedList<Buchung>();
+	private Lager vater;
+	private List<Buchung> buchungen = new ArrayList<Buchung>();
 	private List<Lager> children = new ArrayList<Lager>();
 	
 	/**
@@ -25,6 +26,10 @@ public class Lager  {
 		this.name = name;
 		this.kapazität = kapazität;
 		this.bestand = bestand;
+	}
+	public Lager(String name, Lager vater){
+		this.name = name;
+		this.vater = vater;
 	}
 	public Lager(String name){
 		this.name = name;
@@ -74,7 +79,7 @@ public class Lager  {
 		return this.bestand;
 	}
 	
-	public LinkedList<Buchung> getBuchungen(){
+	public List<Buchung> getBuchungen(){
 		return this.buchungen;
 	}
 	
@@ -83,5 +88,11 @@ public class Lager  {
 	}
 	public String toString(){
 		return name;
+	}
+	public Lager getVater() {
+		return vater;
+	}
+	public void setVater(Lager vater) {
+		this.vater = vater;
 	}
 }

@@ -51,7 +51,7 @@ public class Controller {
 		
 	}
 	public void programmBeenden(){
-		String[] yesNoOptions = { "Ja", "Nein", "Abbrechen" };
+		String[] yesNoOptions = { "Ja", "Nein"};
 		int auswahl = JOptionPane.showOptionDialog(null, "Wollen Sie das Programm wirklich beenden?", "Wollen Sie das Programm wirklich beenden?", 
 				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, yesNoOptions, yesNoOptions[0]);
 		if(auswahl == 0){
@@ -70,7 +70,7 @@ public class Controller {
 	}	
 	private static void addDefaultLager(Lager vater, String[] kinder){
 		for(String kind: kinder){
-			vater.getChildList().add(new Lager(kind));
+			vater.getChildList().add(new Lager(kind,vater));
 		}
 	}
 	private LagerModel getLagerModel(){
