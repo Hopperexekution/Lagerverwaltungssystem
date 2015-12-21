@@ -9,7 +9,14 @@ import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.tree.TreeNode;
+
+import java.io.File; 
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import model.Buchung;
 import model.Lager;
@@ -22,10 +29,7 @@ public class Controller {
 	static Hauptmenue hauptmenue;
 	private List<Buchung> buchungsListe = new ArrayList<Buchung>();
 	private static LagerModel lagerModel;
-	JFileChooser jFileChooser = new JFileChooser();
-	
-	
-	
+		
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -54,15 +58,73 @@ public class Controller {
 		
 	}
 	
-	public void laden()
+	public boolean laden()
 	{
-		jFileChooser.showOpenDialog(null);//
+		JFileChooser chooser = new JFileChooser();
+	    //------------------------------------------------------------------
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+        		"Lagerverwaltungs-Datei: .lvwd", "lvwd");
+	    chooser.setFileFilter(filter);
+	    //------------------------------------------------------------------
+
+	    int result = chooser.showOpenDialog(hauptmenue);
+
+		if (result == JFileChooser.APPROVE_OPTION) 
+    	{
+			File savedFile = chooser.getSelectedFile();
+			try {
+					ObjectInputStream inStream = new ObjectInputStream(new FileInputStream(savedFile));
+					lagerModel = (LagerModel)inStream.readObject();
+					inStream.close();
+		
+				} 
+				catch (Exception e) 
+				{
+					// TODO Auto-generated catch block
+					return false;
+				}
+			return true;
+		}
+		return false;
 	}	
 	
-	public void speichern()
-	{
-		jFileChooser.showSaveDialog(null);
-	}	
+	public boolean speichern()
+	{		
+		JFileChooser chooser = new JFileChooser();
+	    //------------------------------------------------------------------
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+        		"Lagerverwaltungs-Datei: .lvwd", "lvwd");
+	    chooser.setFileFilter(filter);
+	    //------------------------------------------------------------------
+	    
+	    chooser.setDialogTitle("Speichern unter...");
+	    
+        int result = chooser.showSaveDialog(hauptmenue);
+        
+        if (result == JFileChooser.APPROVE_OPTION) 
+        {
+
+        	
+	        File savedFile = chooser.getSelectedFile();
+	        if(!savedFile.toString().endsWith(".lvwd"))
+			{
+				savedFile = new File(savedFile + ".lvwd");
+			}
+			
+			try {
+				ObjectOutputStream outStream = new ObjectOutputStream(new FileOutputStream(savedFile));
+				outStream.writeObject(lagerModel);
+				outStream.flush();
+				outStream.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				return false;
+			}
+	        return true;
+	    }
+	    return false;
+	} 
+	
 	
 	public void programmBeenden()
 	{
