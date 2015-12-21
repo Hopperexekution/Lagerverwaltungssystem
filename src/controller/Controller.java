@@ -56,7 +56,7 @@ public class Controller {
 	
 	public void laden()
 	{
-		jFileChooser.showOpenDialog(null);
+		jFileChooser.showOpenDialog(null);//
 	}	
 	
 	public void speichern()
