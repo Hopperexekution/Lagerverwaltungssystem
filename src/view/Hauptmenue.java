@@ -48,7 +48,7 @@ import javax.swing.Action;
 public class Hauptmenue extends JFrame {
 	public Hauptmenue( Controller controller, LagerModel lagerModel) {
 		setResizable(false);
-		setBounds(300,200,800,600);
+		setBounds(0,0,800,600);
 		getContentPane().setLayout(null);
 		
 		JMenuBar menueLeiste = new JMenuBar();
