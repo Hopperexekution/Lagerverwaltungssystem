@@ -93,7 +93,7 @@ public class Controller {
 		JFileChooser chooser = new JFileChooser();
 	    //------------------------------------------------------------------
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-        		"Lagerverwaltungs-Datei: .lvwd", "lvwd");
+        		"Lagerverwaltungs-Datei: .NSFW", "nsfw");
 	    chooser.setFileFilter(filter);
 	    //------------------------------------------------------------------
 	    
@@ -106,11 +106,11 @@ public class Controller {
 
         	
 	        File savedFile = chooser.getSelectedFile();
-	        if(!savedFile.toString().endsWith(".lvwd"))
+	        if(!savedFile.toString().toLowerCase().endsWith(".nsfw"))
 			{
-				savedFile = new File(savedFile + ".lvwd");
+				savedFile = new File(savedFile + ".NSFW");
 			}
-			
+	        			
 			try {
 				ObjectOutputStream outStream = new ObjectOutputStream(new FileOutputStream(savedFile));
 				outStream.writeObject(lagerModel);
