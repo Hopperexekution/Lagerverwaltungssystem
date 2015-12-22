@@ -300,13 +300,13 @@ public class Controller {
 			Lager aktuelles = (Lager) it.next();
 			if (aktuelles.getChildList().isEmpty())
 			{//Blatt
-				return aktuelles.getBestand();
-			}
+				bestand += aktuelles.getBestand();			}
 			else
 			{//Zweig
 				bestand += berechneBestand(aktuelles);
 			}
 		}
+		wurzel.setBestand(bestand);
 		return bestand;
 	}
 	
@@ -321,13 +321,14 @@ public class Controller {
 			Lager aktuelles = (Lager) it.next();
 			if (aktuelles.getChildList().isEmpty())
 			{//Blatt
-				return aktuelles.getKapazität();
+				kapazitaet += aktuelles.getKapazität();
 			}
 			else
 			{//Zweig
 				kapazitaet += berechneKapazitaet(aktuelles);
 			}
 		}
+		wurzel.setKapazitaet(kapazitaet);
 		return kapazitaet;
 	}
 	
