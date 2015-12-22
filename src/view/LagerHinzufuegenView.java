@@ -28,8 +28,7 @@ public class LagerHinzufuegenView extends JFrame {
 			}
 		});
 		
-		setBounds(150,150,285,185);
-		setResizable(false);
+		
 		getContentPane().setLayout(null);
 		controller.getHauptmenue().setEnabled(false);
 		
@@ -114,6 +113,9 @@ public class LagerHinzufuegenView extends JFrame {
 		abbrechenButton.setBounds(158, 122, 110, 23);
 		getContentPane().add(abbrechenButton);
 		getContentPane().add(kapazitaetsTextfeld);
+		
 		setVisible(true);
+		setBounds(150,150,285,185);
+		setResizable(false);
 	}
 }
