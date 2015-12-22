@@ -100,7 +100,10 @@ public class ZulieferungsView extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(controller.undo()){
+				if(controller.undoMoeglich()){
+				Buchung undoBuchung = controller.undo();
+				Lager ausgewaehlt = controller.findePassendesLager(undoBuchung.getZugehoerigesLager(),(Lager) controller.getLagerModel().getRoot());
+				lagerAuswahl.addItem(ausgewaehlt);
 				lieferungsBuchungen.removeElementAt(lieferungsBuchungen.getSize()-1);
 				zulieferungLager.setModel(lieferungsBuchungen);
 				}
@@ -115,7 +118,10 @@ public class ZulieferungsView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(controller.redoMoeglich()){
-				lieferungsBuchungen.addElement(controller.redo());
+				Buchung redoBuchung = controller.redo();
+				Lager ausgewaehlt = controller.findePassendesLager(redoBuchung.getZugehoerigesLager(), (Lager) controller.getLagerModel().getRoot());
+				lagerAuswahl.removeItem(ausgewaehlt);
+				lieferungsBuchungen.addElement(redoBuchung);
 				zulieferungLager.setModel(lieferungsBuchungen);
 				}
 
@@ -157,7 +163,7 @@ public class ZulieferungsView extends JFrame {
 				if (lblAngabeProzent.getText().length() != 0) {
 					try{
 					double prozent = Double.parseDouble(lblAngabeProzent.getText());
-
+					int einheit = (int) (Math.floor((double)(gesamtMenge * (prozent/100))));;
 					if (prozent > 100 || prozent <= 0) 
 					{
 						JOptionPane.showMessageDialog(null,
@@ -174,15 +180,31 @@ public class ZulieferungsView extends JFrame {
 					}
 					else
 					{
-						Buchung neueBuchung = controller.erstelleBuchung(prozent, gesamtMenge, lagerAuswahl.getSelectedItem().toString());
-						if(!neueBuchung.equals(null))
+						if(einheit != 0)
 						{
-						lieferungsBuchungen.addElement(neueBuchung);
-						zulieferungLager.setModel(lieferungsBuchungen);
-
+							Lager ausgewaehlt = controller.findePassendesLager(lagerAuswahl.getSelectedItem().toString(), (Lager) controller.getLagerModel().getRoot());
+							int freieEinheiten = ausgewaehlt.getKapazität() - ausgewaehlt.getBestand();
+							if(einheit <  freieEinheiten)
+							{
+								Buchung neueBuchung = controller.erstelleBuchung(prozent, gesamtMenge, lagerAuswahl.getSelectedItem().toString());
+								lagerAuswahl.removeItem(ausgewaehlt);
+								if(!neueBuchung.equals(null))
+								{
+									lieferungsBuchungen.addElement(neueBuchung);
+									zulieferungLager.setModel(lieferungsBuchungen);
+							
+								}
+								controller.loescheRedoListe();
+							}
+							else
+							{
+								JOptionPane.showMessageDialog(null, "Das Lager kann nur noch " + freieEinheiten + " Einheiten aufnehmen.\nSie wollen aber " + einheit + " Einheiten aufnehmen.");
+							}
 						}
-						controller.loescheRedoListe();
-
+						else
+						{
+							JOptionPane.showMessageDialog(null, "Bei dieser Prozentzahl würden keine Einheiten auf das Lager verteilt werden.\nBitte verwenden Sie eine andere Prozentzahl.");
+						}
 					}
 					}catch(NumberFormatException f){
 						JOptionPane.showMessageDialog(null, "Bitte nur Zahlen verwenden.");
@@ -198,6 +220,15 @@ public class ZulieferungsView extends JFrame {
 		getContentPane().add(butNchstesLager);
 		
 		JButton abbrechenButton = new JButton("Abbrechen");
+		abbrechenButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.loescheRedoListe();
+				controller.loescheUndoListe();
+				dispose();
+			}
+		});
 		abbrechenButton.setBounds(463, 328, 100, 23);
 		getContentPane().add(abbrechenButton);
 

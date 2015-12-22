@@ -55,7 +55,7 @@ public class LagerModel implements TreeModel, Serializable{
 	}
 
 	@Override
-	public Object getRoot() {
+	public Lager getRoot() {
 		return root;
 	}
 

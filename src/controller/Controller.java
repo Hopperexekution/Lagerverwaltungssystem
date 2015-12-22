@@ -240,7 +240,7 @@ public class Controller {
 		}
 	}
 	
-	private Lager findePassendesLager(String lagername, Lager wurzel)
+	public Lager findePassendesLager(String lagername, Lager wurzel)
 	{
 
 		List<Lager> nachfolger = wurzel.getChildList();
@@ -301,17 +301,11 @@ public class Controller {
 		}
 	}
 	
-	public boolean undo(){
-		if (!undoListe.isEmpty())
-		{
+	public Buchung undo(){
 		redoListe.add(undoListe.getLast());
 		undoListe.removeLast();
-		return true;
-		}
-		else
-		{
-		return false;
-		}
+		return redoListe.getLast().getBuchung();
+
 	}
 	
 	public Buchung redo(){
@@ -322,6 +316,17 @@ public class Controller {
 
 	public boolean redoMoeglich() {
 		if(!redoListe.isEmpty())
+		{
+			return true;
+		}
+		else
+		{	
+			return false;
+		}
+	}
+	
+	public boolean undoMoeglich() {
+		if(!undoListe.isEmpty())
 		{
 			return true;
 		}
@@ -364,6 +369,14 @@ public class Controller {
 		for(UndoRedoModel model : redoListe)
 		{
 			redoListe.remove(model);
+		}
+		
+	}
+
+	public void loescheUndoListe() {
+		for(UndoRedoModel model : undoListe)
+		{
+			undoListe.remove(model);
 		}
 		
 	}
