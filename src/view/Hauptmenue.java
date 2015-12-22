@@ -289,7 +289,7 @@ public class Hauptmenue extends JFrame {
 		
 		
 		JLabel gesamtmenge = new JLabel("Gesamtmenge:");
-		gesamtmenge.setBounds(183, 89, 72, 20);
+		gesamtmenge.setBounds(160, 89, 95, 20);
 		lieferungPane.add(gesamtmenge);
 		
 		/*JList<Lieferung> lieferungsListe = new JList<Lieferung>();
