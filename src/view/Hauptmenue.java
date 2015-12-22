@@ -299,7 +299,7 @@ public class Hauptmenue extends JFrame {
 
 	public Hauptmenue( Controller controller) {
 		setResizable(false);
-		setBounds(0,0,800,600);
+		setBounds(50,50,800,600);
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.controller = controller;
@@ -504,20 +504,29 @@ public class Hauptmenue extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try{
-				int gesamtMenge = Integer.parseInt(gesamtmengeEingabe.getText());
-				if(gesamtMenge <= 0){
-					JOptionPane.showMessageDialog(null, "Bitte nur positivie Zahlen verwenden und nicht Null verwenden.");
-				}else if(gesamtMenge > 2000000000){
-					JOptionPane.showMessageDialog(null, "Bitte verwenden sie nur ganzzahlige Zahlen bis zu einem Maximum von zwei Milliarden.");
+				try
+				{
+					if  (!gesamtmengeEingabe.getText().equals(""))
+					{//Eingabefeld gefüllt!
+						int gesamtMenge = Integer.parseInt(gesamtmengeEingabe.getText());
+						if(gesamtMenge <= 0)
+						{//Eingabe <= 0!
+							JOptionPane.showMessageDialog(null, "Bitte nur positivie Zahlen verwenden. \nDie Zahl muss außerdem größer als '0' sein." );
+						}	
+						else if(gesamtMenge > 2000000000)
+						{
+							JOptionPane.showMessageDialog(null, "Bitte verwenden sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
+						}
+					}
+					else
+					{//Eingabefeld leer!
+						JOptionPane.showMessageDialog(null, "Es ist eine Eingabe des Lieferumfangs erforderlich.");
+					}
 				}
-				else{
-				ZulieferungsView zulieferung = new ZulieferungsView(controller, gesamtMenge);
+				catch(NumberFormatException f)
+				{
+					JOptionPane.showMessageDialog(null, "Bitte verwenden sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
 				}
-				}catch(NumberFormatException f){
-					JOptionPane.showMessageDialog(null, "Bitte verwenden sie nur ganzzahlige Zahlen bis zu einem Maximum von zwei Milliarden.");
-				}
-				
 			}
 		});
 		lieferungPane.add(neueZulieferungButton);
@@ -536,11 +545,11 @@ public class Hauptmenue extends JFrame {
 						int gesamtMenge = Integer.parseInt(gesamtmengeEingabe.getText());
 						if(gesamtMenge <= 0)
 						{//Eingabe <= 0!
-							JOptionPane.showMessageDialog(null, "Bitte nur positivie Zahlen verwenden.");
+							JOptionPane.showMessageDialog(null, "Bitte nur positivie Zahlen verwenden. \nDie Zahl muss außerdem größer als '0' sein." );
 						}	
 						else if(gesamtMenge > 2000000000)
 						{
-							JOptionPane.showMessageDialog(null, "Bitte verwenden sie nur ganzzahlige Zahlen bis zu einem Maximum von zwei Milliarden.");
+							JOptionPane.showMessageDialog(null, "Bitte verwenden sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
 						}
 						else
 						{
@@ -554,7 +563,7 @@ public class Hauptmenue extends JFrame {
 				}
 				catch(NumberFormatException f)
 				{
-					JOptionPane.showMessageDialog(null, "Bitte verwenden sie nur ganzzahlige Zahlen bis zu einem Maximum von zwei Milliarden.");
+					JOptionPane.showMessageDialog(null, "Bitte verwenden sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
 				}
 			}
 		});
@@ -586,7 +595,7 @@ public class Hauptmenue extends JFrame {
 		
 		
 		gesamtmenge = new JLabel("Lieferumfang:");
-		gesamtmenge.setBounds(160, 89, 95, 20);
+		gesamtmenge.setBounds(174, 89, 95, 20);
 		lieferungPane.add(gesamtmenge);
 		
 		/*JList<Lieferung> lieferungsListe = new JList<Lieferung>();
