@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
@@ -24,13 +25,14 @@ import java.io.ObjectOutputStream;
 import model.Buchung;
 import model.Lager;
 import model.LagerModel;
+import model.Lieferung;
 import model.UndoRedoModel;
 import view.Hauptmenue;
 
 
 public class Controller {
-	private List<UndoRedoModel> undoListe;
-	private List<UndoRedoModel> redoListe;
+	private LinkedList<UndoRedoModel> undoListe = new LinkedList<UndoRedoModel>();
+	private LinkedList<UndoRedoModel> redoListe = new LinkedList<UndoRedoModel>();
 	Lager gefunden = null;
 	private static Hauptmenue hauptmenue;
 	private List<Buchung> buchungsListe = new ArrayList<Buchung>();
@@ -190,11 +192,21 @@ public class Controller {
 		}
 	}
 
+	public void lagerHinzufuegen(Lager lager, Lager vater) {
+		vater.getChildList().add(lager);
+		refreshTree();		
+	}
+	public void refreshTree(){
+		hauptmenue.getLagerTree().setModel(null);
+		hauptmenue.getLagerTree().setModel(lagerModel);
+	}
+	
 	public Buchung erstelleBuchung(double prozent, int gesamtMenge, String ausgewaehltesLager) {
 		int einheit = (int) (Math.floor((double)(gesamtMenge * (prozent/100))));;
 		
 		Buchung neueBuchung = new Buchung(einheit, ausgewaehltesLager, true);
-		undoListe.add(new UndoRedoModel(neueBuchung, prozent));
+		UndoRedoModel undoRedoModel = new UndoRedoModel(neueBuchung, prozent);
+		undoListe.add(undoRedoModel);
 		Lager ausgewaehlt = this.findePassendesLager(ausgewaehltesLager, (Lager) this.getLagerModel().getRoot());
 		if(ausgewaehlt != null)
 		{
@@ -251,13 +263,104 @@ public class Controller {
 		return gefunden;
 	}
 
-	public void lagerHinzufuegen(Lager lager, Lager vater) {
-		vater.getChildList().add(lager);
-		refreshTree();		
+	public double getProzent() {
+		double prozent = 0;
+		if(undoListe != null && !undoListe.isEmpty())
+		{
+			for(UndoRedoModel model: undoListe){
+				prozent += model.getProzent();
+			}
+		}
+		return prozent;
 	}
-	public void refreshTree(){
-		hauptmenue.getLagerTree().setModel(null);
-		hauptmenue.getLagerTree().setModel(lagerModel);
+	
+	public int getVerteilteEinheiten()
+	{
+		int einheiten = 0;
+		if(undoListe != null && !undoListe.isEmpty())
+		{
+			for(UndoRedoModel model: undoListe){
+				einheiten += model.getBuchung().getEinheiten();
+			}
+		}
+		return einheiten;
 	}
+	
+	private void berechneBestandKapazitaet(Lager wurzel) {
+		int kapazitaet, bestand;
+		List<Lager> nachfolger = wurzel.getChildList();
+		Iterator it = nachfolger.iterator();
+
+		while (it.hasNext()) {
+			Lager aktuelles = (Lager) it.next();
+			if (aktuelles.getChildList().isEmpty()) {
+				//auswaehlbarLager.add(aktuelles);
+			}
+			berechneBestandKapazitaet(aktuelles);
+		}
+	}
+	
+	public boolean undo(){
+		if (!undoListe.isEmpty())
+		{
+		redoListe.add(undoListe.getLast());
+		undoListe.removeLast();
+		return true;
+		}
+		else
+		{
+		return false;
+		}
+	}
+	
+	public Buchung redo(){
+		undoListe.add(redoListe.getLast());
+		redoListe.removeLast();
+		return undoListe.getLast().getBuchung();
+	}
+
+	public boolean redoMoeglich() {
+		if(!redoListe.isEmpty())
+		{
+			return true;
+		}
+		else
+		{	
+		return false;
+		}
+	}
+
+	public void erstelleLieferung(int restEinheiten, int gesamtMenge) {
+		Lieferung neueZulieferung = new Lieferung(Calendar.getInstance().getTime(), gesamtMenge);
+		Lager zuBuchungPassendes;
+		if(!undoListe.isEmpty())
+		{
+			for(UndoRedoModel model : undoListe)
+			{
+				neueZulieferung.hinzufuegenBuchung(model.getBuchung());
+				zuBuchungPassendes = this.findePassendesLager(model.getBuchung().getZugehoerigesLager(), (Lager) this.getLagerModel().getRoot());
+				zuBuchungPassendes.hinzufuegenBuchung(model.getBuchung());
+				undoListe.remove(model);
+			}
+		}
+		if(!redoListe.isEmpty())
+		{
+			for(UndoRedoModel model : redoListe)
+			{
+				redoListe.remove(model);
+			}
+		}
+		
+		
+	}
+
+	public void loescheRedoListe() {
+		for(UndoRedoModel model : redoListe)
+		{
+			redoListe.remove(model);
+		}
+		
+	}
+
 
 }

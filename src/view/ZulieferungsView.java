@@ -9,6 +9,7 @@ import controller.Controller;
 import model.Buchung;
 import model.Lager;
 import model.LagerModel;
+import model.Lieferung;
 import model.UndoRedoModel;
 
 import javax.swing.JList;
@@ -36,7 +37,7 @@ public class ZulieferungsView extends JFrame {
 
 
 
-	public ZulieferungsView(Controller controller, int gesamtMenge ) {
+	public ZulieferungsView(Controller controller, int gesamtMenge) {
 		this.controller = controller;
 		getContentPane().setLayout(null);
 
@@ -99,8 +100,10 @@ public class ZulieferungsView extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//controller.undo;
-
+				if(controller.undo()){
+				lieferungsBuchungen.removeElementAt(lieferungsBuchungen.getSize()-1);
+				zulieferungLager.setModel(lieferungsBuchungen);
+				}
 			}
 		});
 		butUndo.setBounds(20, 294, 90, 14);
@@ -111,25 +114,41 @@ public class ZulieferungsView extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//controller.redo;
+				if(controller.redoMoeglich()){
+				lieferungsBuchungen.addElement(controller.redo());
+				zulieferungLager.setModel(lieferungsBuchungen);
+				}
 
 			}
 		});
 		butRedo.setBounds(130, 294, 90, 14);
 		getContentPane().add(butRedo);
 
-		JButton butBesttigen = new JButton("Best\u00E4tigen");
+		JButton butBesttigen = new JButton("Bestätigen");
 		butBesttigen.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				if(controller.getProzent() == 100)
+				{
+					int restEinheiten;
+					restEinheiten = gesamtMenge - controller.getVerteilteEinheiten();
+					int auswahl = JOptionPane.showConfirmDialog(null, "Die restlichen unverteilten " + restEinheiten + " Einheiten werden auf das zuletzt hinzugefügte Lager verteilt.\nWollen Sie das tun? Wenn nicht benutzen Sie den Undo Knopf und verteilen die Prozentangaben neu", "Bestätigen", JOptionPane.YES_OPTION);
+					if(auswahl == JOptionPane.YES_OPTION)
+					{
+					controller.erstelleLieferung(restEinheiten, gesamtMenge);
+					}
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Es müssen zuerst 100% der Einheiten verteilt sein bevor ein bestätigen möglich ist.");
+				}
 			}
 		});
 		butBesttigen.setBounds(440, 294, 100, 14);
 		getContentPane().add(butBesttigen);
 
-		JButton butNchstesLager = new JButton("N\u00E4chstes Lager");
+		JButton butNchstesLager = new JButton("Nächstes Lager");
 		butNchstesLager.addActionListener(new ActionListener() {
 
 			@Override
@@ -160,6 +179,7 @@ public class ZulieferungsView extends JFrame {
 						zulieferungLager.setModel(lieferungsBuchungen);
 
 						}
+						controller.loescheRedoListe();
 
 					}
 					}catch(NumberFormatException f){
