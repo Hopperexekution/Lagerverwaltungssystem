@@ -77,7 +77,10 @@ public class LagerHinzufuegenView extends JFrame {
 						{
 							JOptionPane.showMessageDialog(null, "Die Kapazität muss eine positive Zahl sein");
 						}
-						
+						else if(kapazitaet < ausgewaehltesLager.getBestand() && ausgewaehltesLager.getChildList().isEmpty())
+						{
+							JOptionPane.showMessageDialog(null, "Die Kapazität ist zu gering um den Bestand \nvon " + ausgewaehltesLager.getName() + "aufzunehmen.");
+						}
 						else if(controller.findePassendesLager(lagerName, controller.getLagerModel().getRoot()) == null)
 						{   
 							controller.lagerHinzufuegen(new Lager(lagerName, kapazitaet,0,ausgewaehltesLager), ausgewaehltesLager);
