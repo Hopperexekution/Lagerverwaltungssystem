@@ -134,6 +134,7 @@ public class ZulieferungsView extends JFrame {
 					if(auswahl == JOptionPane.YES_OPTION)
 					{
 					controller.erstelleZulieferung(restEinheiten, gesamtMenge);
+					controller.berechneBestand(controller.getLagerModel().getRoot());
 					dispose();
 					}
 				}

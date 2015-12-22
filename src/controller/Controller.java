@@ -327,7 +327,7 @@ public class Controller {
 	
 	
 	
-	private int berechneBestand(Lager wurzel) 
+	public int berechneBestand(Lager wurzel) 
 	{
 		int bestand = 0;
 		List<Lager> nachfolger = wurzel.getChildList();
@@ -348,7 +348,7 @@ public class Controller {
 		return bestand;
 	}
 	
-	private int berechneKapazitaet(Lager wurzel) 
+	public int berechneKapazitaet(Lager wurzel) 
 	{
 		int kapazitaet = 0;
 		List<Lager> nachfolger = wurzel.getChildList();
