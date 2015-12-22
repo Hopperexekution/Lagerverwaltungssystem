@@ -23,27 +23,33 @@ public class LagerUmbenennenView extends JFrame {
 	private JTextField eingabeNeueBezeichnung;
 	
 	public LagerUmbenennenView(Controller controller, Lager ausgewaehltesLager) {
+		
+		//Frameeinstellungen
+		controller.getHauptmenue().setEnabled(false);
+		setBounds(400, 200, 480, 190);
+		setVisible(true);
+		setResizable(false);
 		getContentPane().setLayout(null);
 		
 		
+		
+		//Windowlistener um Hauptmenue zu blockieren, während das Umbenennen-Fenster geöffnent ist
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent event) {
 				controller.getHauptmenue().setEnabled(true);
 			}
 		});
-		controller.getHauptmenue().setEnabled(false);
-		JLabel lagerUmbenennenUeberschrift = new JLabel("Lager Umbenennen");
-		lagerUmbenennenUeberschrift.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lagerUmbenennenUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
-		lagerUmbenennenUeberschrift.setBounds(92, 24, 270, 22);
-		getContentPane().add(lagerUmbenennenUeberschrift);
 		
+		
+		
+		
+		
+		//Buttons		
 		JButton okButton = new JButton("Änderungen übernehmen");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-
 				String neuerName = eingabeNeueBezeichnung.getText();
 				if(controller.findePassendesLager(neuerName, controller.getLagerModel().getRoot()) == null)
 				{
@@ -68,6 +74,10 @@ public class LagerUmbenennenView extends JFrame {
 		okButton.setBounds(32, 129, 222, 23);
 		getContentPane().add(okButton);
 		
+		
+		
+		
+		
 		JButton abbrechenButton = new JButton("Abbrechen");
 		abbrechenButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -78,30 +88,49 @@ public class LagerUmbenennenView extends JFrame {
 		abbrechenButton.setBounds(260, 129, 182, 23);
 		getContentPane().add(abbrechenButton);
 		
-		JLabel ausgabeAktuelleBezeichnung = new JLabel(ausgewaehltesLager.getName());
-		ausgabeAktuelleBezeichnung.setHorizontalAlignment(SwingConstants.LEFT);
-		ausgabeAktuelleBezeichnung.setBounds(160, 67, 285, 20);
-		getContentPane().add(ausgabeAktuelleBezeichnung);
 		
-		JLabel aktuelleBezSchriftzug = new JLabel("Aktuelle Bezeichnung:");
-		aktuelleBezSchriftzug.setHorizontalAlignment(SwingConstants.RIGHT);
-		aktuelleBezSchriftzug.setBounds(22, 70, 132, 14);
-		getContentPane().add(aktuelleBezSchriftzug);
 		
+		
+		
+		
+		
+		
+		
+		//Textfelder
 		eingabeNeueBezeichnung = new JTextField();
 		eingabeNeueBezeichnung.setHorizontalAlignment(SwingConstants.LEFT);
 		eingabeNeueBezeichnung.setColumns(10);
 		eingabeNeueBezeichnung.setBounds(157, 98, 285, 20);
 		getContentPane().add(eingabeNeueBezeichnung);
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		//Labels
+		JLabel lagerUmbenennenUeberschrift = new JLabel("Lager Umbenennen");
+		lagerUmbenennenUeberschrift.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lagerUmbenennenUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
+		lagerUmbenennenUeberschrift.setBounds(92, 24, 270, 22);
+		getContentPane().add(lagerUmbenennenUeberschrift);
+		
 		JLabel neueBezSchriftzug = new JLabel("Neue Bezeichnung:");
 		neueBezSchriftzug.setHorizontalAlignment(SwingConstants.RIGHT);
 		neueBezSchriftzug.setBounds(22, 101, 131, 14);
 		getContentPane().add(neueBezSchriftzug);
 		
+		JLabel aktuelleBezSchriftzug = new JLabel("Aktuelle Bezeichnung:");
+		aktuelleBezSchriftzug.setHorizontalAlignment(SwingConstants.RIGHT);
+		aktuelleBezSchriftzug.setBounds(22, 70, 132, 14);
+		getContentPane().add(aktuelleBezSchriftzug);
 		
-		setBounds(400, 200, 480, 190);
-		setVisible(true);
-		setResizable(false);
+		JLabel ausgabeAktuelleBezeichnung = new JLabel(ausgewaehltesLager.getName());
+		ausgabeAktuelleBezeichnung.setHorizontalAlignment(SwingConstants.LEFT);
+		ausgabeAktuelleBezeichnung.setBounds(160, 67, 285, 20);
+		getContentPane().add(ausgabeAktuelleBezeichnung);		
 	}
 }

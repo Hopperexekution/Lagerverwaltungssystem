@@ -342,8 +342,8 @@ public class Controller {
 		while (it.hasNext() && gefunden == null) 
 		{
 			Lager aktuelles = (Lager) it.next();
-			if (!aktuelles.toString().equals(lagername)) {
-				gefunden = null;
+			if (!aktuelles.toString().equals(lagername)) 
+			{
 				findePassendesLager(lagername, aktuelles);
 			}
 			else if(aktuelles.toString().equals(lagername))
