@@ -12,19 +12,27 @@ import model.Lager;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JTextField;
 
 public class LagerUmbenennenView extends JFrame {
-	
+
 	private JTextField eingabeNeueBezeichnung;
 	
 	public LagerUmbenennenView(Controller controller, Lager ausgewaehltesLager) {
 		getContentPane().setLayout(null);
-		JLabel lblNewLabel = new JLabel("New label");
 		
 		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent event) {
+				controller.getHauptmenue().setEnabled(true);
+			}
+		});
+		controller.getHauptmenue().setEnabled(false);
 		JLabel lagerUmbenennenUeberschrift = new JLabel("Lager Umbenennen");
 		lagerUmbenennenUeberschrift.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lagerUmbenennenUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
@@ -43,16 +51,17 @@ public class LagerUmbenennenView extends JFrame {
 				{// wenn nicht leer:
 					ausgewaehltesLager.setName(neuerName);
 					controller.refreshTree();
+					controller.getHauptmenue().setEnabled(true);
 					dispose();
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, "Bitte geben Sie einen neuen Namen ein.");
+					JOptionPane.showMessageDialog(getContentPane(), "Bitte geben Sie einen neuen Namen ein.");
 				}
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, "Dieser Name ist bereits vorhanden. Bitte wählen Sie einen neuen.");
+					JOptionPane.showMessageDialog(getContentPane(), "Dieser Name ist bereits vorhanden. Bitte wählen Sie einen neuen.");
 				}
 			}
 		});
@@ -62,6 +71,7 @@ public class LagerUmbenennenView extends JFrame {
 		JButton abbrechenButton = new JButton("Abbrechen");
 		abbrechenButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controller.getHauptmenue().setEnabled(true);
 				dispose();
 			}
 		});

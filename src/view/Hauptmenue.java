@@ -414,7 +414,7 @@ public class Hauptmenue extends JFrame {
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, "Sie müssen zuerst ein Lager durch anklicken auswählen." );
+					JOptionPane.showMessageDialog(getContentPane(), "Sie müssen zuerst ein Lager durch anklicken auswählen." );
 				}
 				
 			}
@@ -431,7 +431,7 @@ public class Hauptmenue extends JFrame {
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, "Sie müssen zuerst ein Lager durch anklicken auswählen." );
+					JOptionPane.showMessageDialog(getContentPane(), "Sie müssen zuerst ein Lager durch anklicken auswählen." );
 				}
 			}
 		});
@@ -476,7 +476,7 @@ public class Hauptmenue extends JFrame {
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, "Sie müssen zuerst ein Lager durch anklicken auswählen." );
+					JOptionPane.showMessageDialog(getContentPane(), "Sie müssen zuerst ein Lager durch anklicken auswählen." );
 				}
 				
 			}
@@ -522,11 +522,11 @@ public class Hauptmenue extends JFrame {
 						int gesamtMenge = Integer.parseInt(gesamtmengeEingabe.getText());
 						if(gesamtMenge <= 0)
 						{//Eingabe <= 0!
-							JOptionPane.showMessageDialog(null, "Bitte nur positivie Zahlen verwenden. \nDie Zahl muss außerdem größer als '0' sein." );
+							JOptionPane.showMessageDialog(getContentPane(), "Bitte nur positivie Zahlen verwenden. \nDie Zahl muss außerdem größer als '0' sein." );
 						}	
 						else if(gesamtMenge > 2000000000)
 						{
-							JOptionPane.showMessageDialog(null, "Bitte verwenden Sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
+							JOptionPane.showMessageDialog(getContentPane(), "Bitte verwenden Sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
 						}
 						else
 						{
@@ -535,12 +535,12 @@ public class Hauptmenue extends JFrame {
 					}
 					else
 					{//Eingabefeld leer!
-						JOptionPane.showMessageDialog(null, "Es ist eine Eingabe des Lieferumfangs erforderlich.");
+						JOptionPane.showMessageDialog(getContentPane(), "Es ist eine Eingabe des Lieferumfangs erforderlich.");
 					}
 				}
 				catch(NumberFormatException f)
 				{
-					JOptionPane.showMessageDialog(null, "Bitte verwenden Sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
+					JOptionPane.showMessageDialog(getContentPane(), "Bitte verwenden Sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
 				}
 			}
 		});
@@ -560,11 +560,11 @@ public class Hauptmenue extends JFrame {
 						int gesamtMenge = Integer.parseInt(gesamtmengeEingabe.getText());
 						if(gesamtMenge <= 0)
 						{//Eingabe <= 0!
-							JOptionPane.showMessageDialog(null, "Bitte nur positivie Zahlen verwenden. \nDie Zahl muss außerdem größer als '0' sein." );
+							JOptionPane.showMessageDialog(getContentPane(), "Bitte nur positivie Zahlen verwenden. \nDie Zahl muss außerdem größer als '0' sein." );
 						}	
 						else if(gesamtMenge > 2000000000)
 						{
-							JOptionPane.showMessageDialog(null, "Bitte verwenden Sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
+							JOptionPane.showMessageDialog(getContentPane(), "Bitte verwenden Sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
 						}
 						else
 						{
@@ -573,12 +573,12 @@ public class Hauptmenue extends JFrame {
 					}
 					else
 					{//Eingabefeld leer!
-						JOptionPane.showMessageDialog(null, "Es ist eine Eingabe des Lieferumfangs erforderlich.");
+						JOptionPane.showMessageDialog(getContentPane(), "Es ist eine Eingabe des Lieferumfangs erforderlich.");
 					}
 				}
 				catch(NumberFormatException f)
 				{
-					JOptionPane.showMessageDialog(null, "Bitte verwenden Sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
+					JOptionPane.showMessageDialog(getContentPane(), "Bitte verwenden Sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
 				}
 			}
 		});
