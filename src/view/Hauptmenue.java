@@ -477,9 +477,17 @@ public class Hauptmenue extends JFrame {
 		lagerUmbenennenButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(lagerTree.getLastSelectedPathComponent() instanceof Lager){
+				if(lagerTree.getLastSelectedPathComponent() instanceof Lager)
+				{
 					Lager ausgewaehltesLager = (Lager) lagerTree.getLastSelectedPathComponent();
-					LagerUmbenennenView lagerUmbenennenView = new LagerUmbenennenView(controller,ausgewaehltesLager);
+					if (ausgewaehltesLager.getName().equals(controller.getLagerModel().getRoot().getName()))
+					{
+						JOptionPane.showMessageDialog(getContentPane(), "Dieser Name darf nicht verändert werden.");
+					}
+					else
+					{
+						LagerUmbenennenView lagerUmbenennenView = new LagerUmbenennenView(controller,ausgewaehltesLager);
+					}
 				}
 				else
 				{

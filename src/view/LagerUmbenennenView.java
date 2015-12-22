@@ -53,9 +53,10 @@ public class LagerUmbenennenView extends JFrame {
 				String neuerName = eingabeNeueBezeichnung.getText();
 				if(controller.findePassendesLager(neuerName, controller.getLagerModel().getRoot()) == null)
 				{
+					
 					if(controller.getLagerModel().getRoot().getName().equals(neuerName))
 					{
-						JOptionPane.showMessageDialog(getContentPane(), "Der Name des Hauptlagers darf nicht gewählt werden.");						
+						JOptionPane.showMessageDialog(getContentPane(), "Dieser Name ist reserviert und kann nicht verwendet werden.");						
 					}
 					else if (!neuerName.equals(""))
 					{// wenn nicht leer:
