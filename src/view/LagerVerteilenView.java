@@ -124,6 +124,8 @@ public class LagerVerteilenView extends JFrame {
 					{
 					controller.erstelleLieferung(restEinheiten, gesamtMenge);
 					Lager vater = zuLoeschendesLager.getVater();
+					vater.setBestand(vater.getBestand() - zuLoeschendesLager.getBestand());
+					vater.setKapazitaet(vater.getKapazität() - zuLoeschendesLager.getKapazität());
 					vater.getChildList().remove(zuLoeschendesLager);
 					dispose();
 					controller.refreshTree();

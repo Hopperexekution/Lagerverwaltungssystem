@@ -187,6 +187,8 @@ public class Controller {
 					kindLager.setVater(vater);
 					vater.getChildList().add(kindLager);
 				}
+				vater.setBestand(vater.getBestand() - lager.getBestand());
+				vater.setKapazitaet(vater.getKapazität() - lager.getKapazität());
 				vater.getChildList().remove(lager);
 			}
 			else{
@@ -199,6 +201,8 @@ public class Controller {
 					}
 					if (gesamtVerfuegbareKapazitaet >= lager.getBestand()){
 						if(lager.getBestand() == 0){
+							vater.setBestand(vater.getBestand() - lager.getBestand());
+							vater.setKapazitaet(vater.getKapazität() - lager.getKapazität());
 							vater.getChildList().remove(lager);
 						}
 						else{
@@ -210,10 +214,6 @@ public class Controller {
 					}
 				}
 				else{
-					for(Lager kindLager : lager.getChildList()){
-						kindLager.setVater(vater);
-						vater.getChildList().add(kindLager);
-					}
 					vater.getChildList().remove(lager);
 				}
 			}
