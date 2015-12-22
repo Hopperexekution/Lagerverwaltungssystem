@@ -29,6 +29,7 @@ import model.LagerModel;
 import model.Lieferung;
 import model.UndoRedoModel;
 import view.Hauptmenue;
+import view.LagerVerteilenView;
 
 
 public class Controller {
@@ -186,13 +187,42 @@ public class Controller {
 					kindLager.setVater(vater);
 					vater.getChildList().add(kindLager);
 				}
+				vater.getChildList().remove(lager);
 			}
-			vater.getChildList().remove(lager);
-			this.berechneBestand(lager);
-			this.berechneKapazitaet(lager);
+			else{
+				if(vater.getChildList().size() > 1){
+					Vector<Lager> childListe = findeAuswaehlbarLager(new Vector<Lager>());
+					long gesamtVerfuegbareKapazitaet = 0;
+					for(Lager kind: childListe){
+						if(!kind.equals(lager))
+							gesamtVerfuegbareKapazitaet += kind.getKapazität() - kind.getBestand();
+					}
+					if (gesamtVerfuegbareKapazitaet >= lager.getBestand()){
+						if(lager.getBestand() == 0){
+							vater.getChildList().remove(lager);
+						}
+						else{
+								LagerVerteilenView lagerVerteilen = new LagerVerteilenView(hauptmenue.getController(), lager.getBestand(), lager);
+						}
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "Das Lager kann nicht gelöscht werden, da die übrigen Lager über nicht ausreichende Kapazitäten verfügen." );
+					}
+				}
+				else{
+					for(Lager kindLager : lager.getChildList()){
+						kindLager.setVater(vater);
+						vater.getChildList().add(kindLager);
+					}
+					vater.getChildList().remove(lager);
+				}
+			}
+			this.berechneBestand(lagerModel.getRoot());
+			this.berechneKapazitaet(lagerModel.getRoot());
+			refreshTree();
 		}
 		else{
-			
+			JOptionPane.showMessageDialog(null, "Das Hauptlager darf nicht gelöscht werden." );
 		}
 		
 	}

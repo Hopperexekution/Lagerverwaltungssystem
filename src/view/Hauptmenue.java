@@ -302,7 +302,7 @@ public class Hauptmenue extends JFrame {
 		setBounds(50,50,800,600);
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.controller = controller;
+		this.setController(controller);
 		
 		menueLeiste = new JMenuBar();
 		menueLeiste.setBounds(0, 0, 794, 24);
@@ -635,4 +635,10 @@ public class Hauptmenue extends JFrame {
 		}
 	}*/
 }
+	public Controller getController() {
+		return controller;
+	}
+	public void setController(Controller controller) {
+		this.controller = controller;
+	}
 }
