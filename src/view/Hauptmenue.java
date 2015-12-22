@@ -336,7 +336,7 @@ public class Hauptmenue extends JFrame {
 		
 		lageruebersichtTab = new JSplitPane();
 		lageruebersichtTab.setDividerLocation(0.5);
-		tabLeiste.addTab("Lager\u00FCbersicht", null, lageruebersichtTab, null);
+		tabLeiste.addTab("Lagerübersicht", null, lageruebersichtTab, null);
 		
 		lagerPane = new JPanel();
 		lageruebersichtTab.setRightComponent(lagerPane);
@@ -352,7 +352,7 @@ public class Hauptmenue extends JFrame {
 		lagerDetailsUeberschrift.setBounds(220, 352, 107, 23);
 		lagerPane.add(lagerDetailsUeberschrift);
 		
-		lagerKapazitaetUeberschrift = new JLabel("Kapazit\u00E4t");
+		lagerKapazitaetUeberschrift = new JLabel("Kapazität");
 		lagerKapazitaetUeberschrift.setBounds(20, 425, 79, 14);
 		lagerPane.add(lagerKapazitaetUeberschrift);
 		
@@ -409,7 +409,7 @@ public class Hauptmenue extends JFrame {
 		});
 		lagerPane.add(neuesLagerErstellenButton);
 		
-		lagerLoeschenButton = new JButton("Lager l\u00F6schen");
+		lagerLoeschenButton = new JButton("Lager löschen");
 		lagerLoeschenButton.setBounds(200, 48, 127, 23);
 		lagerLoeschenButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -516,9 +516,38 @@ public class Hauptmenue extends JFrame {
 		
 		neueAuslieferungButton = new JButton("Neue Auslieferung");
 		neueAuslieferungButton.setBounds(340, 48, 170, 23);
-		neueAuslieferungButton.addMouseListener(new MouseAdapter() {
+		neueAuslieferungButton.addActionListener(new ActionListener() 
+		{
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) 
+			{
+				try
+				{
+					if  (!gesamtmengeEingabe.getText().equals(""))
+					{//Eingabefeld gefüllt!
+						int gesamtMenge = Integer.parseInt(gesamtmengeEingabe.getText());
+						if(gesamtMenge <= 0)
+						{//Eingabe <= 0!
+							JOptionPane.showMessageDialog(null, "Bitte nur positivie Zahlen verwenden.");
+						}	
+						else if(gesamtMenge > 2000000000)
+						{
+							JOptionPane.showMessageDialog(null, "Bitte verwenden sie nur ganzzahlige Zahlen bis zu einem Maximum von zwei Milliarden.");
+						}
+						else
+						{
+							AuslieferungsView auslieferung = new AuslieferungsView(controller, gesamtMenge);
+						}
+					}
+					else
+					{//Eingabefeld leer!
+						JOptionPane.showMessageDialog(null, "Es ist eine Eingabe des Lieferumfangs erforderlich.");
+					}
+				}
+				catch(NumberFormatException f)
+				{
+					JOptionPane.showMessageDialog(null, "Bitte verwenden sie nur ganzzahlige Zahlen bis zu einem Maximum von zwei Milliarden.");
+				}
 			}
 		});
 		lieferungPane.add(neueAuslieferungButton);
@@ -548,7 +577,7 @@ public class Hauptmenue extends JFrame {
 		lieferungPane.add(lieferDatum);
 		
 		
-		gesamtmenge = new JLabel("Gesamtmenge:");
+		gesamtmenge = new JLabel("Lieferumfang:");
 		gesamtmenge.setBounds(160, 89, 95, 20);
 		lieferungPane.add(gesamtmenge);
 		
