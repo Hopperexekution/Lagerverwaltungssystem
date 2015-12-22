@@ -50,7 +50,7 @@ public class Controller {
 					controller.berechneBestand(controller.getLagerModel().getRoot());
 					controller.berechneKapazitaet(controller.getLagerModel().getRoot());
 					controller.erstelleStartLieferungsListe();
-					hauptmenue = new Hauptmenue(controller);
+					hauptmenue = Hauptmenue.getInstance(controller);
 					hauptmenue.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

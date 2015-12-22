@@ -59,6 +59,14 @@ public class Hauptmenue extends JFrame {
 		   lagerNameUeberschrift, lagerName, lagerBestandUeberschrift, lagerBestand, buchungenUeberschrift, 
 		   lieferungsoptionenUeberschrift, lieferbezeichnungUeberschrift, lieferBezeichung, lieferdatumUeberschrift, lieferDatum,
 		   gesamtmenge;
+	private static Hauptmenue hauptmenue = null;
+
+	public static Hauptmenue getInstance(Controller controller){
+			if(hauptmenue == null){
+				hauptmenue = new Hauptmenue(controller);
+			}
+			return hauptmenue;
+		}
 		   
 	public JTree getLagerTree() {
 		return lagerTree;
@@ -297,7 +305,7 @@ public class Hauptmenue extends JFrame {
 	JTextField gesamtmengeEingabe;
 	DefaultListModel<Lieferung> lieferungModel;
 
-	public Hauptmenue( Controller controller) {
+	private Hauptmenue( Controller controller) {
 		setResizable(false);
 		setBounds(50,50,800,600);
 		getContentPane().setLayout(null);
