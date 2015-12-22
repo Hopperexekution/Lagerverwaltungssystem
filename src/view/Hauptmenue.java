@@ -108,10 +108,47 @@ public class Hauptmenue extends JFrame {
 		lagerOptionenUeberschrift.setBounds(220, 11, 107, 23);
 		lagerOptionenUeberschrift.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lagerPane.add(lagerOptionenUeberschrift);
+		JLabel lagerDetailsUeberschrift = new JLabel("Lager Details");
+		lagerDetailsUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
+		lagerDetailsUeberschrift.setBounds(220, 352, 107, 23);
+		lagerPane.add(lagerDetailsUeberschrift);
+		
+		JLabel lagerKapazitaetUeberschrift = new JLabel("Kapazit\u00E4t");
+		lagerKapazitaetUeberschrift.setBounds(20, 425, 79, 14);
+		lagerPane.add(lagerKapazitaetUeberschrift);
+		
+		JLabel lagerKapazitaet = new JLabel("100");
+		lagerKapazitaet.setHorizontalAlignment(SwingConstants.CENTER);
+		lagerKapazitaet.setBounds(163, 425, 360, 14);
+		lagerPane.add(lagerKapazitaet);
+		
+		JLabel lagerNameUeberschrift = new JLabel("Name");
+		lagerNameUeberschrift.setBounds(24, 389, 75, 14);
+		lagerPane.add(lagerNameUeberschrift);
+		
+		JLabel lagerName = new JLabel("Niedersachsen");
+		lagerName.setHorizontalAlignment(SwingConstants.CENTER);
+		lagerName.setBounds(163, 389, 360, 14);
+		lagerPane.add(lagerName);
+		
+		JLabel lagerBestandUeberschrift = new JLabel("Bestand");
+		lagerBestandUeberschrift.setBounds(20, 464, 79, 14);
+		lagerPane.add(lagerBestandUeberschrift);
+		
+		JLabel lagerBestand = new JLabel("50");
+		lagerBestand.setHorizontalAlignment(SwingConstants.CENTER);
+		lagerBestand.setBounds(163, 464, 360, 14);
+		lagerPane.add(lagerBestand);
 		
 		JTree lagerTree = new JTree();
 		lagerTree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent event) {
+				if(lagerTree.getLastSelectedPathComponent() instanceof Lager){
+					Lager ausgewaehltesLager = (Lager) lagerTree.getLastSelectedPathComponent();
+					lagerName.setText(ausgewaehltesLager.getName());
+					lagerBestand.setText(Integer.toString(ausgewaehltesLager.getBestand()));
+					lagerKapazitaet.setText(Integer.toString(ausgewaehltesLager.getKapazität()));
+				}
 			}
 		});
 		lagerTree.setModel(controller.getLagerModel());
@@ -174,37 +211,7 @@ public class Hauptmenue extends JFrame {
 		});
 		lagerPane.add(buchungsListe);
 		
-		JLabel lagerDetailsUeberschrift = new JLabel("Lager Details");
-		lagerDetailsUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
-		lagerDetailsUeberschrift.setBounds(220, 352, 107, 23);
-		lagerPane.add(lagerDetailsUeberschrift);
 		
-		JLabel lagerKapazitaetUeberschrift = new JLabel("Kapazit\u00E4t");
-		lagerKapazitaetUeberschrift.setBounds(20, 425, 79, 14);
-		lagerPane.add(lagerKapazitaetUeberschrift);
-		
-		JLabel lagerKapazitaet = new JLabel("100");
-		lagerKapazitaet.setHorizontalAlignment(SwingConstants.CENTER);
-		lagerKapazitaet.setBounds(163, 425, 360, 14);
-		lagerPane.add(lagerKapazitaet);
-		
-		JLabel lagerNameUeberschrift = new JLabel("Name");
-		lagerNameUeberschrift.setBounds(24, 389, 75, 14);
-		lagerPane.add(lagerNameUeberschrift);
-		
-		JLabel lagerName = new JLabel("Niedersachsen");
-		lagerName.setHorizontalAlignment(SwingConstants.CENTER);
-		lagerName.setBounds(163, 389, 360, 14);
-		lagerPane.add(lagerName);
-		
-		JLabel lagerBestandUeberschrift = new JLabel("Bestand");
-		lagerBestandUeberschrift.setBounds(20, 464, 79, 14);
-		lagerPane.add(lagerBestandUeberschrift);
-		
-		JLabel lagerBestand = new JLabel("50");
-		lagerBestand.setHorizontalAlignment(SwingConstants.CENTER);
-		lagerBestand.setBounds(163, 464, 360, 14);
-		lagerPane.add(lagerBestand);
 		
 		JSplitPane lieferungsuebersichtTab = new JSplitPane();
 		tabLeiste.addTab("Lieferungs\u00FCbersicht", null, lieferungsuebersichtTab, null);

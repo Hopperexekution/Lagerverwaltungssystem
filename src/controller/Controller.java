@@ -32,7 +32,7 @@ public class Controller {
 	private List<UndoRedoModel> undoListe;
 	private List<UndoRedoModel> redoListe;
 	Lager gefunden = null;
-	static Hauptmenue hauptmenue;
+	private static Hauptmenue hauptmenue;
 	private List<Buchung> buchungsListe = new ArrayList<Buchung>();
 	private static LagerModel lagerModel;
 		
@@ -61,6 +61,9 @@ public class Controller {
 		Buchung buchung = new Buchung(einheiten, zugehoerigesLager, zubuchung);
 		buchungsListe.add(buchung);
 		
+	}
+	public Hauptmenue getHauptmenue(){
+		return hauptmenue;
 	}
 	
 	public void laden()
@@ -246,6 +249,11 @@ public class Controller {
 		}
 		
 		return gefunden;
+	}
+
+	public void lagerHinzufuegen(Lager lager, Lager vater) {
+		vater.getChildList().add(lager);
+		hauptmenue.refreshTree();		
 	}
 
 }
