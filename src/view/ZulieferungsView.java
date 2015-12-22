@@ -78,15 +78,6 @@ public class ZulieferungsView extends JFrame {
 		getContentPane().add(lblAngabeProzent);
 		lblAngabeProzent.setColumns(30);
 
-		JLabel lblEinheiten = new JLabel("Einheiten");
-		lblEinheiten.setBounds(367, 90, 55, 14);
-		getContentPane().add(lblEinheiten);
-		
-		JLabel labelAnzahlEinheiten = new JLabel("0");
-		labelAnzahlEinheiten.setEnabled(false);
-		labelAnzahlEinheiten.setBounds(367, 116, 46, 14);
-		getContentPane().add(labelAnzahlEinheiten);
-
 		JList<Buchung> zulieferungLager = new JList<Buchung>();
 		DefaultListModel<Buchung> lieferungsBuchungen = new DefaultListModel<Buchung>();
 		zulieferungLager.setModel(lieferungsBuchungen);
