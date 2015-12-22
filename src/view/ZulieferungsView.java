@@ -99,7 +99,7 @@ public class ZulieferungsView extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controller.undo;
+				//controller.undo;
 
 			}
 		});
@@ -111,7 +111,7 @@ public class ZulieferungsView extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controller.redo;
+				//controller.redo;
 
 			}
 		});
@@ -142,7 +142,17 @@ public class ZulieferungsView extends JFrame {
 					{
 						JOptionPane.showMessageDialog(null,
 								"Prozentangabe liegt entweder über 100% oder ist kleiner gleich 0%. Bitte andere Angabe eintragen.");
-					} else {
+					} else if ((controller.getProzent() + prozent) > 100) 
+					{	if(controller.getProzent() == 100)
+						{
+							JOptionPane.showMessageDialog(null, "Sie haben alle 100% verteilt. Betätigen sie den Undo Button für Veränderungen.\nOder Bestätigen sie die Zulieferung und noch nicht verteilte Einheiten(aufgrund von Abrundungen) werden dem letzten Lager hinzugefügt.\nOder brechen sie die Zulieferung ab.");
+						} else
+						{
+						JOptionPane.showMessageDialog(null, "Wenn diese Prozentzahl der Gesamteinheiten hinzugefügt werden soll, dann würde die insgesamte Prozentanzahl über 100% liegen.\nDies ist nicht möglich wählen Sie bitte einen kleineren Wert. Der aktuelle Prozentwert entspricht " + controller.getProzent()+"%.");
+						}
+					}
+					else
+					{
 						Buchung neueBuchung = controller.erstelleBuchung(prozent, gesamtMenge, lagerAuswahl.getSelectedItem().toString());
 						if(!neueBuchung.equals(null))
 						{
