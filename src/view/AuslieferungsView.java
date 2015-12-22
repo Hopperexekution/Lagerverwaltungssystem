@@ -69,13 +69,13 @@ public class AuslieferungsView extends JFrame {
 		anzahlverfgbareEinheiten.setBounds(330, 77, 50, 20);
 		getContentPane().add(anzahlverfgbareEinheiten);
 		
-		JLabel auszulieferndeEinheitenUeberschrift = new JLabel("Lieferumfang");
-		auszulieferndeEinheitenUeberschrift.setBounds(470, 47, 145, 20);
-		getContentPane().add(auszulieferndeEinheitenUeberschrift);
+		JLabel lieferumfangUeberschrift = new JLabel("Lieferumfang");
+		lieferumfangUeberschrift.setBounds(470, 47, 145, 20);
+		getContentPane().add(lieferumfangUeberschrift);
 		
-		JLabel anzahlauszulieferndeEinheiten = new JLabel(gesamtMenge + "");
-		anzahlauszulieferndeEinheiten.setBounds(470, 77, 86, 20);
-		getContentPane().add(anzahlauszulieferndeEinheiten);
+		JLabel lieferumfang = new JLabel(gesamtMenge + "");
+		lieferumfang.setBounds(470, 77, 86, 20);
+		getContentPane().add(lieferumfang);
 		
 		JList<Buchung> buchungen = new JList<Buchung>();
 		DefaultListModel<Buchung> lieferungsBuchungen = new DefaultListModel<Buchung>();
@@ -89,9 +89,9 @@ public class AuslieferungsView extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (anzahlauszulieferndeEinheiten.getText().length() != 0) {
+				if (anzahlAuszulieferndeEinheiten.getText().length() != 0) {
 					try{
-					int einheit = Integer.parseInt(anzahlauszulieferndeEinheiten.getText());
+					int einheit = Integer.parseInt(anzahlAuszulieferndeEinheiten.getText());
 					Lager ausgewaehlt = controller.findePassendesLager(lagerAuswahl.getSelectedItem().toString(), controller.getLagerModel().getRoot());
 					if (einheit > ausgewaehlt.getBestand()) 
 					{
