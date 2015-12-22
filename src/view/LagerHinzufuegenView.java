@@ -91,7 +91,7 @@ public class LagerHinzufuegenView extends JFrame {
 						}
 						else
 						{
-							JOptionPane.showMessageDialog(null, "Es gibt bereits ein Lager mit diesem Namen. Wählen Sie bitt einen Anderen.");
+							JOptionPane.showMessageDialog(null, "Es gibt bereits ein Lager mit diesem Namen. Wählen Sie bitte einen Anderen.");
 						}
 					}
 				catch(NumberFormatException ex){

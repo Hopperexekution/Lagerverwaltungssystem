@@ -23,7 +23,7 @@ public class LagerUmbenennenView extends JFrame {
 	public LagerUmbenennenView(Controller controller, Lager ausgewaehltesLager) {
 		getContentPane().setLayout(null);
 		JLabel lblNewLabel = new JLabel("New label");
-		getContentPane().add(lblNewLabel, BorderLayout.NORTH);
+		
 		
 		JLabel lagerUmbenennenUeberschrift = new JLabel("Lager Umbenennen");
 		lagerUmbenennenUeberschrift.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -35,7 +35,10 @@ public class LagerUmbenennenView extends JFrame {
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
+
 				String neuerName = eingabeNeueBezeichnung.getText();
+				if(controller.findePassendesLager(neuerName, controller.getLagerModel().getRoot()) == null)
+				{
 				if (!neuerName.equals(""))
 				{// wenn nicht leer:
 					ausgewaehltesLager.setName(neuerName);
@@ -45,6 +48,11 @@ public class LagerUmbenennenView extends JFrame {
 				else
 				{
 					JOptionPane.showMessageDialog(null, "Bitte geben Sie einen neuen Namen ein.");
+				}
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Dieser Name ist bereits vorhanden. Bitte wählen Sie einen neuen.");
 				}
 			}
 		});
