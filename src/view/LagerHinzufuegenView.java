@@ -21,7 +21,13 @@ public class LagerHinzufuegenView extends JFrame {
 	private JTextField bezeichnungsTextfeld;
 	private JTextField kapazitaetsTextfeld;
 	public LagerHinzufuegenView(Controller controller, Lager ausgewaehltesLager) {
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent event) {
+				controller.getHauptmenue().setEnabled(true);
+			}
+		});
+		
 		setBounds(150,150,250,200);
 		setResizable(false);
 		getContentPane().setLayout(null);

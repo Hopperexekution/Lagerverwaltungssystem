@@ -178,7 +178,7 @@ public class Controller {
 		return lagerModel;
 	}
 
-	public void loeschen(Lager lager) {
+	public void lagerLoeschen(Lager lager) {
 		if(!lagerModel.isRoot(lager)){
 			Lager vater = lager.getVater();
 			if(!lager.getChildList().isEmpty()){
@@ -196,11 +196,6 @@ public class Controller {
 		
 	}
 
-	public void lagerHinzufuegen(Lager lager, Lager vater) {
-		vater.getChildList().add(lager);
-		this.berechneBestandKapazitaet(this.getLagerModel().getRoot());
-		refreshTree();
-	}
 	public void refreshTree(){
 		hauptmenue.getLagerTree().setModel(null);
 		hauptmenue.getLagerTree().setModel(lagerModel);
@@ -394,6 +389,40 @@ public class Controller {
 		}
 		
 	}
-
+	public void lagerHinzufuegen(Lager lager, Lager vater) {
+		vater.getChildList().add(lager);
+		standardBeschriftung();
+		this.berechneBestandKapazitaet(this.getLagerModel().getRoot());
+		refreshTree();
+		hauptmenue.setAlwaysOnTop(true);
+		hauptmenue.setAlwaysOnTop(false);
+	}
+	public void lagerSelected(Lager lager){
+		if(lagerModel.isLeaf(lager)){
+			hauptmenue.getLagerNameUeberschrift().setText("Lagername:");
+			hauptmenue.getLagerBestandUeberschrift().setText("Bestand:");
+			hauptmenue.getLagerKapazitaetUeberschrift().setText("Kapaziät:");
+			hauptmenue.getLagerName().setText(lager.getName());
+			hauptmenue.getLagerBestand().setText(Integer.toString(lager.getBestand()));
+			hauptmenue.getLagerKapazitaet().setText(Integer.toString(lager.getKapazität()));			
+		}
+		else{
+			hauptmenue.getLagerNameUeberschrift().setText("Lagername:");
+			hauptmenue.getLagerBestandUeberschrift().setText("Kummulierter Bestand:");
+			hauptmenue.getLagerKapazitaetUeberschrift().setText("Kummulierte Kapaziät:");
+			hauptmenue.getLagerName().setText(lager.getName());
+			hauptmenue.getLagerBestand().setText(Integer.toString(lager.getBestand()));
+			hauptmenue.getLagerKapazitaet().setText(Integer.toString(lager.getKapazität()));
+		}
+	}
+	
+	public void standardBeschriftung(){
+		hauptmenue.getLagerNameUeberschrift().setText("Lagername:");
+		hauptmenue.getLagerBestandUeberschrift().setText("Bestand:");
+		hauptmenue.getLagerKapazitaetUeberschrift().setText("Kapaziät:");
+		hauptmenue.getLagerName().setText("");
+		hauptmenue.getLagerBestand().setText("");
+		hauptmenue.getLagerKapazitaet().setText("");
+	}
 
 }
