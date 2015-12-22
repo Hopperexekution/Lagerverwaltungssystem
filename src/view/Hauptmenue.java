@@ -361,7 +361,8 @@ public class Hauptmenue extends JFrame {
 		lagerPane.add(lagerDetailsUeberschrift);
 		
 		lagerKapazitaetUeberschrift = new JLabel("Kapazität");
-		lagerKapazitaetUeberschrift.setBounds(20, 425, 79, 14);
+		lagerKapazitaetUeberschrift.setHorizontalAlignment(SwingConstants.LEFT);
+		lagerKapazitaetUeberschrift.setBounds(20, 425, 133, 14);
 		lagerPane.add(lagerKapazitaetUeberschrift);
 		
 		lagerKapazitaet = new JLabel("100");
@@ -370,7 +371,8 @@ public class Hauptmenue extends JFrame {
 		lagerPane.add(lagerKapazitaet);
 		
 		lagerNameUeberschrift = new JLabel("Name");
-		lagerNameUeberschrift.setBounds(24, 389, 75, 14);
+		lagerNameUeberschrift.setHorizontalAlignment(SwingConstants.LEFT);
+		lagerNameUeberschrift.setBounds(20, 389, 133, 14);
 		lagerPane.add(lagerNameUeberschrift);
 		
 		lagerName = new JLabel("Niedersachsen");
@@ -379,7 +381,8 @@ public class Hauptmenue extends JFrame {
 		lagerPane.add(lagerName);
 		
 		lagerBestandUeberschrift = new JLabel("Bestand");
-		lagerBestandUeberschrift.setBounds(20, 464, 79, 14);
+		lagerBestandUeberschrift.setHorizontalAlignment(SwingConstants.LEFT);
+		lagerBestandUeberschrift.setBounds(20, 464, 133, 14);
 		lagerPane.add(lagerBestandUeberschrift);
 		
 		lagerBestand = new JLabel("50");
@@ -392,9 +395,7 @@ public class Hauptmenue extends JFrame {
 			public void valueChanged(TreeSelectionEvent event) {
 				if(lagerTree.getLastSelectedPathComponent() instanceof Lager){
 					Lager ausgewaehltesLager = (Lager) lagerTree.getLastSelectedPathComponent();
-					lagerName.setText(ausgewaehltesLager.getName());
-					lagerBestand.setText(Integer.toString(ausgewaehltesLager.getBestand()));
-					lagerKapazitaet.setText(Integer.toString(ausgewaehltesLager.getKapazität()));
+					controller.lagerSelected(ausgewaehltesLager);
 				}
 			}
 		});
@@ -426,8 +427,7 @@ public class Hauptmenue extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(lagerTree.getLastSelectedPathComponent() instanceof Lager){
-					controller.loeschen((Lager)(lagerTree.getLastSelectedPathComponent()));
-					controller.refreshTree();
+					controller.lagerLoeschen((Lager)(lagerTree.getLastSelectedPathComponent()));
 				}
 				else
 				{
