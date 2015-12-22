@@ -108,13 +108,12 @@ public class Controller {
 		datum.setDate(18);
 		this.erstelleZulieferung(datum, 12500, buchungListe);
 		
-		this.refreshLieferungsListe();
+//		this.refreshLieferungsListe();
 	}
 
-	private void refreshLieferungsListe() {
-		this.getHauptmenue().getLieferungsListe().setModel(model);
-		
-	}
+//	private void refreshLieferungsListe() {
+//		this.getHauptmenue().getLieferungsListe().setModel(model);
+//	}
 
 	public Controller()
 	{

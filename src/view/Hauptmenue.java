@@ -480,7 +480,6 @@ public class Hauptmenue extends JFrame {
 				if(lagerTree.getLastSelectedPathComponent() instanceof Lager){
 					Lager ausgewaehltesLager = (Lager) lagerTree.getLastSelectedPathComponent();
 					LagerUmbenennenView lagerUmbenennenView = new LagerUmbenennenView(controller,ausgewaehltesLager);
-					lagerUmbenennenView.setAlwaysOnTop(true);
 				}
 				else
 				{
