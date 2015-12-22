@@ -9,6 +9,7 @@ import controller.Controller;
 import model.Buchung;
 import model.Lager;
 import model.LagerModel;
+import model.UndoRedoModel;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -24,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,13 +34,12 @@ import java.util.Vector;
 public class ZulieferungsView extends JFrame {
 	private Controller controller;
 
+
+
 	public ZulieferungsView(Controller controller, int gesamtMenge ) {
 		this.controller = controller;
 		getContentPane().setLayout(null);
 
-		JScrollBar scrollBar = new JScrollBar();
-		scrollBar.setBounds(572, 162, 10, 121);
-		getContentPane().add(scrollBar);
 
 		JLabel lblNeueZulieferung = new JLabel("Neue Zulieferung");
 		lblNeueZulieferung.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -58,14 +59,10 @@ public class ZulieferungsView extends JFrame {
 		JLabel lblLager = new JLabel("Lager");
 		lblLager.setBounds(20, 90, 46, 14);
 		getContentPane().add(lblLager);
-
+		
 		Vector<Lager> auswaehlbareLager = new Vector<Lager>();
-		Lager wurzel = (Lager) controller.getLagerModel().getRoot();
-		if (!wurzel.equals(null)) {
-			findeBlaetter(wurzel, auswaehlbareLager);
-		} else if (wurzel.getChildList().isEmpty()) {
-			auswaehlbareLager.add(wurzel);
-		}
+		auswaehlbareLager = controller.findeAuswaehlbarLager(auswaehlbareLager);
+
 		
 		JComboBox<Lager> lagerAuswahl = new JComboBox<Lager>(auswaehlbareLager);
 		lagerAuswahl.setBounds(20, 115, 130, 20);
@@ -89,7 +86,7 @@ public class ZulieferungsView extends JFrame {
 		labelAnzahlEinheiten.setBounds(367, 116, 46, 14);
 		getContentPane().add(labelAnzahlEinheiten);
 
-		JList zulieferungLager = new JList();
+		JList<Buchung> zulieferungLager = new JList<Buchung>();
 		DefaultListModel<Buchung> lieferungsBuchungen = new DefaultListModel<Buchung>();
 		zulieferungLager.setModel(lieferungsBuchungen);
 		
@@ -102,7 +99,7 @@ public class ZulieferungsView extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				controller.undo;
 
 			}
 		});
@@ -114,7 +111,7 @@ public class ZulieferungsView extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				controller.redo;
 
 			}
 		});
@@ -137,7 +134,6 @@ public class ZulieferungsView extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int einheiten;
 				if (lblAngabeProzent.getText().length() != 0) {
 					try{
 					double prozent = Double.parseDouble(lblAngabeProzent.getText());
@@ -147,12 +143,14 @@ public class ZulieferungsView extends JFrame {
 						JOptionPane.showMessageDialog(null,
 								"Prozentangabe liegt entweder über 100% oder ist kleiner gleich 0%. Bitte andere Angabe eintragen.");
 					} else {
-						controller.erstelleBuchung(prozent, gesamtMenge);
-						// einheiten = (int) (Math.floor((double)(gesamtMenge *
-						// (prozent/100))));
-						// Buchung neueBuchung = new
-						// Buchung(labelAnzahlEinheiten.get, zugehoerigesLager,
-						// datum, zubuchung)
+						Buchung neueBuchung = controller.erstelleBuchung(prozent, gesamtMenge, lagerAuswahl.getSelectedItem().toString());
+						if(!neueBuchung.equals(null))
+						{
+						lieferungsBuchungen.addElement(neueBuchung);
+						zulieferungLager.setModel(lieferungsBuchungen);
+
+						}
+
 					}
 					}catch(NumberFormatException f){
 						JOptionPane.showMessageDialog(null, "Bitte nur Zahlen verwenden.");
@@ -161,7 +159,7 @@ public class ZulieferungsView extends JFrame {
 					JOptionPane.showMessageDialog(null, "Es ist eine Prozentangabe für die Verteilung notwendig");
 				}
 
-
+				
 			}
 		});
 		butNchstesLager.setBounds(240, 294, 180, 14);
@@ -171,16 +169,5 @@ public class ZulieferungsView extends JFrame {
 		setVisible(true);
 	}
 
-	private void findeBlaetter(Lager element, Vector<Lager> auswaehlbarLager) {
-		List<Lager> nachfolger = element.getChildList();
-		Iterator it = nachfolger.iterator();
 
-		while (it.hasNext()) {
-			Lager aktuelles = (Lager) it.next();
-			if (aktuelles.getChildList().isEmpty()) {
-				auswaehlbarLager.add(aktuelles);
-			}
-			findeBlaetter(aktuelles, auswaehlbarLager);
-		}
-	}
 }

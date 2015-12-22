@@ -3,8 +3,11 @@ package controller;
 import java.awt.Container;
 import java.awt.EventQueue;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -21,11 +24,14 @@ import java.io.ObjectOutputStream;
 import model.Buchung;
 import model.Lager;
 import model.LagerModel;
+import model.UndoRedoModel;
 import view.Hauptmenue;
 
 
 public class Controller {
-
+	private List<UndoRedoModel> undoListe;
+	private List<UndoRedoModel> redoListe;
+	Lager gefunden = null;
 	static Hauptmenue hauptmenue;
 	private List<Buchung> buchungsListe = new ArrayList<Buchung>();
 	private static LagerModel lagerModel;
@@ -50,9 +56,9 @@ public class Controller {
 		
 	}
 	
-	public void buchungHinzufügen(int einheiten, String zugehoerigesLager, Date datum, boolean zubuchung)
+	public void buchungHinzufügen(int einheiten, String zugehoerigesLager, boolean zubuchung)
 	{
-		Buchung buchung = new Buchung(einheiten, zugehoerigesLager, datum, zubuchung);
+		Buchung buchung = new Buchung(einheiten, zugehoerigesLager, zubuchung);
 		buchungsListe.add(buchung);
 		buchungsListe.sort(new DateComparator());
 		
@@ -176,4 +182,66 @@ public class Controller {
 			
 		}
 	}
+
+	public Buchung erstelleBuchung(double prozent, int gesamtMenge, String ausgewaehltesLager) {
+		int einheit = (int) (Math.floor((double)(gesamtMenge * (prozent/100))));;
+		
+		Buchung neueBuchung = new Buchung(einheit, ausgewaehltesLager, true);
+		undoListe.add(new UndoRedoModel(neueBuchung, prozent));
+		Lager ausgewaehlt = this.findePassendesLager(ausgewaehltesLager, (Lager) this.getLagerModel().getRoot());
+		if(ausgewaehlt != null)
+		{
+			return neueBuchung;
+		}
+		return null;
+	}
+
+	public Vector<Lager> findeAuswaehlbarLager(Vector<Lager> auswaehlbareLager)
+	{
+	Lager wurzel = (Lager) this.getLagerModel().getRoot();
+	if (!wurzel.equals(null)) {
+		findeBlaetter(wurzel, auswaehlbareLager);
+	} else if (wurzel.getChildList().isEmpty()) {
+		auswaehlbareLager.add(wurzel);
+	}
+	return auswaehlbareLager;
+	}
+	
+	private void findeBlaetter(Lager wurzel, Vector<Lager> auswaehlbarLager) {
+		List<Lager> nachfolger = wurzel.getChildList();
+		Iterator it = nachfolger.iterator();
+
+		while (it.hasNext()) {
+			Lager aktuelles = (Lager) it.next();
+			if (aktuelles.getChildList().isEmpty()) {
+				auswaehlbarLager.add(aktuelles);
+			}
+			findeBlaetter(aktuelles, auswaehlbarLager);
+		}
+	}
+	
+	private Lager findePassendesLager(String lagername, Lager wurzel)
+	{
+
+		List<Lager> nachfolger = wurzel.getChildList();
+		Iterator it = nachfolger.iterator();
+		
+
+		while (it.hasNext() && gefunden == null) 
+		{
+			Lager aktuelles = (Lager) it.next();
+			if (!aktuelles.toString().equals(lagername)) {
+				gefunden = null;
+				findePassendesLager(lagername, aktuelles);
+			}
+			else if(aktuelles.toString().equals(lagername))
+			{	
+				gefunden = aktuelles;
+			}
+			
+		}
+		
+		return gefunden;
+	}
+
 }

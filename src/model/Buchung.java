@@ -5,14 +5,12 @@ import java.util.Date;
 public class Buchung {
 	int einheiten;
 	String zugehoerigesLager;
-	Date datum;
 	boolean zubuchung;
 	
 	
-	public Buchung(int einheiten, String zugehoerigesLager, Date datum, boolean zubuchung){
+	public Buchung(int einheiten, String zugehoerigesLager, boolean zubuchung){
 		this.einheiten = einheiten;
 		this.zugehoerigesLager = zugehoerigesLager;
-		this.datum = datum;
 		this.zubuchung = zubuchung;
 	}
 	
@@ -28,8 +26,10 @@ public class Buchung {
 		return this.zugehoerigesLager;
 	}
 	
-	public Date getDatum(){
-		return this.datum;
+	
+	public String toString()
+	{
+		return "Einheiten: " + this.einheiten + " Lager: " + this.zugehoerigesLager;
 	}
 
 }
