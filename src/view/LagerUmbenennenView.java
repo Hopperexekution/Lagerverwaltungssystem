@@ -4,16 +4,20 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
+
+import controller.Controller;
+import model.Lager;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-public class Lagerbearbeiten extends JFrame {
+public class LagerUmbenennenView extends JFrame {
 	private JTextField ausgabeAktuelleBezeichnung;
 	private JTextField eingabeNeueBezeichnung;
-	public Lagerbearbeiten() {
+	public LagerUmbenennenView(Controller controller, Lager ausgewaehltesLager) {
 		getContentPane().setLayout(null);
 		JLabel lblNewLabel = new JLabel("New label");
 		getContentPane().add(lblNewLabel, BorderLayout.NORTH);
@@ -62,5 +66,9 @@ public class Lagerbearbeiten extends JFrame {
 		neueBezSchriftzug.setHorizontalAlignment(SwingConstants.RIGHT);
 		neueBezSchriftzug.setBounds(22, 101, 115, 14);
 		getContentPane().add(neueBezSchriftzug);
+		
+		
+		setBounds(124, 122, 110, 23);
+		setVisible(true);
 	}
 }

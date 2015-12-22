@@ -105,7 +105,7 @@ public class Hauptmenue extends JFrame {
 		
 		JLabel lagerOptionenUeberschrift = new JLabel("Lager Optionen");
 		lagerOptionenUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
-		lagerOptionenUeberschrift.setBounds(220, 11, 107, 23);
+		lagerOptionenUeberschrift.setBounds(209, 14, 107, 23);
 		lagerOptionenUeberschrift.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lagerPane.add(lagerOptionenUeberschrift);
 		JLabel lagerDetailsUeberschrift = new JLabel("Lager Details");
@@ -172,7 +172,7 @@ public class Hauptmenue extends JFrame {
 		lagerPane.add(neuesLagerErstellenButton);
 		
 		JButton lagerLoeschenButton = new JButton("Lager l\u00F6schen");
-		lagerLoeschenButton.setBounds(200, 48, 161, 23);
+		lagerLoeschenButton.setBounds(200, 48, 127, 23);
 		lagerLoeschenButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -210,6 +210,21 @@ public class Hauptmenue extends JFrame {
 			}
 		});
 		lagerPane.add(buchungsListe);
+		
+		JButton lagerUmbenennenButton = new JButton("Lager umbenennen");
+		lagerUmbenennenButton.setBounds(337, 48, 186, 23);
+		lagerUmbenennenButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(lagerTree.getLastSelectedPathComponent() instanceof Lager){
+					Lager ausgewaehltesLager = (Lager) lagerTree.getLastSelectedPathComponent();
+					LagerUmbenennenView lagerUmbenennenView = new LagerUmbenennenView(controller,ausgewaehltesLager);
+					lagerUmbenennenView.setAlwaysOnTop(true);
+				}
+				
+			}
+		});
+		lagerPane.add(lagerUmbenennenButton);
 		
 		
 		
