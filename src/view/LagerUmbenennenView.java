@@ -2,6 +2,8 @@ package view;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
 
@@ -16,6 +18,7 @@ import javax.swing.JTextField;
 
 public class LagerUmbenennenView extends JFrame {
 	
+	private JTextField eingabeNeueBezeichnung;
 	
 	public LagerUmbenennenView(Controller controller, Lager ausgewaehltesLager) {
 		getContentPane().setLayout(null);
@@ -28,9 +31,21 @@ public class LagerUmbenennenView extends JFrame {
 		lagerUmbenennenUeberschrift.setBounds(92, 24, 270, 22);
 		getContentPane().add(lagerUmbenennenUeberschrift);
 		
-		JButton okButton = new JButton("\u00C4nderungen \u00FCbernehmen");
+		JButton okButton = new JButton("Änderungen übernehmen");
 		okButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) 
+			{
+				String neuerName = eingabeNeueBezeichnung.getText();
+				if (!neuerName.equals(""))
+				{// wenn nicht leer:
+					ausgewaehltesLager.setName(neuerName);
+					controller.refreshTree();
+					dispose();
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Bitte geben Sie einen neuen Namen ein.");
+				}
 			}
 		});
 		okButton.setBounds(32, 129, 222, 23);
@@ -55,7 +70,7 @@ public class LagerUmbenennenView extends JFrame {
 		aktuelleBezSchriftzug.setBounds(22, 70, 132, 14);
 		getContentPane().add(aktuelleBezSchriftzug);
 		
-		JTextField eingabeNeueBezeichnung = new JTextField();
+		eingabeNeueBezeichnung = new JTextField();
 		eingabeNeueBezeichnung.setHorizontalAlignment(SwingConstants.LEFT);
 		eingabeNeueBezeichnung.setColumns(10);
 		eingabeNeueBezeichnung.setBounds(157, 98, 285, 20);
