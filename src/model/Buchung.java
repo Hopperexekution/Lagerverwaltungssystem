@@ -32,4 +32,9 @@ public class Buchung {
 		return "Einheiten: " + this.einheiten + " Lager: " + this.zugehoerigesLager;
 	}
 
+	public void setEinheiten(int einheiten) {
+		this.einheiten = einheiten;
+		
+	}
+
 }

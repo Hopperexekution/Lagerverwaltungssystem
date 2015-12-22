@@ -175,7 +175,7 @@ public class ZulieferungsView extends JFrame {
 						{
 							Lager ausgewaehlt = controller.findePassendesLager(lagerAuswahl.getSelectedItem().toString(), (Lager) controller.getLagerModel().getRoot());
 							int freieEinheiten = ausgewaehlt.getKapazität() - ausgewaehlt.getBestand();
-							if(einheit <  freieEinheiten)
+							if(einheit <=  freieEinheiten)
 							{
 								Buchung neueBuchung = controller.erstelleBuchung(prozent, gesamtMenge, lagerAuswahl.getSelectedItem().toString());
 								lagerAuswahl.removeItem(ausgewaehlt);

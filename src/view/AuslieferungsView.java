@@ -4,17 +4,27 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.event.ListSelectionListener;
 
 import controller.Controller;
+import model.Buchung;
+import model.Lager;
 
 import javax.swing.event.ListSelectionEvent;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Vector;
 
 public class AuslieferungsView extends JFrame {
 	private Controller controller;
@@ -28,81 +38,129 @@ public class AuslieferungsView extends JFrame {
 		
 		JLabel auslieferungUeberschrift = new JLabel("Auslieferung");
 		auslieferungUeberschrift.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		auslieferungUeberschrift.setBounds(10, 11, 102, 19);
+		auslieferungUeberschrift.setBounds(10, 11, 102, 20);
 		getContentPane().add(auslieferungUeberschrift);
 		
-		JList list = new JList();
-		list.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent arg0) {
-			}
-		});
-		list.setModel(new AbstractListModel() {
-			String[] values = new String[] {"Niedersachsen", "Frankreich"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		list.setBounds(10, 76, 102, 37);
-		getContentPane().add(list);
+		Vector<Lager> auswaehlbareLager = new Vector<Lager>();
+		auswaehlbareLager = controller.findeAuswaehlbarLagerAuslieferung(auswaehlbareLager);
+
+		JComboBox<Lager> lagerAuswahl = new JComboBox<Lager>(auswaehlbareLager);
+		lagerAuswahl.setBounds(10, 77, 130, 20);
+		getContentPane().add(lagerAuswahl);
 		
 		JLabel lagerUeberschrift = new JLabel("Lager");
-		lagerUeberschrift.setBounds(10, 47, 46, 14);
+		lagerUeberschrift.setBounds(10, 47, 46, 20);
 		getContentPane().add(lagerUeberschrift);
 		
-		JLabel verfgbareEinheitenUeberschrift = new JLabel("Verfügbare Einheiten");
-		verfgbareEinheitenUeberschrift.setBounds(138, 47, 120, 14);
+		JLabel auszulieferndeUeberschrift = new JLabel("auszuliefernde Einheiten");
+		auszulieferndeUeberschrift.setBounds(160, 47, 150, 20);
+		getContentPane().add(auszulieferndeUeberschrift);
+		
+		JTextField anzahlAuszulieferndeEinheiten = new JTextField("0");
+		anzahlAuszulieferndeEinheiten.setBounds(160, 77, 50, 20);
+		getContentPane().add(anzahlAuszulieferndeEinheiten);
+		
+		JLabel verfgbareEinheitenUeberschrift = new JLabel("Verfügare Einheiten");
+		verfgbareEinheitenUeberschrift.setBounds(330, 47, 120, 20);
 		getContentPane().add(verfgbareEinheitenUeberschrift);
 		
-		JLabel anzahlverfgbareEinheiten = new JLabel("0");
-		anzahlverfgbareEinheiten.setBounds(138, 77, 46, 14);
+		JLabel anzahlverfgbareEinheiten = new JLabel();
+		anzahlverfgbareEinheiten.setText(controller.findePassendesLager(lagerAuswahl.getSelectedItem().toString(), controller.getLagerModel().getRoot()).getBestand()+ "");
+		anzahlverfgbareEinheiten.setBounds(330, 77, 50, 20);
 		getContentPane().add(anzahlverfgbareEinheiten);
 		
-		JLabel auszulieferndeEinheitenUeberschrift = new JLabel("auszuliefernde Einheiten");
-		auszulieferndeEinheitenUeberschrift.setBounds(319, 47, 145, 14);
+		JLabel auszulieferndeEinheitenUeberschrift = new JLabel("Lieferumfang");
+		auszulieferndeEinheitenUeberschrift.setBounds(470, 47, 145, 20);
 		getContentPane().add(auszulieferndeEinheitenUeberschrift);
 		
-		JTextField anzahlauszulieferndeEinheiten = new JTextField();
-		anzahlauszulieferndeEinheiten.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-			}
-		});
-		anzahlauszulieferndeEinheiten.setBounds(319, 74, 86, 20);
+		JLabel anzahlauszulieferndeEinheiten = new JLabel(gesamtMenge + "");
+		anzahlauszulieferndeEinheiten.setBounds(470, 77, 86, 20);
 		getContentPane().add(anzahlauszulieferndeEinheiten);
-		anzahlauszulieferndeEinheiten.setColumns(10);
+		
+		JList<Buchung> buchungen = new JList<Buchung>();
+		DefaultListModel<Buchung> lieferungsBuchungen = new DefaultListModel<Buchung>();
+		buchungen.setModel(lieferungsBuchungen);
+		JScrollPane buchungenScrollBar = new JScrollPane(buchungen);
+		buchungenScrollBar.setBounds(23, 124, 648, 198);
+		getContentPane().add(buchungenScrollBar);
 		
 		JButton neuesLagerButton = new JButton("Neues Lager");
-		neuesLagerButton.setBounds(23, 359, 125, 23);
+		neuesLagerButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (anzahlauszulieferndeEinheiten.getText().length() != 0) {
+					try{
+					int einheit = Integer.parseInt(anzahlauszulieferndeEinheiten.getText());
+					Lager ausgewaehlt = controller.findePassendesLager(lagerAuswahl.getSelectedItem().toString(), controller.getLagerModel().getRoot());
+					if (einheit > ausgewaehlt.getBestand()) 
+					{
+						JOptionPane.showMessageDialog(null,
+								"So viele Einheiten sind in dem ausgewählten Lager nicht vorhanden. Bitte wählen sie eine andere Einheitenzahl.");
+					} else if (einheit <= 0) 
+					{	
+							JOptionPane.showMessageDialog(null, "Bitte verwenden Sie nur positive Zahlen und nicht 0.");
+					} 
+					else if(einheit <= (gesamtMenge - controller.getVerteilteEinheiten()))
+					{
+								Buchung neueBuchung = controller.erstelleBuchung(einheit, lagerAuswahl.getSelectedItem().toString());
+								lagerAuswahl.removeItem(ausgewaehlt);
+								if(!neueBuchung.equals(null))
+								{
+									lieferungsBuchungen.addElement(neueBuchung);
+									buchungen.setModel(lieferungsBuchungen);
+							
+								}
+
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Sie wollen mehr Einheiten verteilen als noch zu verteilen sind. Sie müssen noch " + (gesamtMenge - controller.getVerteilteEinheiten()) + " Einheiten verteilen.");
+					}
+
+					}catch(NumberFormatException f){
+						JOptionPane.showMessageDialog(null, "Bitte nur Zahlen verwenden.");
+					}	
+				} else {
+					JOptionPane.showMessageDialog(null, "Es ist eine Angabe von ganzzahligen Einheiten für die Verteilung notwendig");
+				}
+
+				
+			}
+		});
+		neuesLagerButton.setBounds(20, 359, 140, 23);
 		getContentPane().add(neuesLagerButton);
 		
 		JButton bestaetigenButton = new JButton("Bestätigen");
-		bestaetigenButton.setBounds(160, 359, 139, 23);
-		getContentPane().add(bestaetigenButton);
-		
-		JList list_1 = new JList();
-		list_1.setModel(new AbstractListModel() {
-			String[] values = new String[] {"Lager 1", "Lager 2"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
+		bestaetigenButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(controller.getVerteilteEinheiten() == gesamtMenge)
+				{
+					controller.erstelleLieferung(gesamtMenge);
+					dispose();
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Es müssen zuerst alle Einheiten verteilt sein bevor das Bestätigen möglich ist.");
+				}
 			}
 		});
-		list_1.setBounds(23, 124, 648, 198);
-		getContentPane().add(list_1);
+		bestaetigenButton.setBounds(180, 359, 140, 23);
+		getContentPane().add(bestaetigenButton);
 		
-		JLabel GesamteinheitenSchriftzug = new JLabel("Gesamteinheiten:");
-		GesamteinheitenSchriftzug.setBounds(495, 333, 119, 14);
-		getContentPane().add(GesamteinheitenSchriftzug);
-		
-		JLabel ausgabeGesamteinheiten = new JLabel("0");
-		ausgabeGesamteinheiten.setBounds(600, 333, 76, 14);
-		ausgabeGesamteinheiten.setHorizontalAlignment(SwingConstants.LEFT);
-		getContentPane().add(ausgabeGesamteinheiten);
+		JButton abbrechenButton = new JButton("Abbrechen");
+		abbrechenButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.loescheUndoListe();
+				dispose();
+			}
+		});
+		abbrechenButton.setBounds(340, 359, 140, 23);
+		getContentPane().add(abbrechenButton);
 		
 		setBounds(400, 200, 695, 450);
 		setVisible(true);

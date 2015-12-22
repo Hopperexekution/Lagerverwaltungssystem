@@ -46,6 +46,8 @@ public class Controller {
 				try {
 					Controller controller = new Controller();
 					erstelleLagerListe();
+					controller.berechneBestand(controller.getLagerModel().getRoot());
+					controller.berechneKapazitaet(controller.getLagerModel().getRoot());
 					hauptmenue = new Hauptmenue(controller);
 					hauptmenue.setVisible(true);
 				} catch (Exception e) {
@@ -170,7 +172,7 @@ public class Controller {
 	{
 		for(String kind: kinder)
 		{
-			vater.getChildList().add(new Lager(kind,vater));
+			vater.getChildList().add(new Lager(kind,1000, 0, vater));
 		}
 	}
 	
@@ -397,18 +399,24 @@ public class Controller {
 		}
 	}
 
-	public void erstelleLieferung(int restEinheiten, int gesamtMenge) {
-		Lieferung neueZulieferung = new Lieferung(Calendar.getInstance().getTime(), gesamtMenge);
-		Lager zuBuchungPassendes;
-		if(!undoListe.isEmpty())
+	public void erstelleLieferung(int restEinheiten, int gesamtMenge) 
+{
+	Lieferung neueZulieferung = new Lieferung(Calendar.getInstance().getTime(), (gesamtMenge + restEinheiten));
+	Lager zuBuchungPassendes;
+	if(!undoListe.isEmpty())
+	{
+		undoListe.getLast().getBuchung().setEinheiten(undoListe.getLast().getBuchung().getEinheiten() + restEinheiten);
+		for(UndoRedoModel model : undoListe)
 		{
-			for(UndoRedoModel model : undoListe)
-			{
-				neueZulieferung.hinzufuegenBuchung(model.getBuchung());
-				zuBuchungPassendes = this.findePassendesLager(model.getBuchung().getZugehoerigesLager(), (Lager) this.getLagerModel().getRoot());
-				zuBuchungPassendes.hinzufuegenBuchung(model.getBuchung());
-			}
+			neueZulieferung.hinzufuegenBuchung(model.getBuchung());
+			zuBuchungPassendes = this.findePassendesLager(model.getBuchung().getZugehoerigesLager(), (Lager) this.getLagerModel().getRoot());
+			zuBuchungPassendes.hinzufuegenBuchung(model.getBuchung());
 		}
+	}
+	while(!undoListe.isEmpty()){
+		undoListe.removeFirst();
+	}	
+
 		while(!undoListe.isEmpty()){
 			undoListe.removeFirst();
 		}
@@ -485,4 +493,58 @@ public class Controller {
 		hauptmenue.getLagerKapazitaet().setText("");
 	}
 
+	public Buchung erstelleBuchung(int einheit, String ausgewaehltesLager) 
+	{
+		Buchung neueBuchung = new Buchung(einheit, ausgewaehltesLager, false);
+		UndoRedoModel undoRedoModel = new UndoRedoModel(neueBuchung);
+		undoListe.add(undoRedoModel);
+		return neueBuchung;
+	}
+
+	public Vector<Lager> findeAuswaehlbarLagerAuslieferung(Vector<Lager> auswaehlbareLager) {
+		{
+			Lager wurzel = (Lager) this.getLagerModel().getRoot();
+			if (!wurzel.equals(null)) {
+				findeBlaetterAuslieferung(wurzel, auswaehlbareLager);
+			} else if (wurzel.getChildList().isEmpty()) {
+				auswaehlbareLager.add(wurzel);
+			}
+			return auswaehlbareLager;
+			}
+	}
+
+	private void findeBlaetterAuslieferung(Lager wurzel, Vector<Lager> auswaehlbareLager) {
+		List<Lager> nachfolger = wurzel.getChildList();
+		Iterator it = nachfolger.iterator();
+
+		while (it.hasNext()) {
+			Lager aktuelles = (Lager) it.next();
+			if (aktuelles.getChildList().isEmpty() && aktuelles.getBestand() > 0) {
+				auswaehlbareLager.add(aktuelles);
+			}
+			findeBlaetter(aktuelles, auswaehlbareLager);
+		}
+	}
+
+	public void erstelleLieferung(int gesamtMenge) {
+		Lieferung neueZulieferung = new Lieferung(Calendar.getInstance().getTime(), gesamtMenge);
+		Lager zuBuchungPassendes;
+		if(!undoListe.isEmpty())
+		{
+			for(UndoRedoModel model : undoListe)
+			{
+				neueZulieferung.hinzufuegenBuchung(model.getBuchung());
+				zuBuchungPassendes = this.findePassendesLager(model.getBuchung().getZugehoerigesLager(), (Lager) this.getLagerModel().getRoot());
+				zuBuchungPassendes.hinzufuegenBuchung(model.getBuchung());
+			}
+		}
+		while(!undoListe.isEmpty()){
+			undoListe.removeFirst();
+		}
+		
+		DefaultListModel<Lieferung> lieferungsModel = this.getHauptmenue().getLieferungsModel();
+		lieferungsModel.addElement(neueZulieferung);
+		this.getHauptmenue().getLieferungsListe().setModel(lieferungsModel);
+		
+	}
 }

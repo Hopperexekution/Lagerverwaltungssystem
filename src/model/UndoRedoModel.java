@@ -9,6 +9,10 @@ public class UndoRedoModel {
 		this.prozent = prozent;
 	}
 
+	public UndoRedoModel(Buchung buchung) {
+		this.beinhalteteBuchung = buchung;
+	}
+
 	public Buchung getBuchung(){
 		return this.beinhalteteBuchung;
 	}
