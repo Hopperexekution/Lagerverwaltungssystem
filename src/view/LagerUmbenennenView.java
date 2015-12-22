@@ -15,60 +15,60 @@ import java.awt.Font;
 import javax.swing.JTextField;
 
 public class LagerUmbenennenView extends JFrame {
-	private JTextField ausgabeAktuelleBezeichnung;
-	private JTextField eingabeNeueBezeichnung;
+	
+	
 	public LagerUmbenennenView(Controller controller, Lager ausgewaehltesLager) {
 		getContentPane().setLayout(null);
 		JLabel lblNewLabel = new JLabel("New label");
 		getContentPane().add(lblNewLabel, BorderLayout.NORTH);
 		
-		JLabel lagerBearbeitenUeberschrift = new JLabel("Lager Bearbeiten");
-		lagerBearbeitenUeberschrift.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lagerBearbeitenUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
-		lagerBearbeitenUeberschrift.setBounds(85, 11, 270, 22);
-		getContentPane().add(lagerBearbeitenUeberschrift);
+		JLabel lagerUmbenennenUeberschrift = new JLabel("Lager Umbenennen");
+		lagerUmbenennenUeberschrift.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lagerUmbenennenUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
+		lagerUmbenennenUeberschrift.setBounds(92, 24, 270, 22);
+		getContentPane().add(lagerUmbenennenUeberschrift);
 		
 		JButton okButton = new JButton("\u00C4nderungen \u00FCbernehmen");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		okButton.setBounds(10, 129, 222, 23);
+		okButton.setBounds(32, 129, 222, 23);
 		getContentPane().add(okButton);
 		
 		JButton abbrechenButton = new JButton("Abbrechen");
 		abbrechenButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				dispose();
 			}
 		});
-		abbrechenButton.setBounds(242, 129, 182, 23);
+		abbrechenButton.setBounds(260, 129, 182, 23);
 		getContentPane().add(abbrechenButton);
 		
-		ausgabeAktuelleBezeichnung = new JTextField();
-		ausgabeAktuelleBezeichnung.setEnabled(false);
+		JLabel ausgabeAktuelleBezeichnung = new JLabel(ausgewaehltesLager.getName());
 		ausgabeAktuelleBezeichnung.setHorizontalAlignment(SwingConstants.LEFT);
-		ausgabeAktuelleBezeichnung.setBounds(139, 67, 285, 20);
+		ausgabeAktuelleBezeichnung.setBounds(160, 67, 285, 20);
 		getContentPane().add(ausgabeAktuelleBezeichnung);
-		ausgabeAktuelleBezeichnung.setColumns(10);
 		
 		JLabel aktuelleBezSchriftzug = new JLabel("Aktuelle Bezeichnung:");
 		aktuelleBezSchriftzug.setHorizontalAlignment(SwingConstants.RIGHT);
-		aktuelleBezSchriftzug.setBounds(22, 70, 115, 14);
+		aktuelleBezSchriftzug.setBounds(22, 70, 132, 14);
 		getContentPane().add(aktuelleBezSchriftzug);
 		
-		eingabeNeueBezeichnung = new JTextField();
+		JTextField eingabeNeueBezeichnung = new JTextField();
 		eingabeNeueBezeichnung.setHorizontalAlignment(SwingConstants.LEFT);
 		eingabeNeueBezeichnung.setColumns(10);
-		eingabeNeueBezeichnung.setBounds(139, 98, 285, 20);
+		eingabeNeueBezeichnung.setBounds(157, 98, 285, 20);
 		getContentPane().add(eingabeNeueBezeichnung);
 		
 		JLabel neueBezSchriftzug = new JLabel("Neue Bezeichnung:");
 		neueBezSchriftzug.setHorizontalAlignment(SwingConstants.RIGHT);
-		neueBezSchriftzug.setBounds(22, 101, 115, 14);
+		neueBezSchriftzug.setBounds(22, 101, 131, 14);
 		getContentPane().add(neueBezSchriftzug);
 		
 		
-		setBounds(124, 122, 110, 23);
+		setBounds(400, 200, 480, 190);
 		setVisible(true);
+		setResizable(false);
 	}
 }
