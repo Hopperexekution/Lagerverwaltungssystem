@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.tree.TreeNode;
@@ -340,9 +341,12 @@ public class Controller {
 				neueZulieferung.hinzufuegenBuchung(model.getBuchung());
 				zuBuchungPassendes = this.findePassendesLager(model.getBuchung().getZugehoerigesLager(), (Lager) this.getLagerModel().getRoot());
 				zuBuchungPassendes.hinzufuegenBuchung(model.getBuchung());
-				undoListe.remove(model);
 			}
 		}
+		while(!undoListe.isEmpty()){
+			undoListe.removeFirst();
+		}
+		
 		if(!redoListe.isEmpty())
 		{
 			for(UndoRedoModel model : redoListe)
@@ -350,7 +354,9 @@ public class Controller {
 				redoListe.remove(model);
 			}
 		}
-		
+		DefaultListModel<Lieferung> lieferungsModel = this.getHauptmenue().getLieferungsModel();
+		lieferungsModel.addElement(neueZulieferung);
+		this.getHauptmenue().getLieferungsListe().setModel(lieferungsModel);
 		
 	}
 

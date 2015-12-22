@@ -28,4 +28,7 @@ public class Lieferung {
 	public void hinzufuegenBuchung(Buchung buchung){
 		this.zugehoerigeBuchungen.add(buchung);
 	}
+	public String toString(){
+		return this.getDatum().toString();
+	}
 }

@@ -133,10 +133,11 @@ public class ZulieferungsView extends JFrame {
 				{
 					int restEinheiten;
 					restEinheiten = gesamtMenge - controller.getVerteilteEinheiten();
-					int auswahl = JOptionPane.showConfirmDialog(null, "Die restlichen unverteilten " + restEinheiten + " Einheiten werden auf das zuletzt hinzugefügte Lager verteilt.\nWollen Sie das tun? Wenn nicht benutzen Sie den Undo Knopf und verteilen die Prozentangaben neu", "Bestätigen", JOptionPane.YES_OPTION);
+					int auswahl = JOptionPane.showConfirmDialog(null, "Die restliche(n) unverteilte(n) " + restEinheiten + " Einheit(en) wird/werden auf das zuletzt hinzugefügte Lager verteilt.\nWollen Sie das tun? Wenn nicht benutzen Sie den Undo Knopf und verteilen die Prozentangaben neu.", "Bestätigen", JOptionPane.YES_OPTION);
 					if(auswahl == JOptionPane.YES_OPTION)
 					{
 					controller.erstelleLieferung(restEinheiten, gesamtMenge);
+					dispose();
 					}
 				}
 				else
@@ -167,7 +168,8 @@ public class ZulieferungsView extends JFrame {
 							JOptionPane.showMessageDialog(null, "Sie haben alle 100% verteilt. Betätigen sie den Undo Button für Veränderungen.\nOder Bestätigen sie die Zulieferung und noch nicht verteilte Einheiten(aufgrund von Abrundungen) werden dem letzten Lager hinzugefügt.\nOder brechen sie die Zulieferung ab.");
 						} else
 						{
-						JOptionPane.showMessageDialog(null, "Wenn diese Prozentzahl der Gesamteinheiten hinzugefügt werden soll, dann würde die insgesamte Prozentanzahl über 100% liegen.\nDies ist nicht möglich wählen Sie bitte einen kleineren Wert. Der aktuelle Prozentwert entspricht " + controller.getProzent()+"%.");
+							double nochZuVerteilendeProzent = (100 - controller.getProzent());
+							JOptionPane.showMessageDialog(null, "Wenn diese Prozentzahl der Gesamteinheiten hinzugefügt werden soll, dann würde die insgesamte Prozentanzahl über 100% liegen.\nDies ist nicht möglich wählen Sie bitte einen kleineren Wert. Der aktuelle Prozentwert entspricht " + controller.getProzent()+"%.\nEs sind noch " + nochZuVerteilendeProzent + "% zu verteilen");
 						}
 					}
 					else

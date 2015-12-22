@@ -282,12 +282,20 @@ public class Hauptmenue extends JFrame {
 	public void setGesamtmengeEingabe(JTextField gesamtmengeEingabe) {
 		this.gesamtmengeEingabe = gesamtmengeEingabe;
 	}
+	
+	public DefaultListModel<Lieferung> getLieferungsModel(){
+		return lieferungModel;
+	}
+	public void setLieferungsModel(DefaultListModel<Lieferung> lieferungsModel){
+		this.lieferungModel = lieferungsModel;
+	}
 	JButton neuesLagerErstellenButton, lagerLoeschenButton, lagerUmbenennenButton, neueZulieferungButton,neueAuslieferungButton;
 	JSeparator lagerUebersichtSeperator, lieferungsUebersichtSeperator;
 	JScrollBar buchungsListeScrollBar;
 	JList buchungsListe;
 	JList<Lieferung> lieferungsListe;
 	JTextField gesamtmengeEingabe;
+	DefaultListModel<Lieferung> lieferungModel;
 
 	public Hauptmenue( Controller controller) {
 		setResizable(false);
@@ -470,7 +478,7 @@ public class Hauptmenue extends JFrame {
 		tabLeiste.addTab("Lieferungs\u00FCbersicht", null, lieferungsuebersichtTab, null);
 		
 		lieferungsListe = new JList<Lieferung>();
-		DefaultListModel<Lieferung> lieferungModel = new DefaultListModel<Lieferung>();
+		lieferungModel = new DefaultListModel<Lieferung>();
 		lieferungsListe.setModel(lieferungModel);
 		lieferungsuebersichtTab.setLeftComponent(lieferungsListe);
 		lieferungsuebersichtTab.setDividerLocation(250);
