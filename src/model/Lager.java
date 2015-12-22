@@ -9,14 +9,15 @@ import javax.swing.tree.MutableTreeNode;
 
 
 
-public class Lager implements Serializable{
+public class Lager implements Serializable
+	{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -88137515948885056L;
 	private String name;
-	private int kapazität;
+	private int kapazitaet;
 	private int bestand;
 	private Lager vater;
 	private List<Buchung> buchungen = new ArrayList<Buchung>();
@@ -27,22 +28,26 @@ public class Lager implements Serializable{
 	 * @param name Lagername
 	 * @param kapazität Lagerkapazität
 	 */
-	public Lager(String name, int kapazität, int bestand, Lager vater){
+	public Lager(String name, int kapazitaet, int bestand, Lager vater)
+	{
 		this.name = name;
-		this.kapazität = kapazität;
+		this.kapazitaet = kapazitaet;
 		this.bestand = bestand;
 		this.vater = vater;
 	}
-	public Lager(String name, int kapazität, int bestand){
+	public Lager(String name, int kapazitaet, int bestand)
+	{
 		this.name = name;
-		this.kapazität = kapazität;
+		this.kapazitaet = kapazitaet;
 		this.bestand = bestand;
 	}
-	public Lager(String name, Lager vater){
+	public Lager(String name, Lager vater)
+	{
 		this.name = name;
 		this.vater = vater;
 	}
-	public Lager(String name){
+	public Lager(String name)
+	{
 		this.name = name;
 	}
 	
@@ -53,57 +58,81 @@ public class Lager implements Serializable{
 	 * @return gibt -2 zurück wenn mehr Einheiten abgebuch werden sollen als der aktuelle Bestand enthält
 	 * @return gibt 1 zurück wenn die Einheiten eroflgreich zu/abgebucht wurden
 	 */
-	public int aendereBestand(Buchung buchung){
+	public int aendereBestand(Buchung buchung)
+	{
 		if(buchung.getBuchungsStatus()){
-			if(this.kapazität < (this.bestand + buchung.getEinheiten()))
+			if(this.kapazitaet < (this.bestand + buchung.getEinheiten()))
 				return -1;
 			
-			else {
+			else 
+			{
 				this.bestand += buchung.getEinheiten();
 				return 1;
 			}
 		}
-		else {
+		else 
+		{
 			if(buchung.getEinheiten() > this.bestand){
 				return -2;
 		}
-			else{
+			else
+			{
 				this.bestand -= buchung.getEinheiten();
 				return 1;
 			}
 				
 		}
 	}
-	public List<Lager> getChildList(){
+	public List<Lager> getChildList()
+	{
 		return children;
 	}
 	
-	public String getName(){
+	public String getName()
+	{
 		return this.name;
 	}
 	
-	public int getKapazität(){
-		return this.kapazität;
+	public int getKapazität()
+	{
+		return this.kapazitaet;
 	}
 	
-	public int getBestand(){
+	public int getBestand()
+	{
 		return this.bestand;
 	}
 	
-	public List<Buchung> getBuchungen(){
+	public List<Buchung> getBuchungen()
+	{
 		return this.buchungen;
 	}
 	
 	public void hinzufuegenBuchung(Buchung buchung){
 		this.buchungen.add(buchung);
 	}
-	public String toString(){
+	public String toString()
+	{
 		return name;
 	}
-	public Lager getVater() {
+	public Lager getVater()
+	{
 		return vater;
 	}
-	public void setVater(Lager vater) {
+	public void setVater(Lager vater) 
+	{
 		this.vater = vater;
+	}
+	public void setKapazitaet(int kapazitaet)
+	{
+		this.kapazitaet = kapazitaet;
+	}
+	public void setBestand(int bestand)
+	{
+		this.bestand = bestand;
+	}
+	public void setName(String name)
+	{
+		this.name = name;
 	}
 }
