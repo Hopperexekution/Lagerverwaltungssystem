@@ -67,15 +67,22 @@ public class LagerHinzufuegenView extends JFrame {
 						if (lagerName.length() == 0){
 							JOptionPane.showMessageDialog(null, "Die Bezeichnung darf nicht leer sein oder nur aus Leerzeichen bestehen!");
 						}
-						else if(kapazitaet < 0){
+						else if(kapazitaet < 0)
+						{
 							JOptionPane.showMessageDialog(null, "Die Kapazität muss eine positive Zahl sein");
 						}
-						else{
+						
+						else if(controller.findePassendesLager(lagerName, controller.getLagerModel().getRoot()) == null)
+						{   
 							controller.lagerHinzufuegen(new Lager(lagerName, kapazitaet,0,ausgewaehltesLager), ausgewaehltesLager);
 							setVisible(false);
 							controller.getHauptmenue().setEnabled(true);
 							dispose();
 							
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "Es gibt bereits ein Lager mit diesem Namen. Wählen Sie bitt einen Anderen.");
 						}
 					}
 				catch(NumberFormatException ex){
