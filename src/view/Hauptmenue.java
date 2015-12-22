@@ -526,7 +526,7 @@ public class Hauptmenue extends JFrame {
 						}	
 						else if(gesamtMenge > 2000000000)
 						{
-							JOptionPane.showMessageDialog(null, "Bitte verwenden sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
+							JOptionPane.showMessageDialog(null, "Bitte verwenden Sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
 						}
 						else
 						{
@@ -540,7 +540,7 @@ public class Hauptmenue extends JFrame {
 				}
 				catch(NumberFormatException f)
 				{
-					JOptionPane.showMessageDialog(null, "Bitte verwenden sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
+					JOptionPane.showMessageDialog(null, "Bitte verwenden Sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
 				}
 			}
 		});
@@ -564,7 +564,7 @@ public class Hauptmenue extends JFrame {
 						}	
 						else if(gesamtMenge > 2000000000)
 						{
-							JOptionPane.showMessageDialog(null, "Bitte verwenden sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
+							JOptionPane.showMessageDialog(null, "Bitte verwenden Sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
 						}
 						else
 						{
@@ -578,7 +578,7 @@ public class Hauptmenue extends JFrame {
 				}
 				catch(NumberFormatException f)
 				{
-					JOptionPane.showMessageDialog(null, "Bitte verwenden sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
+					JOptionPane.showMessageDialog(null, "Bitte verwenden Sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
 				}
 			}
 		});
