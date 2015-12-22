@@ -106,7 +106,7 @@ public class ZulieferungsView extends JFrame {
 				}
 			}
 		});
-		butUndo.setBounds(20, 294, 90, 14);
+		butUndo.setBounds(60, 291, 90, 23);
 		getContentPane().add(butUndo);
 
 		JButton butRedo = new JButton("Redo");
@@ -121,7 +121,7 @@ public class ZulieferungsView extends JFrame {
 
 			}
 		});
-		butRedo.setBounds(130, 294, 90, 14);
+		butRedo.setBounds(156, 291, 90, 23);
 		getContentPane().add(butRedo);
 
 		JButton butBesttigen = new JButton("Bestätigen");
@@ -142,11 +142,11 @@ public class ZulieferungsView extends JFrame {
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, "Es müssen zuerst 100% der Einheiten verteilt sein bevor ein bestätigen möglich ist.");
+					JOptionPane.showMessageDialog(null, "Es müssen zuerst 100% der Einheiten verteilt sein bevor das Bestätigen möglich ist.");
 				}
 			}
 		});
-		butBesttigen.setBounds(440, 294, 100, 14);
+		butBesttigen.setBounds(463, 291, 100, 23);
 		getContentPane().add(butBesttigen);
 
 		JButton butNchstesLager = new JButton("Nächstes Lager");
@@ -194,10 +194,15 @@ public class ZulieferungsView extends JFrame {
 				
 			}
 		});
-		butNchstesLager.setBounds(240, 294, 180, 14);
+		butNchstesLager.setBounds(256, 291, 180, 23);
 		getContentPane().add(butNchstesLager);
+		
+		JButton abbrechenButton = new JButton("Abbrechen");
+		abbrechenButton.setBounds(463, 328, 100, 23);
+		getContentPane().add(abbrechenButton);
 
-		setBounds(400, 200, 630, 400);
+		setBounds(400, 200, 600, 400);
+		setResizable(false);
 		setVisible(true);
 	}
 

@@ -517,6 +517,10 @@ public class Hauptmenue extends JFrame {
 						{
 							JOptionPane.showMessageDialog(null, "Bitte verwenden sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
 						}
+						else
+						{
+							ZulieferungsView zulieferung = new ZulieferungsView(controller, gesamtMenge);
+						}
 					}
 					else
 					{//Eingabefeld leer!
