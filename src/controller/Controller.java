@@ -441,7 +441,13 @@ public class Controller {
 		}
 		
 	}
-	public void lagerHinzufuegen(Lager lager, Lager vater) {
+	
+	public void lagerHinzufuegen(Lager lager, Lager vater) 
+	{
+		if (vater.getChildList().isEmpty())
+		{
+			lager.setBestand(vater.getBestand());
+		}
 		vater.getChildList().add(lager);
 		standardBeschriftung();
 		this.berechneBestand(this.getLagerModel().getRoot());
@@ -450,6 +456,7 @@ public class Controller {
 		hauptmenue.setAlwaysOnTop(true);
 		hauptmenue.setAlwaysOnTop(false);
 	}
+	
 	public void lagerSelected(Lager lager){
 		if(lagerModel.isLeaf(lager)){
 			hauptmenue.getLagerNameUeberschrift().setText("Lagername:");
