@@ -6,21 +6,30 @@ import java.awt.Font;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.event.ListSelectionListener;
+
+import controller.Controller;
+
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class AuslieferungsView extends JFrame {
-	private JTextField textField;
-	public AuslieferungsView() {
+	private Controller controller;
+	
+	
+	
+	public AuslieferungsView(Controller controller, int gesamtMenge ) 
+	{
+		this.controller = controller;
 		getContentPane().setLayout(null);
 		
-		JLabel lblAuslieferung = new JLabel("Auslieferung");
-		lblAuslieferung.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblAuslieferung.setBounds(10, 11, 102, 14);
-		getContentPane().add(lblAuslieferung);
+		JLabel auslieferungUeberschrift = new JLabel("Auslieferung");
+		auslieferungUeberschrift.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		auslieferungUeberschrift.setBounds(10, 11, 102, 19);
+		getContentPane().add(auslieferungUeberschrift);
 		
 		JList list = new JList();
 		list.addListSelectionListener(new ListSelectionListener() {
@@ -39,39 +48,39 @@ public class AuslieferungsView extends JFrame {
 		list.setBounds(10, 76, 102, 37);
 		getContentPane().add(list);
 		
-		JLabel lblLager = new JLabel("Lager");
-		lblLager.setBounds(10, 47, 46, 14);
-		getContentPane().add(lblLager);
+		JLabel lagerUeberschrift = new JLabel("Lager");
+		lagerUeberschrift.setBounds(10, 47, 46, 14);
+		getContentPane().add(lagerUeberschrift);
 		
-		JLabel lblVerfgbareEinheiten = new JLabel("Verf\u00FCgbare Einheiten");
-		lblVerfgbareEinheiten.setBounds(138, 47, 120, 14);
-		getContentPane().add(lblVerfgbareEinheiten);
+		JLabel verfgbareEinheitenUeberschrift = new JLabel("Verfügbare Einheiten");
+		verfgbareEinheitenUeberschrift.setBounds(138, 47, 120, 14);
+		getContentPane().add(verfgbareEinheitenUeberschrift);
 		
-		JLabel lblNewLabel = new JLabel("100");
-		lblNewLabel.setBounds(138, 77, 46, 14);
-		getContentPane().add(lblNewLabel);
+		JLabel anzahlverfgbareEinheiten = new JLabel("0");
+		anzahlverfgbareEinheiten.setBounds(138, 77, 46, 14);
+		getContentPane().add(anzahlverfgbareEinheiten);
 		
-		JLabel lblAuszulieferndeEinheiten = new JLabel("auszuliefernde Einheiten");
-		lblAuszulieferndeEinheiten.setBounds(309, 47, 125, 14);
-		getContentPane().add(lblAuszulieferndeEinheiten);
+		JLabel auszulieferndeEinheitenUeberschrift = new JLabel("auszuliefernde Einheiten");
+		auszulieferndeEinheitenUeberschrift.setBounds(319, 47, 145, 14);
+		getContentPane().add(auszulieferndeEinheitenUeberschrift);
 		
-		textField = new JTextField();
-		textField.addKeyListener(new KeyAdapter() {
+		JTextField anzahlauszulieferndeEinheiten = new JTextField();
+		anzahlauszulieferndeEinheiten.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 			}
 		});
-		textField.setBounds(319, 74, 86, 20);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+		anzahlauszulieferndeEinheiten.setBounds(319, 74, 86, 20);
+		getContentPane().add(anzahlauszulieferndeEinheiten);
+		anzahlauszulieferndeEinheiten.setColumns(10);
 		
-		JButton btnNeuesLager = new JButton("Neues Lager");
-		btnNeuesLager.setBounds(23, 359, 125, 23);
-		getContentPane().add(btnNeuesLager);
+		JButton neuesLagerButton = new JButton("Neues Lager");
+		neuesLagerButton.setBounds(23, 359, 125, 23);
+		getContentPane().add(neuesLagerButton);
 		
-		JButton btnBesttigen = new JButton("Best\u00E4tigen");
-		btnBesttigen.setBounds(210, 359, 89, 23);
-		getContentPane().add(btnBesttigen);
+		JButton bestaetigenButton = new JButton("Bestätigen");
+		bestaetigenButton.setBounds(160, 359, 139, 23);
+		getContentPane().add(bestaetigenButton);
 		
 		JList list_1 = new JList();
 		list_1.setModel(new AbstractListModel() {
@@ -86,14 +95,17 @@ public class AuslieferungsView extends JFrame {
 		list_1.setBounds(23, 124, 648, 198);
 		getContentPane().add(list_1);
 		
-		JLabel lblGesamteinheiten = new JLabel("Gesamteinheiten");
-		lblGesamteinheiten.setEnabled(false);
-		lblGesamteinheiten.setBounds(525, 333, 89, 14);
-		getContentPane().add(lblGesamteinheiten);
+		JLabel GesamteinheitenSchriftzug = new JLabel("Gesamteinheiten:");
+		GesamteinheitenSchriftzug.setBounds(495, 333, 119, 14);
+		getContentPane().add(GesamteinheitenSchriftzug);
 		
-		JLabel label = new JLabel("0");
-		label.setEnabled(false);
-		label.setBounds(625, 333, 46, 14);
-		getContentPane().add(label);
+		JLabel ausgabeGesamteinheiten = new JLabel("0");
+		ausgabeGesamteinheiten.setBounds(600, 333, 76, 14);
+		ausgabeGesamteinheiten.setHorizontalAlignment(SwingConstants.LEFT);
+		getContentPane().add(ausgabeGesamteinheiten);
+		
+		setBounds(400, 200, 695, 450);
+		setVisible(true);
+		setResizable(false);
 	}
 }
