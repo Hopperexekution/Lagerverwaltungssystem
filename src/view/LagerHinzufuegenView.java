@@ -28,7 +28,7 @@ public class LagerHinzufuegenView extends JFrame {
 			}
 		});
 		
-		setBounds(150,150,250,200);
+		setBounds(150,150,285,185);
 		setResizable(false);
 		getContentPane().setLayout(null);
 		controller.getHauptmenue().setEnabled(false);
@@ -52,14 +52,14 @@ public class LagerHinzufuegenView extends JFrame {
 		
 		bezeichnungsTextfeld = new JTextField();
 		bezeichnungsTextfeld.setHorizontalAlignment(SwingConstants.LEFT);
-		bezeichnungsTextfeld.setBounds(100, 46, 134, 20);
+		bezeichnungsTextfeld.setBounds(100, 46, 168, 20);
 		getContentPane().add(bezeichnungsTextfeld);
 		bezeichnungsTextfeld.setColumns(10);
 		
 		kapazitaetsTextfeld = new JTextField();
 		kapazitaetsTextfeld.setHorizontalAlignment(SwingConstants.LEFT);
 		kapazitaetsTextfeld.setColumns(10);
-		kapazitaetsTextfeld.setBounds(100, 80, 134, 20);
+		kapazitaetsTextfeld.setBounds(100, 80, 168, 20);
 		
 		JButton erstellenButton = new JButton("Lager erstellen");
 		erstellenButton.addMouseListener(new MouseAdapter() {
@@ -96,7 +96,7 @@ public class LagerHinzufuegenView extends JFrame {
 				}
 			}
 		});
-		erstellenButton.setBounds(10, 122, 110, 23);
+		erstellenButton.setBounds(10, 122, 138, 23);
 		getContentPane().add(erstellenButton);
 		
 		JButton abbrechenButton = new JButton("Abbrechen");
@@ -108,7 +108,7 @@ public class LagerHinzufuegenView extends JFrame {
 				dispose();
 			}
 		});
-		abbrechenButton.setBounds(124, 122, 110, 23);
+		abbrechenButton.setBounds(158, 122, 110, 23);
 		getContentPane().add(abbrechenButton);
 		getContentPane().add(kapazitaetsTextfeld);
 		setVisible(true);
