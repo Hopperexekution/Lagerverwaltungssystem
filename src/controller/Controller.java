@@ -42,7 +42,7 @@ public class Controller {
 				try {
 					Controller controller = new Controller();
 					erstelleLagerListe();
-					hauptmenue = new Hauptmenue(controller, lagerModel);
+					hauptmenue = new Hauptmenue(controller);
 					hauptmenue.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,16 +60,16 @@ public class Controller {
 	{
 		Buchung buchung = new Buchung(einheiten, zugehoerigesLager, zubuchung);
 		buchungsListe.add(buchung);
-		buchungsListe.sort(new DateComparator());
 		
 	}
 	
-	public boolean laden()
+	public void laden()
 	{
 		JFileChooser chooser = new JFileChooser();
 	    //------------------------------------------------------------------
+		//chooser.removeChoosableFileFilter(chooser.getAcceptAllFileFilter());
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-        		"Lagerverwaltungs-Datei: .lvwd", "lvwd");
+        		"Lagerverwaltungs-Datei: .NSFW", "nsfw");
 	    chooser.setFileFilter(filter);
 	    //------------------------------------------------------------------
 
@@ -81,55 +81,59 @@ public class Controller {
 			try {
 					ObjectInputStream inStream = new ObjectInputStream(new FileInputStream(savedFile));
 					lagerModel = (LagerModel)inStream.readObject();
+					hauptmenue.refreshTree();
 					inStream.close();
 		
 				} 
 				catch (Exception e) 
-				{
-					// TODO Auto-generated catch block
-					return false;
+				{	// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(hauptmenue, "Laden nicht möglich!", "Error", JOptionPane.ERROR_MESSAGE);
 				}
-			return true;
 		}
-		return false;
 	}	
 	
-	public boolean speichern()
+	public void speichern()
 	{		
-		JFileChooser chooser = new JFileChooser();
-	    //------------------------------------------------------------------
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-        		"Lagerverwaltungs-Datei: .NSFW", "nsfw");
-	    chooser.setFileFilter(filter);
-	    //------------------------------------------------------------------
-	    
-	    chooser.setDialogTitle("Speichern unter...");
-	    
-        int result = chooser.showSaveDialog(hauptmenue);
-        
-        if (result == JFileChooser.APPROVE_OPTION) 
-        {
+		{		
+			JFileChooser chooser = new JFileChooser();
+		    //------------------------------------------------------------------
+	        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+	        		"Lagerverwaltungs-Datei: .NSFW", "nsfw");
+		    chooser.setFileFilter(filter);
+		    //------------------------------------------------------------------
+		    
+		    chooser.setDialogTitle("Speichern unter...");
+		    
+	        int retValue = chooser.showSaveDialog(hauptmenue);
+	        
+	        if (retValue == JFileChooser.APPROVE_OPTION) 
+	        {
 
-        	
-	        File savedFile = chooser.getSelectedFile();
-	        if(!savedFile.toString().toLowerCase().endsWith(".nsfw"))
-			{
-				savedFile = new File(savedFile + ".NSFW");
-			}
-	        			
-			try {
-				ObjectOutputStream outStream = new ObjectOutputStream(new FileOutputStream(savedFile));
-				outStream.writeObject(lagerModel);
-				outStream.flush();
-				outStream.close();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				return false;
-			}
-	        return true;
-	    }
-	    return false;
-	} 
+		        File file = chooser.getSelectedFile();
+		        if(file.toString().toLowerCase().endsWith(".nsfw"))
+				{	//Konvertieren der letzten vier Buchstaben in Großbuchstaben
+					file = new File(file.toString().substring(0, file.toString().length()-4) + "NSFW");
+				}
+		        else
+		        {   //Anhängen der Dateiendung "NSFW"
+		        	file = new File(file.toString() + ".NSFW");
+		        }
+		        			
+				try 
+				{
+
+		        	ObjectOutputStream OutStream = new ObjectOutputStream(new FileOutputStream(file));
+		        	OutStream.writeObject(lagerModel);
+		        	OutStream.flush();
+		        	OutStream.close();
+				} 
+				catch (Exception e) 
+				{	// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(hauptmenue, "Speichern nicht möglich!", "Error", JOptionPane.ERROR_MESSAGE);
+				} 			
+	        }
+		}
+	}
 	
 	
 	public void programmBeenden()

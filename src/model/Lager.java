@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,8 +9,12 @@ import javax.swing.tree.MutableTreeNode;
 
 
 
-public class Lager  {
+public class Lager implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -88137515948885056L;
 	private String name;
 	private int kapazität;
 	private int bestand;

@@ -47,12 +47,15 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 public class Hauptmenue extends JFrame {
+	JTree lagerTree;
+	Controller controller;
 
-	public Hauptmenue( Controller controller, LagerModel lagerModel) {
+	public Hauptmenue( Controller controller) {
 		setResizable(false);
 		setBounds(0,0,800,600);
 		getContentPane().setLayout(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.controller = controller;
 		
 		JMenuBar menueLeiste = new JMenuBar();
 		menueLeiste.setBounds(0, 0, 794, 24);
@@ -111,7 +114,8 @@ public class Hauptmenue extends JFrame {
 			public void valueChanged(TreeSelectionEvent event) {
 			}
 		});
-		lagerTree.setModel(lagerModel);
+		lagerTree.setModel(controller.getLagerModel());
+		this.lagerTree = lagerTree;
 		lageruebersichtTab.setLeftComponent(lagerTree);
 		lageruebersichtTab.setDividerLocation(250);
 		
@@ -137,8 +141,7 @@ public class Hauptmenue extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				if(lagerTree.getLastSelectedPathComponent() instanceof Lager){
 					controller.loeschen((Lager)(lagerTree.getLastSelectedPathComponent()));
-					lagerTree.setModel(null);
-					lagerTree.setModel(lagerModel);
+					refreshTree();
 				}
 			}
 		});
@@ -310,5 +313,9 @@ public class Hauptmenue extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 		}
 	}*/
-}	
+}
+	public void refreshTree(){
+		lagerTree.setModel(null);
+		lagerTree.setModel(controller.getLagerModel());
+	}
 }

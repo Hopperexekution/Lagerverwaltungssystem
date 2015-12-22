@@ -1,12 +1,17 @@
 package model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
-public class LagerModel implements TreeModel{
+public class LagerModel implements TreeModel, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7091360518037662600L;
 	private Lager root;
 	public LagerModel(Lager root){
 		this.root = root;
