@@ -84,7 +84,7 @@ public class Controller {
 			try {
 					ObjectInputStream inStream = new ObjectInputStream(new FileInputStream(savedFile));
 					lagerModel = (LagerModel)inStream.readObject();
-					hauptmenue.refreshTree();
+					refreshTree();
 					inStream.close();
 		
 				} 
@@ -253,7 +253,11 @@ public class Controller {
 
 	public void lagerHinzufuegen(Lager lager, Lager vater) {
 		vater.getChildList().add(lager);
-		hauptmenue.refreshTree();		
+		refreshTree();		
+	}
+	public void refreshTree(){
+		hauptmenue.getLagerTree().setModel(null);
+		hauptmenue.getLagerTree().setModel(lagerModel);
 	}
 
 }
