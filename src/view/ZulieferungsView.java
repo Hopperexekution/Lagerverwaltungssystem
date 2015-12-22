@@ -133,7 +133,7 @@ public class ZulieferungsView extends JFrame {
 					int auswahl = JOptionPane.showConfirmDialog(null, "Die restliche(n) unverteilte(n) " + restEinheiten + " Einheit(en) wird/werden auf das zuletzt hinzugefügte Lager verteilt.\nWollen Sie das tun? Wenn nicht benutzen Sie den Undo Knopf und verteilen die Prozentangaben neu.", "Bestätigen", JOptionPane.YES_OPTION);
 					if(auswahl == JOptionPane.YES_OPTION)
 					{
-					controller.erstelleLieferung(restEinheiten, gesamtMenge);
+					controller.erstelleZulieferung(restEinheiten, gesamtMenge);
 					dispose();
 					}
 				}
@@ -174,10 +174,10 @@ public class ZulieferungsView extends JFrame {
 						if(einheit != 0)
 						{
 							Lager ausgewaehlt = controller.findePassendesLager(lagerAuswahl.getSelectedItem().toString(), (Lager) controller.getLagerModel().getRoot());
-							int freieEinheiten = ausgewaehlt.getKapazität() - ausgewaehlt.getBestand();
+							int freieEinheiten = ausgewaehlt.getKapazitaet() - ausgewaehlt.getBestand();
 							if(einheit <=  freieEinheiten)
 							{
-								Buchung neueBuchung = controller.erstelleBuchung(prozent, gesamtMenge, lagerAuswahl.getSelectedItem().toString());
+								Buchung neueBuchung = controller.erstelleZubuchung(prozent, gesamtMenge, lagerAuswahl.getSelectedItem().toString());
 								lagerAuswahl.removeItem(ausgewaehlt);
 								if(!neueBuchung.equals(null))
 								{

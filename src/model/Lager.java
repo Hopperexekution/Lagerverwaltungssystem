@@ -51,37 +51,10 @@ public class Lager implements Serializable
 		this.name = name;
 	}
 	
-	/**
-	 * Veränderung des Bestandes nach einer Zu/Abbuchung
-	 * @param buchung
-	 * @return gibt -1 zurück wenn der Bestand plus die hinzugefügten Einheiten die Kapazität überschreiten würden
-	 * @return gibt -2 zurück wenn mehr Einheiten abgebuch werden sollen als der aktuelle Bestand enthält
-	 * @return gibt 1 zurück wenn die Einheiten eroflgreich zu/abgebucht wurden
-	 */
-	public int aendereBestand(Buchung buchung)
+
+	public void aendereBestand(int einheitenBuchung)
 	{
-		if(buchung.getBuchungsStatus()){
-			if(this.kapazitaet < (this.bestand + buchung.getEinheiten()))
-				return -1;
-			
-			else 
-			{
-				this.bestand += buchung.getEinheiten();
-				return 1;
-			}
-		}
-		else 
-		{
-			if(buchung.getEinheiten() > this.bestand){
-				return -2;
-		}
-			else
-			{
-				this.bestand -= buchung.getEinheiten();
-				return 1;
-			}
-				
-		}
+		this.bestand += einheitenBuchung;
 	}
 	public List<Lager> getChildList()
 	{
@@ -93,7 +66,7 @@ public class Lager implements Serializable
 		return this.name;
 	}
 	
-	public int getKapazität()
+	public int getKapazitaet()
 	{
 		return this.kapazitaet;
 	}

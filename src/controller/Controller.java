@@ -35,6 +35,7 @@ import view.LagerVerteilenView;
 public class Controller {
 	private LinkedList<UndoRedoModel> undoListe = new LinkedList<UndoRedoModel>();
 	private LinkedList<UndoRedoModel> redoListe = new LinkedList<UndoRedoModel>();
+	private LinkedList<Buchung> buchungListe = new LinkedList<Buchung>();
 	Lager gefunden = null;
 	private static Hauptmenue hauptmenue;
 	private List<Buchung> buchungsListe = new ArrayList<Buchung>();
@@ -48,6 +49,7 @@ public class Controller {
 					erstelleLagerListe();
 					controller.berechneBestand(controller.getLagerModel().getRoot());
 					controller.berechneKapazitaet(controller.getLagerModel().getRoot());
+					controller.erstelleStartLieferungsListe();
 					hauptmenue = new Hauptmenue(controller);
 					hauptmenue.setVisible(true);
 				} catch (Exception e) {
@@ -57,6 +59,58 @@ public class Controller {
 		});
 	}
 	
+	protected void erstelleStartLieferungsListe() {
+		buchungsListe.add(this.erstelleZubuchung(50, 1000, "Bremen"));
+		buchungsListe.add(this.erstelleZubuchung(20, 1000, "MV"));
+		buchungsListe.add(this.erstelleZubuchung(10, 1000, "Mailand"));
+		buchungsListe.add(this.erstelleZubuchung(10, 1000, "Spanien"));
+		buchungsListe.add(this.erstelleZubuchung(10, 1000, "Großbritannien"));
+		Date datum = new Date();
+		datum.setYear(2015);
+		datum.setMonth(12);
+		datum.setDate(10);
+		this.erstelleZulieferung(datum, 1000, buchungListe);
+
+		buchungsListe.add(this.erstelleZubuchung(50, 2000, "Nienburg"));
+		buchungsListe.add(this.erstelleZubuchung(20, 2000, "NRW"));
+		buchungsListe.add(this.erstelleZubuchung(20, 2000, "Hessen"));
+		buchungsListe.add(this.erstelleZubuchung(10, 2000, "Sachsen"));
+		datum.setYear(2015);
+		datum.setMonth(12);
+		datum.setDate(12);
+		this.erstelleZulieferung(datum, 2000, buchungListe);
+
+		buchungsListe.add(this.erstelleZubuchung(20, 10000, "Brandenburg"));
+		buchungsListe.add(this.erstelleZubuchung(10, 10000, "Orleans"));
+		buchungsListe.add(this.erstelleZubuchung(25, 10000, "LAquila"));
+		buchungsListe.add(this.erstelleZubuchung(25, 10000, "Spanien"));
+		buchungsListe.add(this.erstelleZubuchung(20, 10000, "Großbritannien"));
+		datum.setYear(2015);
+		datum.setMonth(12);
+		datum.setDate(14);
+		this.erstelleZulieferung(datum, 10000, buchungListe);
+
+		buchungsListe.add(this.erstelleZubuchung(50, 5000, "Nimes"));
+		buchungsListe.add(this.erstelleZubuchung(40, 5000, "MV"));
+		buchungsListe.add(this.erstelleZubuchung(10, 5000, "Nienburg"));
+		datum.setYear(2015);
+		datum.setMonth(12);
+		datum.setDate(16);
+		this.erstelleZulieferung(datum, 5000, buchungListe);
+
+		buchungsListe.add(this.erstelleZubuchung(30, 12500, "Paris-Nord"));
+		buchungsListe.add(this.erstelleZubuchung(20, 12500, "Brandenburg"));
+		buchungsListe.add(this.erstelleZubuchung(15, 12500, "Hannover-Misburg"));
+		buchungsListe.add(this.erstelleZubuchung(15, 12500, "Bremen"));
+		buchungsListe.add(this.erstelleZubuchung(20, 12500, "Mailand"));
+		datum.setYear(2015);
+		datum.setMonth(12);
+		datum.setDate(18);
+		this.erstelleZulieferung(datum, 12500, buchungListe);
+
+		
+	}
+
 	public Controller()
 	{
 		
@@ -166,13 +220,14 @@ public class Controller {
 				addDefaultLager(root.getChildList().get(1).getChildList().get(1), new String[]{"Mailand", "L'Aquila"});
 		lagerModel = new LagerModel(root);
 	
-	}	
+	}
+	
 	
 	private static void addDefaultLager(Lager vater, String[] kinder)
 	{
 		for(String kind: kinder)
 		{
-			vater.getChildList().add(new Lager(kind,1000, 0, vater));
+			vater.getChildList().add(new Lager(kind,15000, 0, vater));
 		}
 	}
 	
@@ -190,7 +245,7 @@ public class Controller {
 					vater.getChildList().add(kindLager);
 				}
 				vater.setBestand(vater.getBestand() - lager.getBestand());
-				vater.setKapazitaet(vater.getKapazität() - lager.getKapazität());
+				vater.setKapazitaet(vater.getKapazitaet() - lager.getKapazitaet());
 				vater.getChildList().remove(lager);
 			}
 			else{
@@ -199,12 +254,12 @@ public class Controller {
 					long gesamtVerfuegbareKapazitaet = 0;
 					for(Lager kind: childListe){
 						if(!kind.equals(lager))
-							gesamtVerfuegbareKapazitaet += kind.getKapazität() - kind.getBestand();
+							gesamtVerfuegbareKapazitaet += kind.getKapazitaet() - kind.getBestand();
 					}
 					if (gesamtVerfuegbareKapazitaet >= lager.getBestand()){
 						if(lager.getBestand() == 0){
 							vater.setBestand(vater.getBestand() - lager.getBestand());
-							vater.setKapazitaet(vater.getKapazität() - lager.getKapazität());
+							vater.setKapazitaet(vater.getKapazitaet() - lager.getKapazitaet());
 							vater.getChildList().remove(lager);
 						}
 						else{
@@ -234,7 +289,7 @@ public class Controller {
 		hauptmenue.getLagerTree().setModel(lagerModel);
 	}
 	
-	public Buchung erstelleBuchung(double prozent, int gesamtMenge, String ausgewaehltesLager) {
+	public Buchung erstelleZubuchung(double prozent, int gesamtMenge, String ausgewaehltesLager) {
 		int einheit = (int) (Math.floor((double)(gesamtMenge * (prozent/100))));;
 		
 		Buchung neueBuchung = new Buchung(einheit, ausgewaehltesLager, true);
@@ -353,7 +408,7 @@ public class Controller {
 			Lager aktuelles = (Lager) it.next();
 			if (aktuelles.getChildList().isEmpty())
 			{//Blatt
-				kapazitaet += aktuelles.getKapazität();
+				kapazitaet += aktuelles.getKapazitaet();
 			}
 			else
 			{//Zweig
@@ -399,25 +454,45 @@ public class Controller {
 		}
 	}
 
-	public void erstelleLieferung(int restEinheiten, int gesamtMenge) 
-{
-	Lieferung neueZulieferung = new Lieferung(Calendar.getInstance().getTime(), (gesamtMenge + restEinheiten));
-	Lager zuBuchungPassendes;
-	if(!undoListe.isEmpty())
+	public void erstelleZulieferung(int restEinheiten, int gesamtMenge) 
 	{
-		undoListe.getLast().getBuchung().setEinheiten(undoListe.getLast().getBuchung().getEinheiten() + restEinheiten);
-		for(UndoRedoModel model : undoListe)
+		Lieferung neueZulieferung;
+		if(restEinheiten != 0)
 		{
-			neueZulieferung.hinzufuegenBuchung(model.getBuchung());
-			zuBuchungPassendes = this.findePassendesLager(model.getBuchung().getZugehoerigesLager(), (Lager) this.getLagerModel().getRoot());
-			zuBuchungPassendes.hinzufuegenBuchung(model.getBuchung());
+			neueZulieferung = new Lieferung(Calendar.getInstance().getTime(), (gesamtMenge + restEinheiten));
 		}
-	}
-	while(!undoListe.isEmpty()){
-		undoListe.removeFirst();
-	}	
+		else
+		{
+			neueZulieferung = new Lieferung(Calendar.getInstance().getTime(), gesamtMenge);
+		}
+		Lager zuBuchungPassendes;
+		if(!undoListe.isEmpty())
+		{
+			if(restEinheiten != 0)
+			{
+				undoListe.getLast().getBuchung().setEinheiten(undoListe.getLast().getBuchung().getEinheiten() + restEinheiten);
+			}
+			for(UndoRedoModel model : undoListe)
+			{
+				neueZulieferung.hinzufuegenBuchung(model.getBuchung());
+				zuBuchungPassendes = this.findePassendesLager(model.getBuchung().getZugehoerigesLager(), (Lager) this.getLagerModel().getRoot());
+				zuBuchungPassendes.hinzufuegenBuchung(model.getBuchung());
+				if(model.getBuchung().getBuchungsStatus())
+				{
+					zuBuchungPassendes.aendereBestand(model.getBuchung().getEinheiten());
+				}	
 
-		while(!undoListe.isEmpty()){
+					
+			
+			}
+		}
+		while(!undoListe.isEmpty())
+		{
+			undoListe.removeFirst();
+		}
+
+		while(!undoListe.isEmpty())
+		{
 			undoListe.removeFirst();
 		}
 		
@@ -432,6 +507,34 @@ public class Controller {
 		lieferungsModel.addElement(neueZulieferung);
 		this.getHauptmenue().getLieferungsListe().setModel(lieferungsModel);
 		
+	}
+	
+		
+	public void erstelleZulieferung(Date datum, int gesamtMenge, LinkedList<Buchung> zugehoerigeBuchungen) 
+	{
+		Lieferung neueZulieferung = new Lieferung(datum, gesamtMenge, zugehoerigeBuchungen);
+		Lager zuBuchungPassendes;
+		if(!undoListe.isEmpty())
+		{
+
+			for(Buchung buchung : zugehoerigeBuchungen)
+			{
+				zuBuchungPassendes = this.findePassendesLager(buchung.getZugehoerigesLager(), (Lager) this.getLagerModel().getRoot());
+				zuBuchungPassendes.hinzufuegenBuchung(buchung);
+				if(buchung.getBuchungsStatus())
+				{
+					zuBuchungPassendes.aendereBestand(buchung.getEinheiten());
+				}	
+
+						
+				
+			}
+		}
+		while(!buchungListe.isEmpty())
+		{
+			buchungListe.removeFirst();
+		}
+
 	}
 
 	public void loescheRedoListe() {
@@ -472,7 +575,7 @@ public class Controller {
 			hauptmenue.getLagerKapazitaetUeberschrift().setText("Kapaziät:");
 			hauptmenue.getLagerName().setText(lager.getName());
 			hauptmenue.getLagerBestand().setText(Integer.toString(lager.getBestand()));
-			hauptmenue.getLagerKapazitaet().setText(Integer.toString(lager.getKapazität()));			
+			hauptmenue.getLagerKapazitaet().setText(Integer.toString(lager.getKapazitaet()));			
 		}
 		else{
 			hauptmenue.getLagerNameUeberschrift().setText("Lagername:");
@@ -480,7 +583,7 @@ public class Controller {
 			hauptmenue.getLagerKapazitaetUeberschrift().setText("Kummulierte Kapaziät:");
 			hauptmenue.getLagerName().setText(lager.getName());
 			hauptmenue.getLagerBestand().setText(Integer.toString(lager.getBestand()));
-			hauptmenue.getLagerKapazitaet().setText(Integer.toString(lager.getKapazität()));
+			hauptmenue.getLagerKapazitaet().setText(Integer.toString(lager.getKapazitaet()));
 		}
 	}
 	
@@ -493,13 +596,14 @@ public class Controller {
 		hauptmenue.getLagerKapazitaet().setText("");
 	}
 
-	public Buchung erstelleBuchung(int einheit, String ausgewaehltesLager) 
+	public Buchung erstelleAbbuchung(int einheit, String ausgewaehltesLager) 
 	{
 		Buchung neueBuchung = new Buchung(einheit, ausgewaehltesLager, false);
 		UndoRedoModel undoRedoModel = new UndoRedoModel(neueBuchung);
 		undoListe.add(undoRedoModel);
 		return neueBuchung;
 	}
+	
 
 	public Vector<Lager> findeAuswaehlbarLagerAuslieferung(Vector<Lager> auswaehlbareLager) {
 		{
@@ -526,7 +630,7 @@ public class Controller {
 		}
 	}
 
-	public void erstelleLieferung(int gesamtMenge) {
+	public void erstelleAuslieferung(int gesamtMenge) {
 		Lieferung neueZulieferung = new Lieferung(Calendar.getInstance().getTime(), gesamtMenge);
 		Lager zuBuchungPassendes;
 		if(!undoListe.isEmpty())
@@ -536,6 +640,10 @@ public class Controller {
 				neueZulieferung.hinzufuegenBuchung(model.getBuchung());
 				zuBuchungPassendes = this.findePassendesLager(model.getBuchung().getZugehoerigesLager(), (Lager) this.getLagerModel().getRoot());
 				zuBuchungPassendes.hinzufuegenBuchung(model.getBuchung());
+				if(model.getBuchung().getBuchungsStatus())
+				{
+					zuBuchungPassendes.aendereBestand(model.getBuchung().getEinheiten());
+				}
 			}
 		}
 		while(!undoListe.isEmpty()){

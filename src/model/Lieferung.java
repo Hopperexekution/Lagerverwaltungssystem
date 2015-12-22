@@ -12,6 +12,12 @@ public class Lieferung {
 		this.datum = datum;
 		this.gesamtEinheiten = gesamtEinheiten;
 	}
+	public Lieferung(Date datum, int gesamtEinheiten, LinkedList<Buchung> zugehoerigeBuchungen)
+	{
+		this.datum = datum;
+		this.gesamtEinheiten = gesamtEinheiten;
+		this.zugehoerigeBuchungen = zugehoerigeBuchungen;
+	}
 	
 	public int getGesamtEinheiten(){
 		return this.gesamtEinheiten;

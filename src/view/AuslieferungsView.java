@@ -96,14 +96,14 @@ public class AuslieferungsView extends JFrame {
 					if (einheit > ausgewaehlt.getBestand()) 
 					{
 						JOptionPane.showMessageDialog(null,
-								"So viele Einheiten sind in dem ausgewählten Lager nicht vorhanden. Bitte wählen sie eine andere Einheitenzahl.");
+								"So viele Einheiten sind in dem ausgewählten Lager nicht vorhanden. Bitte wählen sie eine andere Anzahl von Einheiten.");
 					} else if (einheit <= 0) 
 					{	
 							JOptionPane.showMessageDialog(null, "Bitte verwenden Sie nur positive Zahlen und nicht 0.");
 					} 
 					else if(einheit <= (gesamtMenge - controller.getVerteilteEinheiten()))
 					{
-								Buchung neueBuchung = controller.erstelleBuchung(einheit, lagerAuswahl.getSelectedItem().toString());
+								Buchung neueBuchung = controller.erstelleAbbuchung(einheit, lagerAuswahl.getSelectedItem().toString());
 								lagerAuswahl.removeItem(ausgewaehlt);
 								if(!neueBuchung.equals(null))
 								{
@@ -138,7 +138,7 @@ public class AuslieferungsView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(controller.getVerteilteEinheiten() == gesamtMenge)
 				{
-					controller.erstelleLieferung(gesamtMenge);
+					controller.erstelleAuslieferung(gesamtMenge);
 					dispose();
 				}
 				else
