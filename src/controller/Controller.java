@@ -188,7 +188,8 @@ public class Controller {
 				}
 			}
 			vater.getChildList().remove(lager);
-			this.berechneBestandKapazitaet(lager);
+			this.berechneBestand(lager);
+			this.berechneKapazitaet(lager);
 		}
 		else{
 			
@@ -286,28 +287,48 @@ public class Controller {
 		return einheiten;
 	}
 	
-	private void berechneBestandKapazitaet(Lager wurzel) {
-		int kapazitaet = 0, bestand = 0;
+	
+	
+	private int berechneBestand(Lager wurzel) 
+	{
+		int bestand = 0;
 		List<Lager> nachfolger = wurzel.getChildList();
 		Iterator<Lager> it = nachfolger.iterator();
-
-		while (it.hasNext()) {
+				
+		while (it.hasNext()) // nur wenn liste nicht leer
+		{
 			Lager aktuelles = (Lager) it.next();
-			berechneBestandKapazitaet(aktuelles);
-			if (!aktuelles.getChildList().isEmpty()) {
-				List<Lager> kinder = aktuelles.getChildList();
-				Iterator<Lager> kinderIt = kinder.iterator();
-				while (kinderIt.hasNext())
-				{
-					Lager kind = kinderIt.next();
-					kapazitaet +=  kind.getKapazität();
-					bestand += kind.getBestand();
-				}
-				aktuelles.setKapazitaet(kapazitaet);
-				aktuelles.setBestand(bestand);
+			if (aktuelles.getChildList().isEmpty())
+			{//Blatt
+				return aktuelles.getBestand();
+			}
+			else
+			{//Zweig
+				bestand += berechneBestand(aktuelles);
 			}
 		}
-		
+		return bestand;
+	}
+	
+	private int berechneKapazitaet(Lager wurzel) 
+	{
+		int kapazitaet = 0;
+		List<Lager> nachfolger = wurzel.getChildList();
+		Iterator<Lager> it = nachfolger.iterator();
+				
+		while (it.hasNext()) // nur wenn liste nicht leer
+		{
+			Lager aktuelles = (Lager) it.next();
+			if (aktuelles.getChildList().isEmpty())
+			{//Blatt
+				return aktuelles.getKapazität();
+			}
+			else
+			{//Zweig
+				kapazitaet += berechneKapazitaet(aktuelles);
+			}
+		}
+		return kapazitaet;
 	}
 	
 	public Buchung undo(){
@@ -392,7 +413,8 @@ public class Controller {
 	public void lagerHinzufuegen(Lager lager, Lager vater) {
 		vater.getChildList().add(lager);
 		standardBeschriftung();
-		this.berechneBestandKapazitaet(this.getLagerModel().getRoot());
+		this.berechneBestand(this.getLagerModel().getRoot());
+		this.berechneKapazitaet(this.getLagerModel().getRoot());
 		refreshTree();
 		hauptmenue.setAlwaysOnTop(true);
 		hauptmenue.setAlwaysOnTop(false);
