@@ -162,6 +162,7 @@ public class Controller {
 				addDefaultLager(root.getChildList().get(1).getChildList().get(0),new String[]{"Paris-Nord", "Orleans", "Marseille", "Nimes"});
 				addDefaultLager(root.getChildList().get(1).getChildList().get(1), new String[]{"Mailand", "L'Aquila"});
 		lagerModel = new LagerModel(root);
+	
 	}	
 	
 	private static void addDefaultLager(Lager vater, String[] kinder)
@@ -187,15 +188,18 @@ public class Controller {
 				}
 			}
 			vater.getChildList().remove(lager);
+			this.berechneBestandKapazitaet(lager);
 		}
 		else{
 			
 		}
+		
 	}
 
 	public void lagerHinzufuegen(Lager lager, Lager vater) {
 		vater.getChildList().add(lager);
-		refreshTree();		
+		this.berechneBestandKapazitaet(this.getLagerModel().getRoot());
+		refreshTree();
 	}
 	public void refreshTree(){
 		hauptmenue.getLagerTree().setModel(null);
@@ -246,7 +250,7 @@ public class Controller {
 		List<Lager> nachfolger = wurzel.getChildList();
 		Iterator it = nachfolger.iterator();
 		
-
+		gefunden = null;
 		while (it.hasNext() && gefunden == null) 
 		{
 			Lager aktuelles = (Lager) it.next();
@@ -288,17 +292,27 @@ public class Controller {
 	}
 	
 	private void berechneBestandKapazitaet(Lager wurzel) {
-		int kapazitaet, bestand;
+		int kapazitaet = 0, bestand = 0;
 		List<Lager> nachfolger = wurzel.getChildList();
-		Iterator it = nachfolger.iterator();
+		Iterator<Lager> it = nachfolger.iterator();
 
 		while (it.hasNext()) {
 			Lager aktuelles = (Lager) it.next();
-			if (aktuelles.getChildList().isEmpty()) {
-				//auswaehlbarLager.add(aktuelles);
-			}
 			berechneBestandKapazitaet(aktuelles);
+			if (!aktuelles.getChildList().isEmpty()) {
+				List<Lager> kinder = aktuelles.getChildList();
+				Iterator<Lager> kinderIt = kinder.iterator();
+				while (kinderIt.hasNext())
+				{
+					Lager kind = kinderIt.next();
+					kapazitaet +=  kind.getKapazität();
+					bestand += kind.getBestand();
+				}
+				aktuelles.setKapazitaet(kapazitaet);
+				aktuelles.setBestand(bestand);
+			}
 		}
+		
 	}
 	
 	public Buchung undo(){
