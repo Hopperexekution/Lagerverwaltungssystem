@@ -60,54 +60,59 @@ public class Controller {
 	}
 	
 	protected void erstelleStartLieferungsListe() {
-		buchungsListe.add(this.erstelleZubuchung(50, 1000, "Bremen"));
-		buchungsListe.add(this.erstelleZubuchung(20, 1000, "MV"));
-		buchungsListe.add(this.erstelleZubuchung(10, 1000, "Mailand"));
-		buchungsListe.add(this.erstelleZubuchung(10, 1000, "Spanien"));
-		buchungsListe.add(this.erstelleZubuchung(10, 1000, "Groﬂbritannien"));
+		buchungListe.add(this.erstelleZubuchung(50, 1000, "Bremen"));
+		buchungListe.add(this.erstelleZubuchung(20, 1000, "MV"));
+		buchungListe.add(this.erstelleZubuchung(10, 1000, "Mailand"));
+		buchungListe.add(this.erstelleZubuchung(10, 1000, "Spanien"));
+		buchungListe.add(this.erstelleZubuchung(10, 1000, "Groﬂbritannien"));
 		Date datum = new Date();
 		datum.setYear(2015);
 		datum.setMonth(12);
 		datum.setDate(10);
 		this.erstelleZulieferung(datum, 1000, buchungListe);
 
-		buchungsListe.add(this.erstelleZubuchung(50, 2000, "Nienburg"));
-		buchungsListe.add(this.erstelleZubuchung(20, 2000, "NRW"));
-		buchungsListe.add(this.erstelleZubuchung(20, 2000, "Hessen"));
-		buchungsListe.add(this.erstelleZubuchung(10, 2000, "Sachsen"));
+		buchungListe.add(this.erstelleZubuchung(50, 2000, "Nienburg"));
+		buchungListe.add(this.erstelleZubuchung(20, 2000, "NRW"));
+		buchungListe.add(this.erstelleZubuchung(20, 2000, "Hessen"));
+		buchungListe.add(this.erstelleZubuchung(10, 2000, "Sachsen"));
 		datum.setYear(2015);
 		datum.setMonth(12);
 		datum.setDate(12);
 		this.erstelleZulieferung(datum, 2000, buchungListe);
 
-		buchungsListe.add(this.erstelleZubuchung(20, 10000, "Brandenburg"));
-		buchungsListe.add(this.erstelleZubuchung(10, 10000, "Orleans"));
-		buchungsListe.add(this.erstelleZubuchung(25, 10000, "LAquila"));
-		buchungsListe.add(this.erstelleZubuchung(25, 10000, "Spanien"));
-		buchungsListe.add(this.erstelleZubuchung(20, 10000, "Groﬂbritannien"));
+		buchungListe.add(this.erstelleZubuchung(20, 10000, "Brandenburg"));
+		buchungListe.add(this.erstelleZubuchung(10, 10000, "Orleans"));
+		buchungListe.add(this.erstelleZubuchung(25, 10000, "LAquila"));
+		buchungListe.add(this.erstelleZubuchung(25, 10000, "Spanien"));
+		buchungListe.add(this.erstelleZubuchung(20, 10000, "Groﬂbritannien"));
 		datum.setYear(2015);
 		datum.setMonth(12);
 		datum.setDate(14);
 		this.erstelleZulieferung(datum, 10000, buchungListe);
 
-		buchungsListe.add(this.erstelleZubuchung(50, 5000, "Nimes"));
-		buchungsListe.add(this.erstelleZubuchung(40, 5000, "MV"));
-		buchungsListe.add(this.erstelleZubuchung(10, 5000, "Nienburg"));
+		buchungListe.add(this.erstelleZubuchung(50, 5000, "Nimes"));
+		buchungListe.add(this.erstelleZubuchung(40, 5000, "MV"));
+		buchungListe.add(this.erstelleZubuchung(10, 5000, "Nienburg"));
 		datum.setYear(2015);
 		datum.setMonth(12);
 		datum.setDate(16);
 		this.erstelleZulieferung(datum, 5000, buchungListe);
 
-		buchungsListe.add(this.erstelleZubuchung(30, 12500, "Paris-Nord"));
-		buchungsListe.add(this.erstelleZubuchung(20, 12500, "Brandenburg"));
-		buchungsListe.add(this.erstelleZubuchung(15, 12500, "Hannover-Misburg"));
-		buchungsListe.add(this.erstelleZubuchung(15, 12500, "Bremen"));
-		buchungsListe.add(this.erstelleZubuchung(20, 12500, "Mailand"));
+		buchungListe.add(this.erstelleZubuchung(30, 12500, "Paris-Nord"));
+		buchungListe.add(this.erstelleZubuchung(20, 12500, "Brandenburg"));
+		buchungListe.add(this.erstelleZubuchung(15, 12500, "Hannover-Misburg"));
+		buchungListe.add(this.erstelleZubuchung(15, 12500, "Bremen"));
+		buchungListe.add(this.erstelleZubuchung(20, 12500, "Mailand"));
 		datum.setYear(2015);
 		datum.setMonth(12);
 		datum.setDate(18);
 		this.erstelleZulieferung(datum, 12500, buchungListe);
+		
+		this.refreshLieferungsListe();
+	}
 
+	private void refreshLieferungsListe() {
+		this.getHauptmenue().getLieferungsListe().setModel(model);
 		
 	}
 
