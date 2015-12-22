@@ -171,7 +171,7 @@ public class ZulieferungsView extends JFrame {
 					} else if ((controller.getProzent() + prozent) > 100) 
 					{	if(controller.getProzent() == 100)
 						{
-							JOptionPane.showMessageDialog(null, "Sie haben alle 100% verteilt. Betätigen sie den Undo Button für Veränderungen.\nOder Bestätigen sie die Zulieferung und noch nicht verteilte Einheiten(aufgrund von Abrundungen) werden dem letzten Lager hinzugefügt.\nOder brechen sie die Zulieferung ab.");
+							JOptionPane.showMessageDialog(null, "Sie haben alle 100% verteilt. Betätigen Sie den Undo Button für Veränderungen.\nOder Bestätigen Sie die Zulieferung und noch nicht verteilte Einheiten(aufgrund von Abrundungen) werden dem letzten Lager hinzugefügt.\nOder brechen Sie die Zulieferung ab.");
 						} else
 						{
 							double nochZuVerteilendeProzent = (100 - controller.getProzent());
