@@ -130,7 +130,7 @@ public class ZulieferungsView extends JFrame {
 				{
 					int restEinheiten;
 					restEinheiten = gesamtMenge - controller.getVerteilteEinheiten();
-					int auswahl = JOptionPane.showConfirmDialog(null, "Die restliche(n) unverteilte(n) " + restEinheiten + " Einheit(en) wird/werden auf das zuletzt hinzugefügte Lager verteilt.\nWollen Sie das tun? Wenn nicht benutzen Sie den Undo Knopf und verteilen die Prozentangaben neu.", "Bestätigen", JOptionPane.YES_OPTION);
+					int auswahl = JOptionPane.showConfirmDialog(getContentPane(), "Die restliche(n) unverteilte(n) " + restEinheiten + " Einheit(en) wird/werden auf das zuletzt hinzugefügte Lager verteilt.\nWollen Sie das tun? Wenn nicht benutzen Sie den Undo Knopf und verteilen die Prozentangaben neu.", "Bestätigen", JOptionPane.YES_OPTION);
 					if(auswahl == JOptionPane.YES_OPTION)
 					{
 					controller.erstelleZulieferung(restEinheiten, gesamtMenge);
@@ -140,7 +140,7 @@ public class ZulieferungsView extends JFrame {
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, "Es müssen zuerst 100% der Einheiten verteilt sein bevor das Bestätigen möglich ist.");
+					JOptionPane.showMessageDialog(getContentPane(), "Es müssen zuerst 100% der Einheiten verteilt sein bevor das Bestätigen möglich ist.");
 				}
 			}
 		});
@@ -163,11 +163,11 @@ public class ZulieferungsView extends JFrame {
 					} else if ((controller.getProzent() + prozent) > 100) 
 					{	if(controller.getProzent() == 100)
 						{
-							JOptionPane.showMessageDialog(null, "Sie haben alle 100% verteilt. Betätigen Sie den Undo Button für Veränderungen.\nOder Bestätigen Sie die Zulieferung und noch nicht verteilte Einheiten(aufgrund von Abrundungen) werden dem letzten Lager hinzugefügt.\nOder brechen Sie die Zulieferung ab.");
+							JOptionPane.showMessageDialog(getContentPane(), "Sie haben alle 100% verteilt. Betätigen Sie den Undo Button für Veränderungen.\nOder Bestätigen Sie die Zulieferung und noch nicht verteilte Einheiten(aufgrund von Abrundungen) werden dem letzten Lager hinzugefügt.\nOder brechen Sie die Zulieferung ab.");
 						} else
 						{
 							double nochZuVerteilendeProzent = (100 - controller.getProzent());
-							JOptionPane.showMessageDialog(null, "Wenn diese Prozentzahl der Gesamteinheiten hinzugefügt werden soll, dann würde die insgesamte Prozentanzahl über 100% liegen.\nDies ist nicht möglich wählen Sie bitte einen kleineren Wert. Der aktuelle Prozentwert entspricht " + controller.getProzent()+"%.\nEs sind noch " + nochZuVerteilendeProzent + "% zu verteilen");
+							JOptionPane.showMessageDialog(getContentPane(), "Wenn diese Prozentzahl der Gesamteinheiten hinzugefügt werden soll, dann würde die insgesamte Prozentanzahl über 100% liegen.\nDies ist nicht möglich wählen Sie bitte einen kleineren Wert. Der aktuelle Prozentwert entspricht " + controller.getProzent()+"%.\nEs sind noch " + nochZuVerteilendeProzent + "% zu verteilen");
 						}
 					}
 					else
@@ -190,19 +190,20 @@ public class ZulieferungsView extends JFrame {
 							}
 							else
 							{
-								JOptionPane.showMessageDialog(null, "Das Lager kann nur noch " + freieEinheiten + " Einheiten aufnehmen.\nSie wollen aber " + einheit + " Einheiten aufnehmen.");
+								JOptionPane.showMessageDialog(getContentPane(), "Das Lager kann nur noch " + freieEinheiten + " Einheiten aufnehmen.\nSie wollen aber " + einheit + " Einheiten aufnehmen.");
 							}
 						}
 						else
 						{
-							JOptionPane.showMessageDialog(null, "Bei dieser Prozentzahl würden keine Einheiten auf das Lager verteilt werden.\nBitte verwenden Sie eine andere Prozentzahl.");
+							JOptionPane.showMessageDialog(getContentPane(), "Bei dieser Prozentzahl würden keine Einheiten auf das Lager verteilt werden.\nBitte verwenden Sie eine andere Prozentzahl.");
 						}
 					}
 					}catch(NumberFormatException f){
-						JOptionPane.showMessageDialog(null, "Bitte nur Zahlen verwenden.");
+						JOptionPane.showMessageDialog(getContentPane(), "Bitte nur Zahlen verwenden."+
+																	  "\nAls Dezimaltrennzeichen verwenden Sie bitte einen Punkt.");
 					}	
 				} else {
-					JOptionPane.showMessageDialog(null, "Es ist eine Prozentangabe für die Verteilung notwendig");
+					JOptionPane.showMessageDialog(getContentPane(), "Es ist eine Prozentangabe für die Verteilung notwendig");
 				}
 
 				
