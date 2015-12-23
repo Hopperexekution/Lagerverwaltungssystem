@@ -19,6 +19,7 @@ import javax.swing.tree.TreeNode;
 
 import java.io.File; 
 import javax.swing.JFileChooser;
+import javax.swing.JList;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -210,8 +211,25 @@ public class Controller {
 			addDefaultLager(root.getChildList().get(1), new String[]{"Frankreich", "Italien", "Spanien"});
 				addDefaultLager(root.getChildList().get(1).getChildList().get(0),new String[]{"Paris-Nord", "Orleans", "Marseille", "Nimes"});
 				addDefaultLager(root.getChildList().get(1).getChildList().get(1), new String[]{"Mailand", "L'Aquila"});
+		
+		
+		
+		JList<Lieferung> tempStartliste = null;
+		Lieferung tempLieferung = null;
+		Buchung tempBuchung = null;
+		
+		
+		
+		//Lager ausgewaehlt = this.findePassendesLager("Bremen", (Lager) this.getLagerModel().getRoot());
+		
+		tempLieferung = new Lieferung(null, 1000);
+		tempBuchung = new Buchung(500, "Bremen", true);
+		tempLieferung.hinzufuegenBuchung(tempBuchung);
+		tempBuchung = new Buchung(200, "MV", true);
+		tempLieferung.hinzufuegenBuchung(tempBuchung);		
+		hier
+		hauptmenue.setLieferungsListe(tempStartliste);
 		lagerModel = new LagerModel(root);
-	
 	}
 	
 	

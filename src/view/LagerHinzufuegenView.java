@@ -102,7 +102,7 @@ public class LagerHinzufuegenView extends JFrame {
 						}
 					}
 				catch(NumberFormatException ex){
-					JOptionPane.showMessageDialog(getContentPane(), "Die Kapazität muss eine Zahl und kleiner als zwei Milliarden sein.");
+					JOptionPane.showMessageDialog(getContentPane(), "Die Kapazität muss eine ganzzahlige Zahl und kleiner als zwei Milliarden sein.");
 				}
 			}
 		});
