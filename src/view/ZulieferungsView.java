@@ -26,6 +26,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -39,8 +41,26 @@ public class ZulieferungsView extends JFrame {
 
 	public ZulieferungsView(Controller controller, int gesamtMenge) {
 		this.controller = controller;
+		
+		//Frameeinstellungen
+		controller.getHauptmenue().setEnabled(false);
 		getContentPane().setLayout(null);
+		setBounds(400, 200, 600, 400);
+		setResizable(false);
+		setVisible(true);
+		
+		
+		
+		//Windowlistener um Hauptmenue zu blockieren, während das Umbenennen-Fenster geöffnent ist
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent event) {
+				controller.getHauptmenue().setEnabled(true);
+			}
+		});
 
+				
+				
 
 		JLabel lblNeueZulieferung = new JLabel("Neue Zulieferung");
 		lblNeueZulieferung.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -135,6 +155,7 @@ public class ZulieferungsView extends JFrame {
 					{
 					controller.erstelleZulieferung(restEinheiten, gesamtMenge);
 					controller.berechneBestand(controller.getLagerModel().getRoot());
+					controller.getHauptmenue().setEnabled(true);
 					dispose();
 					}
 				}
@@ -228,15 +249,14 @@ public class ZulieferungsView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				controller.loescheRedoListe();
 				controller.loescheUndoListe();
+				controller.getHauptmenue().setEnabled(true);
 				dispose();
 			}
 		});
 		abbrechenButton.setBounds(463, 328, 100, 23);
 		getContentPane().add(abbrechenButton);
 
-		setBounds(400, 200, 600, 400);
-		setResizable(false);
-		setVisible(true);
+		
 	}
 
 
