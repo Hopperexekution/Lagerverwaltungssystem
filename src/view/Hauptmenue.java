@@ -465,4 +465,7 @@ public class Hauptmenue extends JFrame {
 	public void setController(Controller controller) {
 		this.controller = controller;
 	}
+	public static Observer getLagerobserver(){
+		return lagerObserver;
+	}
 }
