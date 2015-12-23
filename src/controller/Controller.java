@@ -107,6 +107,7 @@ public class Controller {
 					DefaultListModel<Lieferung> listModel = new DefaultListModel<Lieferung>();
 					listModel = lagerUndListe.getLieferungListe().getLieferungsListe();
 					hauptmenue.getLieferungsListe().setModel(listModel);
+					lagerModel.addObserver(hauptmenue.getLagerobserver());
 					refreshTree();
 					inStream.close();
 		

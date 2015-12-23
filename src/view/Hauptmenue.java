@@ -476,4 +476,7 @@ public class Hauptmenue extends JFrame implements Observer {
 		controller.refreshTree();
 		
 	}
+	public static Observer getLagerobserver(){
+		return lagerObserver;
+	}
 }
