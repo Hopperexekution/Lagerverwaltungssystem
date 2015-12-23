@@ -85,7 +85,7 @@ public class Controller {
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
         		"NOT SAFE FOR WORK: .NSFW", "nsfw");
         FileNameExtensionFilter filter2 = new FileNameExtensionFilter(
-        		"Dies ist NICHT der Dateityp den Sie suchen", ".nichtderdateitypdensiesuchen");
+        		"Das ist NICHT der Dateityp den Sie suchen", ".nichtderdateitypdensiesuchen");
         chooser.setFileFilter(filter2);
 	    chooser.setFileFilter(filter);
 	    //------------------------------------------------------------------
