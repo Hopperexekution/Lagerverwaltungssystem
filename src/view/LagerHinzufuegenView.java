@@ -70,15 +70,19 @@ public class LagerHinzufuegenView extends JFrame {
 						int kapazitaet = Integer.parseInt(kapazitaetsTextfeld.getText());
 						lagerName = lagerName.trim();
 						if (lagerName.length() == 0){
-							JOptionPane.showMessageDialog(null, "Die Bezeichnung darf nicht leer sein oder nur aus Leerzeichen bestehen!");
+							JOptionPane.showMessageDialog(getContentPane(), "Die Bezeichnung darf nicht leer sein oder nur aus Leerzeichen bestehen!");
 						}
 						else if(kapazitaet < 0)
 						{
-							JOptionPane.showMessageDialog(null, "Die Kapazität muss eine positive Zahl sein");
+							JOptionPane.showMessageDialog(getContentPane(), "Die Kapazität muss eine positive Zahl sein");
+						}
+						else if(kapazitaet > 2000000000)
+						{
+							JOptionPane.showMessageDialog(getContentPane(), "Die Kapazität muss kleiner als zwei Milliarden sein. Bitt wählen sie einen anderen Wert.");
 						}
 						else if(kapazitaet < ausgewaehltesLager.getBestand() && ausgewaehltesLager.getChildList().isEmpty())
 						{
-							JOptionPane.showMessageDialog(null, "Die Kapazität ist zu gering um den Bestand \nvon " + ausgewaehltesLager.getName() + "aufzunehmen.");
+							JOptionPane.showMessageDialog(getContentPane(), "Die Kapazität ist zu gering um den Bestand \nvon " + ausgewaehltesLager.getName() + "aufzunehmen.");
 						}
 						else if(controller.findePassendesLager(lagerName, controller.getLagerModel().getRoot()) == null)
 						{   
@@ -90,11 +94,11 @@ public class LagerHinzufuegenView extends JFrame {
 						}
 						else
 						{
-							JOptionPane.showMessageDialog(null, "Es gibt bereits ein Lager mit diesem Namen. Wählen Sie bitte einen Anderen.");
+							JOptionPane.showMessageDialog(getContentPane(), "Es gibt bereits ein Lager mit diesem Namen. Wählen Sie bitte einen anderen Namen.");
 						}
 					}
 				catch(NumberFormatException ex){
-					JOptionPane.showMessageDialog(null, "Die Kapazität muss eine Zahl sein");
+					JOptionPane.showMessageDialog(getContentPane(), "Die Kapazität muss eine Zahl und kleiner als zwei Milliarden sein.");
 				}
 			}
 		});
