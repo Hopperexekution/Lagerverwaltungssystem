@@ -230,6 +230,8 @@ public class Controller {
 			tempLieferung = new Lieferung(Calendar.getInstance().getTime(), 1000, "Zulieferung");
 			
 			tempBuchung = new Buchung(500, "Bremen", true);
+			Lager zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+			zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
 			tempLieferung.hinzufuegenBuchung(tempBuchung);
 			tempBuchung = new Buchung(200, "MV", true);
 			tempLieferung.hinzufuegenBuchung(tempBuchung);		
