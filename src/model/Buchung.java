@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Buchung {
+public class Buchung implements Serializable{
 	int einheiten;
 	String zugehoerigesLager;
 	boolean zubuchung;

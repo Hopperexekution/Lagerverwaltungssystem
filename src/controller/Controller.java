@@ -13,6 +13,7 @@ import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 import javax.swing.tree.TreeNode;
 
 import java.io.File; 
@@ -26,7 +27,9 @@ import java.io.ObjectOutputStream;
 import model.Buchung;
 import model.Lager;
 import model.LagerModel;
+import model.LagerUndListe;
 import model.Lieferung;
+import model.LieferungListe;
 import model.UndoRedoModel;
 import view.Hauptmenue;
 import view.LagerVerteilenView;
@@ -97,7 +100,12 @@ public class Controller {
 			File savedFile = chooser.getSelectedFile();
 			try {
 					ObjectInputStream inStream = new ObjectInputStream(new FileInputStream(savedFile));
-					lagerModel = (LagerModel)inStream.readObject();
+					LagerUndListe lagerUndListe = (LagerUndListe) inStream.readObject();
+					lagerModel = lagerUndListe.getLagerModel();
+					hauptmenue.setLieferungsModel(lagerUndListe.getLieferungListe().getLieferungsListe());
+					DefaultListModel<Lieferung> listModel = new DefaultListModel<Lieferung>();
+					listModel = lagerUndListe.getLieferungListe().getLieferungsListe();
+					hauptmenue.getLieferungsListe().setModel(listModel);
 					refreshTree();
 					inStream.close();
 		
@@ -140,7 +148,10 @@ public class Controller {
 				{
 
 		        	ObjectOutputStream OutStream = new ObjectOutputStream(new FileOutputStream(file));
-		        	OutStream.writeObject(lagerModel);
+		        	LieferungListe lieferungListe = new LieferungListe(hauptmenue.getLieferungsModel());
+		        	LagerModel lagerModel = this.getLagerModel();
+		        	LagerUndListe lagerUndListe = new LagerUndListe(lagerModel, lieferungListe);
+		        	OutStream.writeObject(lagerUndListe);
 		        	OutStream.flush();
 		        	OutStream.close();
 				} 

@@ -1,9 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedList;
 
-public class Lieferung {
+public class Lieferung  implements Serializable{
 	LinkedList<Buchung> zugehoerigeBuchungen = new LinkedList<Buchung>();
 	Date datum;
 	int gesamtEinheiten;
