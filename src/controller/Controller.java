@@ -224,15 +224,18 @@ public class Controller {
 		{
 			Lieferung tempLieferung = null;
 			Buchung tempBuchung = null;
-		tempLieferung = new Lieferung(Calendar.getInstance().getTime(), 1000);
-		
-		tempBuchung = new Buchung(500, "Bremen", true);
-		tempLieferung.hinzufuegenBuchung(tempBuchung);
-		tempBuchung = new Buchung(200, "MV", true);
-		tempLieferung.hinzufuegenBuchung(tempBuchung);		
-		
-		hauptmenue.getLieferungsModel().addElement(tempLieferung);
-    	hauptmenue.getLieferungsListe().setModel(hauptmenue.getLieferungsModel());
+			
+			
+			
+			tempLieferung = new Lieferung(Calendar.getInstance().getTime(), 1000, "Zulieferung");
+			
+			tempBuchung = new Buchung(500, "Bremen", true);
+			tempLieferung.hinzufuegenBuchung(tempBuchung);
+			tempBuchung = new Buchung(200, "MV", true);
+			tempLieferung.hinzufuegenBuchung(tempBuchung);		
+			
+			hauptmenue.getLieferungsModel().addElement(tempLieferung);
+	    	hauptmenue.getLieferungsListe().setModel(hauptmenue.getLieferungsModel());
 		}
 //		hauptmenue.setLieferungsListe(tempStartliste);
 //		
