@@ -223,13 +223,16 @@ public class Controller {
 		//Lager ausgewaehlt = this.findePassendesLager("Bremen", (Lager) this.getLagerModel().getRoot());
 		
 		tempLieferung = new Lieferung(null, 1000);
+		
 		tempBuchung = new Buchung(500, "Bremen", true);
 		tempLieferung.hinzufuegenBuchung(tempBuchung);
 		tempBuchung = new Buchung(200, "MV", true);
 		tempLieferung.hinzufuegenBuchung(tempBuchung);		
-		hier
-		hauptmenue.setLieferungsListe(tempStartliste);
-		lagerModel = new LagerModel(root);
+		
+		hauptmenue.getLieferungsModel().addElement(tempLieferung);
+//		hauptmenue.getLieferungsListe().setModel(hauptmenue.getLieferungsModel());
+//		hauptmenue.setLieferungsListe(tempStartliste);
+//		lagerModel = new LagerModel(root);
 	}
 	
 	

@@ -58,6 +58,7 @@ import javax.swing.Action;
  *
  */
 public class Hauptmenue extends JFrame implements Observer {
+	DefaultListModel<Buchung> listModel = new DefaultListModel<Buchung>();
 	private JTree lagerTree;
 	private Controller controller;
 	private JLabel   lagerKapazitaetUeberschrift, lagerKapazitaet,
@@ -186,7 +187,7 @@ public class Hauptmenue extends JFrame implements Observer {
 					//Auswahl erkennen und Anpassung der View initialisieren, um die korrekten Informationen anzuzeigen  
 					Lager ausgewaehltesLager = (Lager) lagerTree.getLastSelectedPathComponent();
 					controller.lagerSelected(ausgewaehltesLager);
-					DefaultListModel<Buchung> listModel = new DefaultListModel<Buchung>();
+
 					for(Buchung buchung: ausgewaehltesLager.getBuchungen()){
 						listModel.addElement(buchung);
 					}
