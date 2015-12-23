@@ -154,7 +154,7 @@ public class Hauptmenue extends JFrame implements Observer {
 		lagerKapazitaetUeberschrift.setBounds(20, 425, 133, 14);
 		lagerPane.add(lagerKapazitaetUeberschrift);
 		
-		lagerKapazitaet = new JLabel("100");
+		lagerKapazitaet = new JLabel("0");
 		lagerKapazitaet.setHorizontalAlignment(SwingConstants.CENTER);
 		lagerKapazitaet.setBounds(163, 425, 360, 14);
 		lagerPane.add(lagerKapazitaet);
@@ -164,7 +164,7 @@ public class Hauptmenue extends JFrame implements Observer {
 		lagerNameUeberschrift.setBounds(20, 389, 133, 14);
 		lagerPane.add(lagerNameUeberschrift);
 		
-		lagerName = new JLabel("Niedersachsen");
+		lagerName = new JLabel("");
 		lagerName.setHorizontalAlignment(SwingConstants.CENTER);
 		lagerName.setBounds(163, 389, 360, 14);
 		lagerPane.add(lagerName);
@@ -175,7 +175,7 @@ public class Hauptmenue extends JFrame implements Observer {
 		lagerPane.add(lagerBestandUeberschrift);
 		final JList buchungsListe = new JList();
 		
-		lagerBestand = new JLabel("50");
+		lagerBestand = new JLabel("0");
 		lagerBestand.setHorizontalAlignment(SwingConstants.CENTER);
 		lagerBestand.setBounds(163, 464, 360, 14);
 		lagerPane.add(lagerBestand);
