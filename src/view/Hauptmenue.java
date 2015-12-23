@@ -350,6 +350,7 @@ public class Hauptmenue extends JFrame {
 		getContentPane().add(tabLeiste,null);
 		
 		lageruebersichtTab = new JSplitPane();
+		lageruebersichtTab.setEnabled(false);
 		lageruebersichtTab.setDividerLocation(0.5);
 		tabLeiste.addTab("Lagerübersicht", null, lageruebersichtTab, null);
 		
@@ -495,6 +496,7 @@ public class Hauptmenue extends JFrame {
 		
 		
 		lieferungsuebersichtTab = new JSplitPane();
+		lieferungsuebersichtTab.setEnabled(false);
 		tabLeiste.addTab("Lieferungsübersicht", null, lieferungsuebersichtTab, null);
 		
 		lieferungsListe = new JList<Lieferung>();
