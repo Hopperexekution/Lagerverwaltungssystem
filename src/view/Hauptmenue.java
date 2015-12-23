@@ -41,6 +41,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.ListSelectionEvent;
@@ -51,7 +53,7 @@ import javax.swing.SwingConstants;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-public class Hauptmenue extends JFrame {
+public class Hauptmenue extends JFrame implements Observer {
 	private JTree lagerTree;
 	private Controller controller;
 	private JLabel   lagerKapazitaetUeberschrift, lagerKapazitaet,
@@ -59,11 +61,14 @@ public class Hauptmenue extends JFrame {
 	private static Hauptmenue hauptmenue = null;
 	private JList<Lieferung> lieferungsListe;
 	private DefaultListModel<Lieferung> lieferungModel;
+	private static Observer lagerObserver;
 	
 	public static Hauptmenue getInstance(Controller controller){
 			if(hauptmenue == null){
 				hauptmenue = new Hauptmenue(controller);
 			}
+			lagerObserver = hauptmenue;
+			controller.getLagerModel().addObserver(lagerObserver);
 			return hauptmenue;
 		}
 		   
@@ -467,5 +472,13 @@ public class Hauptmenue extends JFrame {
 	}
 	public static Observer getLagerobserver(){
 		return lagerObserver;
+	}
+
+
+
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		controller.refreshTree();		
 	}
 }
