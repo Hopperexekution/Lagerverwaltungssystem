@@ -467,19 +467,11 @@ public class Controller {
 	
 
 	public void loescheRedoListe() {
-		for(UndoRedoModel model : redoListe)
-		{
-			redoListe.remove(model);
-		}
-		
+		redoListe = new LinkedList<UndoRedoModel>();
 	}
 
 	public void loescheUndoListe() {
-		for(UndoRedoModel model : undoListe)
-		{
-			undoListe.remove(model);
-		}
-		
+		undoListe = new LinkedList<UndoRedoModel>();
 	}
 	
 	public void lagerHinzufuegen(Lager lager, Lager vater) 
