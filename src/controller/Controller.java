@@ -81,15 +81,18 @@ public class Controller {
 	{
 		JFileChooser chooser = new JFileChooser();
 	    //------------------------------------------------------------------
-		//chooser.removeChoosableFileFilter(chooser.getAcceptAllFileFilter());
+		chooser.removeChoosableFileFilter(chooser.getAcceptAllFileFilter());
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
-        		"Lagerverwaltungs-Datei: .NSFW", "nsfw");
+        		"NOT SAFE FOR WORK: .NSFW", "nsfw");
+        FileNameExtensionFilter filter2 = new FileNameExtensionFilter(
+        		"Das ist NICHT der Dateityp den Sie suchen", ".nichtderdateitypdensiesuchen");
+        chooser.setFileFilter(filter2);
 	    chooser.setFileFilter(filter);
 	    //------------------------------------------------------------------
 
-	    int result = chooser.showOpenDialog(hauptmenue);
+	    int retValue = chooser.showOpenDialog(hauptmenue);
 
-		if (result == JFileChooser.APPROVE_OPTION) 
+		if (retValue == JFileChooser.APPROVE_OPTION) 
     	{
 			File savedFile = chooser.getSelectedFile();
 			try {
@@ -112,8 +115,8 @@ public class Controller {
 			JFileChooser chooser = new JFileChooser();
 		    //------------------------------------------------------------------
 	        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-	        		"Lagerverwaltungs-Datei: .NSFW", "nsfw");
-		    chooser.setFileFilter(filter);
+	        		"NOT SAFE FOR WORK: .NSFW", "nsfw");
+	        chooser.setFileFilter(filter);
 		    //------------------------------------------------------------------
 		    
 		    chooser.setDialogTitle("Speichern unter...");
