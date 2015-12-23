@@ -3,6 +3,8 @@ package view;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Vector;
 
 import javax.swing.DefaultListModel;
@@ -25,9 +27,27 @@ public class LagerVerteilenView extends JFrame {
 
 
 	public LagerVerteilenView(Controller controller, int gesamtMenge, Lager zuLoeschendesLager) {
-		this.controller = controller;
+this.controller = controller;
+		
+		//Frameeinstellungen
+		controller.getHauptmenue().setEnabled(false);
 		getContentPane().setLayout(null);
+		setBounds(400, 200, 600, 400);
+		setResizable(false);
+		setVisible(true);
+		
+		
+		
+		//Windowlistener um Hauptmenue zu blockieren, während das Umbenennen-Fenster geöffnent ist
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent event) {
+				controller.getHauptmenue().setEnabled(true);
+			}
+		});
 
+				
+				
 
 		JLabel lblNeueZulieferung = new JLabel("Neue Zulieferung");
 		lblNeueZulieferung.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -50,9 +70,7 @@ public class LagerVerteilenView extends JFrame {
 		
 		Vector<Lager> auswaehlbareLager = new Vector<Lager>();
 		auswaehlbareLager = controller.findeAuswaehlbarLager(auswaehlbareLager);
-		if(auswaehlbareLager.contains(zuLoeschendesLager)){
 		auswaehlbareLager.remove(zuLoeschendesLager);
-		}
 		
 		JComboBox<Lager> lagerAuswahl = new JComboBox<Lager>(auswaehlbareLager);
 		lagerAuswahl.setBounds(20, 115, 130, 20);
@@ -119,21 +137,21 @@ public class LagerVerteilenView extends JFrame {
 				{
 					int restEinheiten;
 					restEinheiten = gesamtMenge - controller.getVerteilteEinheiten();
-					int auswahl = JOptionPane.showConfirmDialog(null, "Die restliche(n) unverteilte(n) " + restEinheiten + " Einheit(en) wird/werden auf das zuletzt hinzugefügte Lager verteilt.\nWollen Sie das tun? Wenn nicht benutzen Sie den Undo Knopf und verteilen die Prozentangaben neu.", "Bestätigen", JOptionPane.YES_OPTION);
+					int auswahl = JOptionPane.showConfirmDialog(getContentPane(), "Die restliche(n) unverteilte(n) " + restEinheiten + " Einheit(en) wird/werden auf das zuletzt hinzugefügte Lager verteilt.\nWollen Sie das tun? Wenn nicht benutzen Sie den Undo Knopf und verteilen die Prozentangaben neu.", "Bestätigen", JOptionPane.YES_OPTION);
 					if(auswahl == JOptionPane.YES_OPTION)
 					{
 					controller.erstelleZulieferung(restEinheiten, gesamtMenge);
+					controller.berechneBestand(controller.getLagerModel().getRoot());
+					controller.getHauptmenue().setEnabled(true);
 					Lager vater = zuLoeschendesLager.getVater();
-					vater.setBestand(vater.getBestand() - zuLoeschendesLager.getBestand());
-					vater.setKapazitaet(vater.getKapazitaet() - zuLoeschendesLager.getKapazitaet());
 					vater.getChildList().remove(zuLoeschendesLager);
-					dispose();
 					controller.refreshTree();
+					dispose();
 					}
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, "Es müssen zuerst 100% der Einheiten verteilt sein bevor das Bestätigen möglich ist.");
+					JOptionPane.showMessageDialog(getContentPane(), "Es müssen zuerst 100% der Einheiten verteilt sein bevor das Bestätigen möglich ist.");
 				}
 			}
 		});
@@ -144,7 +162,8 @@ public class LagerVerteilenView extends JFrame {
 		butNchstesLager.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) 
+			{
 				if (lblAngabeProzent.getText().length() != 0) {
 					try{
 					double prozent = Double.parseDouble(lblAngabeProzent.getText());
@@ -156,46 +175,55 @@ public class LagerVerteilenView extends JFrame {
 					} else if ((controller.getProzent() + prozent) > 100) 
 					{	if(controller.getProzent() == 100)
 						{
-							JOptionPane.showMessageDialog(null, "Sie haben alle 100% verteilt. Betätigen Sie den Undo Button für Veränderungen.\nOder Bestätigen Sie die Zulieferung und noch nicht verteilte Einheiten(aufgrund von Abrundungen) werden dem letzten Lager hinzugefügt.\nOder brechen Sie die Zulieferung ab.");
+							JOptionPane.showMessageDialog(getContentPane(), "Sie haben alle 100% verteilt. Betätigen Sie den Undo Button für Veränderungen.\nOder Bestätigen Sie die Zulieferung und noch nicht verteilte Einheiten(aufgrund von Abrundungen) werden dem letzten Lager hinzugefügt.\nOder brechen Sie die Zulieferung ab.");
 						} else
 						{
 							double nochZuVerteilendeProzent = (100 - controller.getProzent());
-							JOptionPane.showMessageDialog(null, "Wenn diese Prozentzahl der Gesamteinheiten hinzugefügt werden soll, dann würde die insgesamte Prozentanzahl über 100% liegen.\nDies ist nicht möglich wählen Sie bitte einen kleineren Wert. Der aktuelle Prozentwert entspricht " + controller.getProzent()+"%.\nEs sind noch " + nochZuVerteilendeProzent + "% zu verteilen");
+							JOptionPane.showMessageDialog(getContentPane(), "Wenn diese Prozentzahl der Gesamteinheiten hinzugefügt werden soll, dann würde die insgesamte Prozentanzahl über 100% liegen.\nDies ist nicht möglich wählen Sie bitte einen kleineren Wert. Der aktuelle Prozentwert entspricht " + controller.getProzent()+"%.\nEs sind noch " + nochZuVerteilendeProzent + "% zu verteilen");
 						}
 					}
 					else
 					{
 						if(einheit != 0)
 						{
-							Lager ausgewaehlt = controller.findePassendesLager(lagerAuswahl.getSelectedItem().toString(), (Lager) controller.getLagerModel().getRoot());
-							int freieEinheiten = ausgewaehlt.getKapazitaet() - ausgewaehlt.getBestand();
-							if(einheit <=  freieEinheiten)
+							if(lagerAuswahl.getSelectedItem() != null)
 							{
-								Buchung neueBuchung = controller.erstelleZubuchung(prozent, gesamtMenge, lagerAuswahl.getSelectedItem().toString());
-								lagerAuswahl.removeItem(ausgewaehlt);
-								if(!neueBuchung.equals(null))
+								Lager ausgewaehlt = controller.findePassendesLager(lagerAuswahl.getSelectedItem().toString(), (Lager) controller.getLagerModel().getRoot());						
+								int freieEinheiten = ausgewaehlt.getKapazitaet() - ausgewaehlt.getBestand();
+								if(einheit <=  freieEinheiten)
 								{
-									lieferungsBuchungen.addElement(neueBuchung);
-									zulieferungLager.setModel(lieferungsBuchungen);
-							
+									Buchung neueBuchung = controller.erstelleZubuchung(prozent, gesamtMenge, lagerAuswahl.getSelectedItem().toString());
+									lagerAuswahl.removeItem(ausgewaehlt);
+									if(!neueBuchung.equals(null))
+									{
+										lieferungsBuchungen.addElement(neueBuchung);
+										zulieferungLager.setModel(lieferungsBuchungen);
+								
+									}
+									controller.loescheRedoListe();
 								}
-								controller.loescheRedoListe();
+								else
+								{
+									JOptionPane.showMessageDialog(getContentPane(), "Das Lager kann nur noch " + freieEinheiten + " Einheiten aufnehmen.\nSie wollen aber " + einheit + " Einheiten aufnehmen.");
+								}
 							}
 							else
 							{
-								JOptionPane.showMessageDialog(null, "Das Lager kann nur noch " + freieEinheiten + " Einheiten aufnehmen.\nSie wollen aber " + einheit + " Einheiten aufnehmen.");
+								JOptionPane.showMessageDialog(getContentPane(), "Es sind keine weiteren Lager mehr verfügbar."
+																			+ "\nBitte ändern Sie Ihre Verteilung.");
 							}
 						}
 						else
 						{
-							JOptionPane.showMessageDialog(null, "Bei dieser Prozentzahl würden keine Einheiten auf das Lager verteilt werden.\nBitte verwenden Sie eine andere Prozentzahl.");
+							JOptionPane.showMessageDialog(getContentPane(), "Bei dieser Prozentzahl würden keine Einheiten auf das Lager verteilt werden.\nBitte verwenden Sie eine andere Prozentzahl.");
 						}
 					}
 					}catch(NumberFormatException f){
-						JOptionPane.showMessageDialog(null, "Bitte nur Zahlen verwenden.");
+						JOptionPane.showMessageDialog(getContentPane(), "Bitte nur Zahlen verwenden."+
+																	  "\nAls Dezimaltrennzeichen verwenden Sie bitte einen Punkt.");
 					}	
 				} else {
-					JOptionPane.showMessageDialog(null, "Es ist eine Prozentangabe für die Verteilung notwendig");
+					JOptionPane.showMessageDialog(getContentPane(), "Es ist eine Prozentangabe für die Verteilung notwendig");
 				}
 
 				
@@ -211,15 +239,13 @@ public class LagerVerteilenView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				controller.loescheRedoListe();
 				controller.loescheUndoListe();
+				controller.getHauptmenue().setEnabled(true);
 				dispose();
 			}
 		});
 		abbrechenButton.setBounds(463, 328, 100, 23);
 		getContentPane().add(abbrechenButton);
 
-		setBounds(400, 200, 600, 400);
-		setResizable(false);
-		setVisible(true);
 	}
 
 
