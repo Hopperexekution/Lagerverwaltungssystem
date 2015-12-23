@@ -2,12 +2,13 @@ package model;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Observable;
 
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
-public class LagerModel implements TreeModel, Serializable{
+public class LagerModel extends Observable implements TreeModel, Serializable{
 	/**
 	 * 
 	 */
@@ -86,5 +87,18 @@ public class LagerModel implements TreeModel, Serializable{
 			return true;
 		}
 		return false;
+	}
+	public void lagerLoeschen(Lager lager){
+		if(lager.getVater() != null){
+			Lager vater = lager.getVater();
+			vater.getChildList().remove(lager);
+			setChanged();
+			notifyObservers();
+		}
+	}
+	public void lagerHinzufuegen(Lager vater, Lager hinzuzufuegendesLager){
+		vater.getChildList().add(hinzuzufuegendesLager);
+		setChanged();
+		notifyObservers();
 	}
 }

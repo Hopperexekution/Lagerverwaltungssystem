@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observer;
 import java.util.Vector;
 
 import javax.swing.DefaultListModel;
@@ -207,11 +208,11 @@ public class Controller {
 			if(!lager.getChildList().isEmpty()){
 				for(Lager kindLager : lager.getChildList()){
 					kindLager.setVater(vater);
-					vater.getChildList().add(kindLager);
+					lagerModel.lagerHinzufuegen(vater, kindLager);
 				}
 				vater.setBestand(vater.getBestand() - lager.getBestand());
 				vater.setKapazitaet(vater.getKapazitaet() - lager.getKapazitaet());
-				vater.getChildList().remove(lager);
+				lagerModel.lagerLoeschen(lager);
 			}
 			else{
 				if(vater.getChildList().size() > 1){
@@ -225,7 +226,7 @@ public class Controller {
 						if(lager.getBestand() == 0){
 							vater.setBestand(vater.getBestand() - lager.getBestand());
 							vater.setKapazitaet(vater.getKapazitaet() - lager.getKapazitaet());
-							vater.getChildList().remove(lager);
+							lagerModel.lagerLoeschen(lager);
 						}
 						else{
 								LagerVerteilenView lagerVerteilen = new LagerVerteilenView(hauptmenue.getController(), lager.getBestand(), lager);
@@ -236,12 +237,11 @@ public class Controller {
 					}
 				}
 				else{
-					vater.getChildList().remove(lager);
+					lagerModel.lagerLoeschen(lager);
 				}
 			}
 			this.berechneBestand(lagerModel.getRoot());
 			this.berechneKapazitaet(lagerModel.getRoot());
-			refreshTree();
 		}
 		else{
 			JOptionPane.showMessageDialog(null, "Das Hauptlager darf nicht gelöscht werden." );
@@ -478,11 +478,10 @@ public class Controller {
 		{
 			lager.setBestand(vater.getBestand());
 		}
-		vater.getChildList().add(lager);
+		lagerModel.lagerHinzufuegen(vater, lager);
 		standardBeschriftung();
 		this.berechneBestand(this.getLagerModel().getRoot());
 		this.berechneKapazitaet(this.getLagerModel().getRoot());
-		refreshTree();
 		hauptmenue.setAlwaysOnTop(true);
 		hauptmenue.setAlwaysOnTop(false);
 	}

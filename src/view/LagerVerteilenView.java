@@ -144,8 +144,7 @@ this.controller = controller;
 					controller.berechneBestand(controller.getLagerModel().getRoot());
 					controller.getHauptmenue().setEnabled(true);
 					Lager vater = zuLoeschendesLager.getVater();
-					vater.getChildList().remove(zuLoeschendesLager);
-					controller.refreshTree();
+					controller.getLagerModel().lagerLoeschen(zuLoeschendesLager);
 					dispose();
 					}
 				}
