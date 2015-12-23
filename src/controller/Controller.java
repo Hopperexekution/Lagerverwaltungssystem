@@ -64,6 +64,7 @@ public class Controller {
 					controller.berechneBestand(controller.getLagerModel().getRoot());
 					controller.berechneKapazitaet(controller.getLagerModel().getRoot());
 					hauptmenue = Hauptmenue.getInstance(controller);
+					controller.erstelleLieferung();
 					hauptmenue.setVisible(true);
 				} 
 				catch (Exception e) 
@@ -211,18 +212,19 @@ public class Controller {
 			addDefaultLager(root.getChildList().get(1), new String[]{"Frankreich", "Italien", "Spanien"});
 				addDefaultLager(root.getChildList().get(1).getChildList().get(0),new String[]{"Paris-Nord", "Orleans", "Marseille", "Nimes"});
 				addDefaultLager(root.getChildList().get(1).getChildList().get(1), new String[]{"Mailand", "L'Aquila"});
+				lagerModel = new LagerModel(root);
 		
 		
-		
-		JList<Lieferung> tempStartliste = null;
-		Lieferung tempLieferung = null;
-		Buchung tempBuchung = null;
+
 		
 		
-		
+	}	
 		//Lager ausgewaehlt = this.findePassendesLager("Bremen", (Lager) this.getLagerModel().getRoot());
-		
-		tempLieferung = new Lieferung(null, 1000);
+		private void erstelleLieferung()
+		{
+			Lieferung tempLieferung = null;
+			Buchung tempBuchung = null;
+		tempLieferung = new Lieferung(Calendar.getInstance().getTime(), 1000);
 		
 		tempBuchung = new Buchung(500, "Bremen", true);
 		tempLieferung.hinzufuegenBuchung(tempBuchung);
@@ -230,10 +232,11 @@ public class Controller {
 		tempLieferung.hinzufuegenBuchung(tempBuchung);		
 		
 		hauptmenue.getLieferungsModel().addElement(tempLieferung);
-//		hauptmenue.getLieferungsListe().setModel(hauptmenue.getLieferungsModel());
+    	hauptmenue.getLieferungsListe().setModel(hauptmenue.getLieferungsModel());
+		}
 //		hauptmenue.setLieferungsListe(tempStartliste);
-//		lagerModel = new LagerModel(root);
-	}
+//		
+
 	
 	
 	private static void addDefaultLager(Lager vater, String[] kinder)
