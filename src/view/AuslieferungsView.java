@@ -168,6 +168,8 @@ public class AuslieferungsView extends JFrame {
 				if(controller.getVerteilteEinheiten() == gesamtMenge)
 				{
 					controller.erstelleAuslieferung(gesamtMenge);
+					controller.berechneBestand(controller.getLagerModel().getRoot());
+					controller.refreshTree();
 					controller.getHauptmenue().setEnabled(true);
 					dispose();
 				}

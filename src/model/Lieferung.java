@@ -8,10 +8,16 @@ public class Lieferung  implements Serializable{
 	LinkedList<Buchung> zugehoerigeBuchungen = new LinkedList<Buchung>();
 	Date datum;
 	int gesamtEinheiten;
+	String zuOderAuslieferung;
 	
 	public Lieferung(Date datum, int gesamtEinheiten){
 		this.datum = datum;
 		this.gesamtEinheiten = gesamtEinheiten;
+	}
+	public Lieferung(Date datum, int gesamtEinheiten, String zuOderAbbuchung){
+		this.datum = datum;
+		this.gesamtEinheiten = gesamtEinheiten;
+		this.zuOderAuslieferung = zuOderAbbuchung;
 	}
 	public Lieferung(Date datum, int gesamtEinheiten, LinkedList<Buchung> zugehoerigeBuchungen)
 	{
@@ -35,7 +41,11 @@ public class Lieferung  implements Serializable{
 	public void hinzufuegenBuchung(Buchung buchung){
 		this.zugehoerigeBuchungen.add(buchung);
 	}
+	public String getZuOderAbbuchung()
+	{
+		return this.zuOderAuslieferung;
+	}
 	public String toString(){
-		return this.getDatum().toString();
+		return this.getDatum().toString() + "   " + this.getZuOderAbbuchung();
 	}
 }

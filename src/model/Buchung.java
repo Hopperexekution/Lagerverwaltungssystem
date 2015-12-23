@@ -7,13 +7,23 @@ public class Buchung implements Serializable{
 	int einheiten;
 	String zugehoerigesLager;
 	boolean zubuchung;
+	String zuOderAbbuchung;
 	
 	
 	public Buchung(int einheiten, String zugehoerigesLager, boolean zubuchung){
 		this.einheiten = einheiten;
 		this.zugehoerigesLager = zugehoerigesLager;
 		this.zubuchung = zubuchung;
+		if(this.getBuchungsStatus())
+		{
+			this.zuOderAbbuchung = "Zubuchung";
+		}
+		else if(!this.getBuchungsStatus())
+		{
+			this.zuOderAbbuchung = "Abbuchung";
+		}
 	}
+	
 	
 	public int getEinheiten(){
 		return this.einheiten;
@@ -30,12 +40,16 @@ public class Buchung implements Serializable{
 	
 	public String toString()
 	{
-		return "Einheiten: " + this.einheiten + " Lager: " + this.zugehoerigesLager;
+		return this.getZuOderAbbuchung()+ " Einheiten: " + this.einheiten + " Lager: " + this.zugehoerigesLager;
 	}
 
 	public void setEinheiten(int einheiten) {
 		this.einheiten = einheiten;
 		
+	}
+	public String getZuOderAbbuchung()
+	{
+		return this.zuOderAbbuchung;
 	}
 
 }

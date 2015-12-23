@@ -52,10 +52,16 @@ public class Lager implements Serializable
 	}
 	
 
-	public void aendereBestand(int einheitenBuchung)
+	public void erhoeheBestand(int einheitenBuchung)
 	{
 		this.bestand += einheitenBuchung;
 	}
+	
+	public void vermindereBestand(int einheitenBuchung)
+	{
+		this.bestand -= einheitenBuchung;
+	}
+	
 	public List<Lager> getChildList()
 	{
 		return children;

@@ -41,8 +41,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Date;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.ListSelectionEvent;
@@ -53,7 +51,7 @@ import javax.swing.SwingConstants;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
-public class Hauptmenue extends JFrame implements Observer {
+public class Hauptmenue extends JFrame {
 	private JTree lagerTree;
 	private Controller controller;
 	private JLabel   lagerKapazitaetUeberschrift, lagerKapazitaet,
@@ -61,14 +59,11 @@ public class Hauptmenue extends JFrame implements Observer {
 	private static Hauptmenue hauptmenue = null;
 	private JList<Lieferung> lieferungsListe;
 	private DefaultListModel<Lieferung> lieferungModel;
-	private static Observer lagerObserver;
 	
 	public static Hauptmenue getInstance(Controller controller){
 			if(hauptmenue == null){
 				hauptmenue = new Hauptmenue(controller);
 			}
-			lagerObserver = hauptmenue;
-			controller.getLagerModel().addObserver(lagerObserver);
 			return hauptmenue;
 		}
 		   
@@ -289,11 +284,14 @@ public class Hauptmenue extends JFrame implements Observer {
 			public void valueChanged(ListSelectionEvent e) {
 				Lieferung lieferung = lieferungsListe.getSelectedValue();
 				DefaultListModel<Buchung> buchungsModel = new DefaultListModel<>();
+				if(lieferung.getZugehoerigeBuchungen() != null)
+				{
 				for(Buchung buchung : lieferung.getZugehoerigeBuchungen())
 				{
 					buchungsModel.addElement(buchung);
 				}
 				zugehoerigeBuchungen.setModel(buchungsModel);
+				}
 			}
 		});
 
@@ -466,17 +464,5 @@ public class Hauptmenue extends JFrame implements Observer {
 	}
 	public void setController(Controller controller) {
 		this.controller = controller;
-	}
-
-
-
-
-	@Override
-	public void update(Observable o, Object arg) {
-		controller.refreshTree();
-		
-	}
-	public static Observer getLagerobserver(){
-		return lagerObserver;
 	}
 }

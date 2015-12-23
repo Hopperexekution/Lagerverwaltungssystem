@@ -155,6 +155,7 @@ public class ZulieferungsView extends JFrame {
 					{
 					controller.erstelleZulieferung(restEinheiten, gesamtMenge);
 					controller.berechneBestand(controller.getLagerModel().getRoot());
+					controller.refreshTree();
 					controller.getHauptmenue().setEnabled(true);
 					dispose();
 					}

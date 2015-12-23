@@ -425,11 +425,11 @@ public class Controller {
 		Lieferung neueZulieferung;
 		if(restEinheiten != 0)
 		{
-			neueZulieferung = new Lieferung(Calendar.getInstance().getTime(), (gesamtMenge + restEinheiten));
+			neueZulieferung = new Lieferung(Calendar.getInstance().getTime(), (gesamtMenge + restEinheiten), "Zulieferung");
 		}
 		else
 		{
-			neueZulieferung = new Lieferung(Calendar.getInstance().getTime(), gesamtMenge);
+			neueZulieferung = new Lieferung(Calendar.getInstance().getTime(), gesamtMenge , "Zulieferung");
 		}
 		Lager zuBuchungPassendes;
 		if(!undoListe.isEmpty())
@@ -445,7 +445,7 @@ public class Controller {
 				zuBuchungPassendes.hinzufuegenBuchung(model.getBuchung());
 				if(model.getBuchung().getBuchungsStatus())
 				{
-					zuBuchungPassendes.aendereBestand(model.getBuchung().getEinheiten());
+					zuBuchungPassendes.erhoeheBestand(model.getBuchung().getEinheiten());
 				}	
 
 					
@@ -483,6 +483,7 @@ public class Controller {
 		standardBeschriftung();
 		this.berechneBestand(this.getLagerModel().getRoot());
 		this.berechneKapazitaet(this.getLagerModel().getRoot());
+		this.refreshTree();
 		hauptmenue.setAlwaysOnTop(true);
 		hauptmenue.setAlwaysOnTop(false);
 	}
@@ -551,7 +552,7 @@ public class Controller {
 	}
 
 	public void erstelleAuslieferung(int gesamtMenge) {
-		Lieferung neueZulieferung = new Lieferung(Calendar.getInstance().getTime(), gesamtMenge);
+		Lieferung neueZulieferung = new Lieferung(Calendar.getInstance().getTime(), gesamtMenge, "Auslieferung");
 		Lager zuBuchungPassendes;
 		if(!undoListe.isEmpty())
 		{
@@ -560,13 +561,14 @@ public class Controller {
 				neueZulieferung.hinzufuegenBuchung(model.getBuchung());
 				zuBuchungPassendes = this.findePassendesLager(model.getBuchung().getZugehoerigesLager(), (Lager) this.getLagerModel().getRoot());
 				zuBuchungPassendes.hinzufuegenBuchung(model.getBuchung());
-				if(model.getBuchung().getBuchungsStatus())
+				if(!model.getBuchung().getBuchungsStatus())
 				{
-					zuBuchungPassendes.aendereBestand(model.getBuchung().getEinheiten());
+					zuBuchungPassendes.vermindereBestand(model.getBuchung().getEinheiten());
 				}
 			}
 		}
 		this.loescheUndoListe();
+		this.loescheRedoListe();
 		
 		DefaultListModel<Lieferung> lieferungsModel = this.getHauptmenue().getLieferungsModel();
 		lieferungsModel.addElement(neueZulieferung);
