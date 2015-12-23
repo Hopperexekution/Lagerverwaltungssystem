@@ -403,6 +403,11 @@ public class Hauptmenue extends JFrame {
 				if(lagerTree.getLastSelectedPathComponent() instanceof Lager){
 					Lager ausgewaehltesLager = (Lager) lagerTree.getLastSelectedPathComponent();
 					controller.lagerSelected(ausgewaehltesLager);
+					DefaultListModel<Buchung> listModel = new DefaultListModel<Buchung>();
+					for(Buchung buchung: ausgewaehltesLager.getBuchungen()){
+						listModel.addElement(buchung);
+					}
+					buchungsListe.setModel(listModel);
 				}
 			}
 		});
