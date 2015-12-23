@@ -39,7 +39,7 @@ public class AuslieferungsView extends JFrame {
 		
 		//Frameeinstellungen
 		controller.getHauptmenue().setEnabled(false);
-		setBounds(400, 200, 695, 450);
+		setBounds(400, 200, 695, 480);
 		setVisible(true);
 		setResizable(false);
 		getContentPane().setLayout(null);
@@ -193,6 +193,40 @@ public class AuslieferungsView extends JFrame {
 		abbrechenButton.setBounds(340, 359, 140, 23);
 		getContentPane().add(abbrechenButton);
 		
+		JButton undo = new JButton("Undo");
+		undo.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(controller.undoMoeglich()){
+				Buchung undoBuchung = controller.undo();
+				Lager ausgewaehlt = controller.findePassendesLager(undoBuchung.getZugehoerigesLager(),(Lager) controller.getLagerModel().getRoot());
+				lagerAuswahl.addItem(ausgewaehlt);
+				lieferungsBuchungen.removeElementAt(lieferungsBuchungen.getSize()-1);
+				buchungen.setModel(lieferungsBuchungen);
+				}
+			}
+		});
+		undo.setBounds(20, 402, 140, 23 );
+		getContentPane().add(undo);
+		
+		JButton redo = new JButton("Redo");
+		redo.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(controller.redoMoeglich()){
+					Buchung redoBuchung = controller.redo();
+					Lager ausgewaehlt = controller.findePassendesLager(redoBuchung.getZugehoerigesLager(), (Lager) controller.getLagerModel().getRoot());
+					lagerAuswahl.removeItem(ausgewaehlt);
+					lieferungsBuchungen.addElement(redoBuchung);
+					buchungen.setModel(lieferungsBuchungen);
+					}
+				
+			}
+		});
+		redo.setBounds(180, 402, 140, 23);
+		getContentPane().add(redo);
 		
 	}
 }
