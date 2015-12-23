@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
+import javax.swing.ListSelectionModel;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextField;
@@ -24,6 +25,7 @@ import java.awt.Font;
 import javax.swing.tree.DefaultTreeModel;
 
 import controller.Controller;
+import model.Buchung;
 import model.Lager;
 import model.LagerModel;
 import model.Lieferung;
@@ -41,6 +43,8 @@ import java.awt.event.MouseEvent;
 import java.util.Date;
 
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.JMenu;
 import javax.swing.SwingConstants;
@@ -59,8 +63,8 @@ public class Hauptmenue extends JFrame {
 	private JLabel lagerOptionenUeberschrift, lagerDetailsUeberschrift, lagerKapazitaetUeberschrift, lagerKapazitaet,
 		   lagerNameUeberschrift, lagerName, lagerBestandUeberschrift, lagerBestand, buchungenUeberschrift, 
 		   lieferungsoptionenUeberschrift, lieferbezeichnungUeberschrift, lieferBezeichung, lieferdatumUeberschrift, lieferDatum,
-		   gesamtmenge;
-	private JScrollPane treeScrollBar, lieferungScrollBar;
+		   gesamtmenge, buchungenLieferung;
+	private JScrollPane treeScrollBar, lieferungScrollBar, lagerBuchungScrollbBar, lieferungBuchungScrollBar;
 	private static Hauptmenue hauptmenue = null;
 
 	public static Hauptmenue getInstance(Controller controller){
@@ -268,12 +272,6 @@ public class Hauptmenue extends JFrame {
 	public void setLieferungsUebersichtSeperator(JSeparator lieferungsUebersichtSeperator) {
 		this.lieferungsUebersichtSeperator = lieferungsUebersichtSeperator;
 	}
-	public JScrollBar getBuchungsListeScrollBar() {
-		return buchungsListeScrollBar;
-	}
-	public void setBuchungsListeScrollBar(JScrollBar buchungsListeScrollBar) {
-		this.buchungsListeScrollBar = buchungsListeScrollBar;
-	}
 	public JList getBuchungsListe() {
 		return buchungsListe;
 	}
@@ -301,8 +299,7 @@ public class Hauptmenue extends JFrame {
 	}
 	JButton neuesLagerErstellenButton, lagerLoeschenButton, lagerUmbenennenButton, neueZulieferungButton,neueAuslieferungButton;
 	JSeparator lagerUebersichtSeperator, lieferungsUebersichtSeperator;
-	JScrollBar buchungsListeScrollBar;
-	JList buchungsListe;
+	JList buchungsListe, zugehoerigeBuchungen;
 	JList<Lieferung> lieferungsListe;
 	JTextField gesamtmengeEingabe;
 	DefaultListModel<Lieferung> lieferungModel;
@@ -458,22 +455,11 @@ public class Hauptmenue extends JFrame {
 		buchungenUeberschrift.setBounds(220, 90, 107, 23);
 		lagerPane.add(buchungenUeberschrift);
 		
-		buchungsListeScrollBar = new JScrollBar();
-		buchungsListeScrollBar.setBounds(512, 119, 17, 222);
-		lagerPane.add(buchungsListeScrollBar);
-		
 		buchungsListe = new JList();
-		buchungsListe.setBounds(20, 124, 492, 222);
-		buchungsListe.setModel(new AbstractListModel() {
-			String[] values = new String[] {"Niedersachsen; 100; 10.12.2015"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		lagerPane.add(buchungsListe);
+		lagerBuchungScrollbBar = new JScrollPane(buchungsListe);
+		lagerBuchungScrollbBar.setBounds(20, 124, 492, 222);
+
+		lagerPane.add(lagerBuchungScrollbBar);
 		
 		lagerUmbenennenButton = new JButton("Lager umbenennen");
 		lagerUmbenennenButton.setBounds(337, 48, 186, 23);
@@ -512,6 +498,25 @@ public class Hauptmenue extends JFrame {
 		lieferungScrollBar = new JScrollPane(lieferungsListe);
 		lieferungsuebersichtTab.setLeftComponent(lieferungScrollBar);
 		lieferungsuebersichtTab.setDividerLocation(250);
+		
+
+		
+		
+		ListSelectionModel listSelectionModel= lieferungsListe.getSelectionModel();
+		listSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				Lieferung lieferung = lieferungsListe.getSelectedValue();
+				DefaultListModel<Buchung> buchungsModel = new DefaultListModel<>();
+				for(Buchung buchung : lieferung.getZugehoerigeBuchungen())
+				{
+					buchungsModel.addElement(buchung);
+				}
+				zugehoerigeBuchungen.setModel(buchungsModel);
+			}
+		});
 
 		
 		lieferungPane = new JPanel();
@@ -609,33 +614,20 @@ public class Hauptmenue extends JFrame {
 		
 		lieferungsUebersichtSeperator = new JSeparator();
 		lieferungsUebersichtSeperator.setBounds(0, 120, 533, 2);
-		lieferungPane.add(lieferungsUebersichtSeperator);
-		
-		lieferbezeichnungUeberschrift = new JLabel("Lieferbezeichnung");
-		lieferbezeichnungUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
-		lieferbezeichnungUeberschrift.setBounds(24, 133, 121, 14);
-		lieferungPane.add(lieferbezeichnungUeberschrift);
-		
-		lieferBezeichung = new JLabel("000");
-		lieferBezeichung.setHorizontalAlignment(SwingConstants.CENTER);
-		lieferBezeichung.setBounds(24, 157, 121, 14);
-		lieferungPane.add(lieferBezeichung);
-		
-		lieferdatumUeberschrift = new JLabel("Lieferdatum");
-		lieferdatumUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
-		lieferdatumUeberschrift.setBounds(211, 133, 101, 14);
-		lieferungPane.add(lieferdatumUeberschrift);
-		
-		lieferDatum = new JLabel("10.12.2012");
-		lieferDatum.setHorizontalAlignment(SwingConstants.CENTER);
-		lieferDatum.setBounds(211, 157, 101, 14);
-		lieferungPane.add(lieferDatum);
-		
+		lieferungPane.add(lieferungsUebersichtSeperator);		
 		
 		gesamtmenge = new JLabel("Lieferumfang:");
 		gesamtmenge.setBounds(174, 89, 95, 20);
 		lieferungPane.add(gesamtmenge);
 		
+		buchungenLieferung = new JLabel("Buchungen");
+		buchungenLieferung.setBounds(230, 150, 150, 20);
+		lieferungPane.add(buchungenLieferung);
+				
+		zugehoerigeBuchungen = new JList<Buchung>();
+		lieferungBuchungScrollBar = new JScrollPane(zugehoerigeBuchungen);
+		lieferungBuchungScrollBar.setBounds(20, 180, 480, 330);
+		lieferungPane.add(lieferungBuchungScrollBar);
 }
 	public Controller getController() {
 		return controller;
