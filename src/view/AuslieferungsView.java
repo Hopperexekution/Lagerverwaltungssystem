@@ -24,6 +24,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Vector;
 
 public class AuslieferungsView extends JFrame {
@@ -34,7 +36,26 @@ public class AuslieferungsView extends JFrame {
 	public AuslieferungsView(Controller controller, int gesamtMenge ) 
 	{
 		this.controller = controller;
+		
+		//Frameeinstellungen
+		controller.getHauptmenue().setEnabled(false);
+		setBounds(400, 200, 695, 450);
+		setVisible(true);
+		setResizable(false);
 		getContentPane().setLayout(null);
+		
+		
+		
+		
+		//Windowlistener um Hauptmenue zu blockieren, während das Umbenennen-Fenster geöffnent ist
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent event) {
+				controller.getHauptmenue().setEnabled(true);
+			}
+		});
+		
+		
 		
 		JLabel auslieferungUeberschrift = new JLabel("Auslieferung");
 		auslieferungUeberschrift.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -147,6 +168,7 @@ public class AuslieferungsView extends JFrame {
 				if(controller.getVerteilteEinheiten() == gesamtMenge)
 				{
 					controller.erstelleAuslieferung(gesamtMenge);
+					controller.getHauptmenue().setEnabled(true);
 					dispose();
 				}
 				else
@@ -164,14 +186,13 @@ public class AuslieferungsView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				controller.loescheUndoListe();
+				controller.getHauptmenue().setEnabled(true);
 				dispose();
 			}
 		});
 		abbrechenButton.setBounds(340, 359, 140, 23);
 		getContentPane().add(abbrechenButton);
 		
-		setBounds(400, 200, 695, 450);
-		setVisible(true);
-		setResizable(false);
+		
 	}
 }
