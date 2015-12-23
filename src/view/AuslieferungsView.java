@@ -37,7 +37,7 @@ public class AuslieferungsView extends JFrame {
 	private JLabel anzahlverfgbareEinheiten;
 	
 	
-	public AuslieferungsView(Controller controller, int gesamtMenge ) 
+	public AuslieferungsView(final Controller controller, final int gesamtMenge ) 
 	{
 		this.controller = controller;
 		
@@ -69,7 +69,7 @@ public class AuslieferungsView extends JFrame {
 		Vector<Lager> auswaehlbareLager = new Vector<Lager>();
 		auswaehlbareLager = controller.findeAuswaehlbarLagerAuslieferung(auswaehlbareLager);
 
-		JComboBox<Lager> lagerAuswahl = new JComboBox<Lager>(auswaehlbareLager);
+		final JComboBox<Lager> lagerAuswahl = new JComboBox<Lager>(auswaehlbareLager);
 		lagerAuswahl.addActionListener(new ActionListener() {
 			
 			@Override
@@ -90,7 +90,7 @@ public class AuslieferungsView extends JFrame {
 		auszulieferndeUeberschrift.setBounds(160, 47, 150, 20);
 		getContentPane().add(auszulieferndeUeberschrift);
 		
-		JTextField anzahlAuszulieferndeEinheiten = new JTextField("0");
+		final JTextField anzahlAuszulieferndeEinheiten = new JTextField("0");
 		anzahlAuszulieferndeEinheiten.setBounds(160, 77, 50, 20);
 		getContentPane().add(anzahlAuszulieferndeEinheiten);
 		
@@ -111,8 +111,8 @@ public class AuslieferungsView extends JFrame {
 		lieferumfang.setBounds(470, 77, 86, 20);
 		getContentPane().add(lieferumfang);
 		
-		JList<Buchung> buchungen = new JList<Buchung>();
-		DefaultListModel<Buchung> lieferungsBuchungen = new DefaultListModel<Buchung>();
+		final JList<Buchung> buchungen = new JList<Buchung>();
+		final DefaultListModel<Buchung> lieferungsBuchungen = new DefaultListModel<Buchung>();
 		buchungen.setModel(lieferungsBuchungen);
 		JScrollPane buchungenScrollBar = new JScrollPane(buchungen);
 		buchungenScrollBar.setBounds(23, 124, 648, 198);

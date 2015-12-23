@@ -43,7 +43,7 @@ public class ZulieferungsView extends JFrame {
 
 
 
-	public ZulieferungsView(Controller controller, int gesamtMenge) {
+	public ZulieferungsView(final Controller controller, final int gesamtMenge) {
 		this.controller = controller;
 		
 		controller.getHauptmenue().setEnabled(false);
@@ -87,7 +87,7 @@ public class ZulieferungsView extends JFrame {
 		auswaehlbareLager = controller.findeAuswaehlbarLager(auswaehlbareLager);
 
 		
-		JComboBox<Lager> lagerAuswahl = new JComboBox<Lager>(auswaehlbareLager);
+		final JComboBox<Lager> lagerAuswahl = new JComboBox<Lager>(auswaehlbareLager);
 		lagerAuswahl.setBounds(20, 115, 130, 20);
 		getContentPane().add(lagerAuswahl);
 		
@@ -95,13 +95,13 @@ public class ZulieferungsView extends JFrame {
 		lblProzent.setBounds(170, 90, 46, 14);
 		getContentPane().add(lblProzent);
 		
-		JTextField lblAngabeProzent = new JTextField();
+		final JTextField lblAngabeProzent = new JTextField();
 		lblAngabeProzent.setBounds(170, 115, 86, 20);
 		getContentPane().add(lblAngabeProzent);
 		lblAngabeProzent.setColumns(30);
 
-		JList<Buchung> zulieferungLager = new JList<Buchung>();
-		DefaultListModel<Buchung> lieferungsBuchungen = new DefaultListModel<Buchung>();
+		final JList<Buchung> zulieferungLager = new JList<Buchung>();
+		final DefaultListModel<Buchung> lieferungsBuchungen = new DefaultListModel<Buchung>();
 		zulieferungLager.setModel(lieferungsBuchungen);
 		
 		JScrollPane scrollbarLieferung = new JScrollPane(zulieferungLager);

@@ -26,7 +26,7 @@ public class LagerUmbenennenView extends JFrame {
 
 	private JTextField eingabeNeueBezeichnung;
 	
-	public LagerUmbenennenView(Controller controller, Lager ausgewaehltesLager) {
+	public LagerUmbenennenView(final Controller controller, final Lager ausgewaehltesLager) {
 		
 		//Frameeinstellungen
 		controller.getHauptmenue().setEnabled(false);

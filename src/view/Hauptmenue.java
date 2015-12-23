@@ -84,7 +84,7 @@ public class Hauptmenue extends JFrame implements Observer {
 	
 	
 
-	private Hauptmenue( Controller controller) {
+	private Hauptmenue( final Controller controller) {
 		setResizable(false);
 		setBounds(50,50,800,600);
 		getContentPane().setLayout(null);
@@ -172,7 +172,7 @@ public class Hauptmenue extends JFrame implements Observer {
 		lagerBestandUeberschrift.setHorizontalAlignment(SwingConstants.LEFT);
 		lagerBestandUeberschrift.setBounds(20, 464, 133, 14);
 		lagerPane.add(lagerBestandUeberschrift);
-		JList buchungsListe = new JList();
+		final JList buchungsListe = new JList();
 		
 		lagerBestand = new JLabel("50");
 		lagerBestand.setHorizontalAlignment(SwingConstants.CENTER);
@@ -292,7 +292,7 @@ public class Hauptmenue extends JFrame implements Observer {
 		lieferungsuebersichtTab.setDividerLocation(250);
 		
 
-		JList<Buchung> zugehoerigeBuchungen = new JList<Buchung>();
+		final JList<Buchung> zugehoerigeBuchungen = new JList<Buchung>();
 		
 		ListSelectionModel listSelectionModel= lieferungsListe.getSelectionModel();
 		listSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -325,7 +325,7 @@ public class Hauptmenue extends JFrame implements Observer {
 		lieferungsoptionenUeberschrift.setBounds(220, 11, 123, 14);
 		lieferungPane.add(lieferungsoptionenUeberschrift);
 		
-		JTextField gesamtmengeEingabe = new JTextField();
+		final JTextField gesamtmengeEingabe = new JTextField();
 		gesamtmengeEingabe.setBounds(257, 89, 97, 20);
 		lieferungPane.add(gesamtmengeEingabe);
 		

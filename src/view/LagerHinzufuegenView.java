@@ -24,7 +24,7 @@ import java.awt.event.WindowEvent;
 public class LagerHinzufuegenView extends JFrame {
 	private JTextField bezeichnungsTextfeld;
 	private JTextField kapazitaetsTextfeld;
-	public LagerHinzufuegenView(Controller controller, Lager ausgewaehltesLager) {
+	public LagerHinzufuegenView(final Controller controller, final Lager ausgewaehltesLager) {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent event) {
