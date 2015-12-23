@@ -50,7 +50,7 @@ this.controller = controller;
 				
 				
 
-		JLabel lblNeueZulieferung = new JLabel("Neue Zulieferung");
+		JLabel lblNeueZulieferung = new JLabel("Umverteilung");
 		lblNeueZulieferung.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNeueZulieferung.setBounds(20, 11, 138, 20);
 		getContentPane().add(lblNeueZulieferung);
