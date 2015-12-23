@@ -90,9 +90,9 @@ public class Controller {
 	    chooser.setFileFilter(filter);
 	    //------------------------------------------------------------------
 
-	    int result = chooser.showOpenDialog(hauptmenue);
+	    int retValue = chooser.showOpenDialog(hauptmenue);
 
-		if (result == JFileChooser.APPROVE_OPTION) 
+		if (retValue == JFileChooser.APPROVE_OPTION) 
     	{
 			File savedFile = chooser.getSelectedFile();
 			try {
