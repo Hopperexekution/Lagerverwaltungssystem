@@ -440,23 +440,10 @@ public class Controller {
 			
 			}
 		}
-		while(!undoListe.isEmpty())
-		{
-			undoListe.removeFirst();
-		}
+		this.loescheUndoListe();
 
-		while(!undoListe.isEmpty())
-		{
-			undoListe.removeFirst();
-		}
+		this.loescheRedoListe();
 		
-		if(!redoListe.isEmpty())
-		{
-			for(UndoRedoModel model : redoListe)
-			{
-				redoListe.remove(model);
-			}
-		}
 		DefaultListModel<Lieferung> lieferungsModel = this.getHauptmenue().getLieferungsModel();
 		lieferungsModel.addElement(neueZulieferung);
 		this.getHauptmenue().getLieferungsListe().setModel(lieferungsModel);
@@ -568,9 +555,7 @@ public class Controller {
 				}
 			}
 		}
-		while(!undoListe.isEmpty()){
-			undoListe.removeFirst();
-		}
+		this.loescheUndoListe();
 		
 		DefaultListModel<Lieferung> lieferungsModel = this.getHauptmenue().getLieferungsModel();
 		lieferungsModel.addElement(neueZulieferung);
