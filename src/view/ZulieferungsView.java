@@ -151,7 +151,8 @@ public class ZulieferungsView extends JFrame {
 		butNchstesLager.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) 
+			{
 				if (lblAngabeProzent.getText().length() != 0) {
 					try{
 					double prozent = Double.parseDouble(lblAngabeProzent.getText());
@@ -174,23 +175,31 @@ public class ZulieferungsView extends JFrame {
 					{
 						if(einheit != 0)
 						{
-							Lager ausgewaehlt = controller.findePassendesLager(lagerAuswahl.getSelectedItem().toString(), (Lager) controller.getLagerModel().getRoot());
-							int freieEinheiten = ausgewaehlt.getKapazitaet() - ausgewaehlt.getBestand();
-							if(einheit <=  freieEinheiten)
+							if(lagerAuswahl.getSelectedItem() != null)
 							{
-								Buchung neueBuchung = controller.erstelleZubuchung(prozent, gesamtMenge, lagerAuswahl.getSelectedItem().toString());
-								lagerAuswahl.removeItem(ausgewaehlt);
-								if(!neueBuchung.equals(null))
+								Lager ausgewaehlt = controller.findePassendesLager(lagerAuswahl.getSelectedItem().toString(), (Lager) controller.getLagerModel().getRoot());						
+								int freieEinheiten = ausgewaehlt.getKapazitaet() - ausgewaehlt.getBestand();
+								if(einheit <=  freieEinheiten)
 								{
-									lieferungsBuchungen.addElement(neueBuchung);
-									zulieferungLager.setModel(lieferungsBuchungen);
-							
+									Buchung neueBuchung = controller.erstelleZubuchung(prozent, gesamtMenge, lagerAuswahl.getSelectedItem().toString());
+									lagerAuswahl.removeItem(ausgewaehlt);
+									if(!neueBuchung.equals(null))
+									{
+										lieferungsBuchungen.addElement(neueBuchung);
+										zulieferungLager.setModel(lieferungsBuchungen);
+								
+									}
+									controller.loescheRedoListe();
 								}
-								controller.loescheRedoListe();
+								else
+								{
+									JOptionPane.showMessageDialog(getContentPane(), "Das Lager kann nur noch " + freieEinheiten + " Einheiten aufnehmen.\nSie wollen aber " + einheit + " Einheiten aufnehmen.");
+								}
 							}
 							else
 							{
-								JOptionPane.showMessageDialog(getContentPane(), "Das Lager kann nur noch " + freieEinheiten + " Einheiten aufnehmen.\nSie wollen aber " + einheit + " Einheiten aufnehmen.");
+								JOptionPane.showMessageDialog(getContentPane(), "Es sind keine weiteren Lager mehr verfügbar."
+																			+ "\nBitte ändern Sie Ihre Verteilung.");
 							}
 						}
 						else
