@@ -54,19 +54,12 @@ import javax.swing.Action;
 public class Hauptmenue extends JFrame {
 	private JTree lagerTree;
 	private Controller controller;
-	private JMenuBar menueLeiste;
-	private JMenu menueListe;
-	private JMenuItem menueSpeichern, menueLaden, menueBeenden;
-	private JTabbedPane tabLeiste;
-	private JSplitPane lageruebersichtTab, lieferungsuebersichtTab;
-	private JPanel lagerPane, lieferungPane;
-	private JLabel lagerOptionenUeberschrift, lagerDetailsUeberschrift, lagerKapazitaetUeberschrift, lagerKapazitaet,
-		   lagerNameUeberschrift, lagerName, lagerBestandUeberschrift, lagerBestand, buchungenUeberschrift, 
-		   lieferungsoptionenUeberschrift, lieferbezeichnungUeberschrift, lieferBezeichung, lieferdatumUeberschrift, lieferDatum,
-		   gesamtmenge, buchungenLieferung;
-	private JScrollPane treeScrollBar, lieferungScrollBar, lagerBuchungScrollbBar, lieferungBuchungScrollBar;
+	private JLabel   lagerKapazitaetUeberschrift, lagerKapazitaet,
+		   lagerNameUeberschrift, lagerName, lagerBestandUeberschrift, lagerBestand;
 	private static Hauptmenue hauptmenue = null;
-
+	private JList<Lieferung> lieferungsListe;
+	private DefaultListModel<Lieferung> lieferungModel;
+	
 	public static Hauptmenue getInstance(Controller controller){
 			if(hauptmenue == null){
 				hauptmenue = new Hauptmenue(controller);
@@ -74,235 +67,8 @@ public class Hauptmenue extends JFrame {
 			return hauptmenue;
 		}
 		   
-	public JTree getLagerTree() {
-		return lagerTree;
-	}
-	public void setLagerTree(JTree lagerTree) {
-		this.lagerTree = lagerTree;
-	}
-	public JMenuBar getMenueLeiste() {
-		return menueLeiste;
-	}
-	public void setMenueLeiste(JMenuBar menueLeiste) {
-		this.menueLeiste = menueLeiste;
-	}
-	public JMenu getMenueListe() {
-		return menueListe;
-	}
-	public void setMenueListe(JMenu menueListe) {
-		this.menueListe = menueListe;
-	}
-	public JMenuItem getMenueSpeichern() {
-		return menueSpeichern;
-	}
-	public void setMenueSpeichern(JMenuItem menueSpeichern) {
-		this.menueSpeichern = menueSpeichern;
-	}
-	public JMenuItem getMenueLaden() {
-		return menueLaden;
-	}
-	public void setMenueLaden(JMenuItem menueLaden) {
-		this.menueLaden = menueLaden;
-	}
-	public JMenuItem getMenueBeenden() {
-		return menueBeenden;
-	}
-	public void setMenueBeenden(JMenuItem menueBeenden) {
-		this.menueBeenden = menueBeenden;
-	}
-	public JTabbedPane getTabLeiste() {
-		return tabLeiste;
-	}
-	public void setTabLeiste(JTabbedPane tabLeiste) {
-		this.tabLeiste = tabLeiste;
-	}
-	public JSplitPane getLageruebersichtTab() {
-		return lageruebersichtTab;
-	}
-	public void setLageruebersichtTab(JSplitPane lageruebersichtTab) {
-		this.lageruebersichtTab = lageruebersichtTab;
-	}
-	public JSplitPane getLieferungsuebersichtTab() {
-		return lieferungsuebersichtTab;
-	}
-	public void setLieferungsuebersichtTab(JSplitPane lieferungsuebersichtTab) {
-		this.lieferungsuebersichtTab = lieferungsuebersichtTab;
-	}
-	public JPanel getLagerPane() {
-		return lagerPane;
-	}
-	public void setLagerPane(JPanel lagerPane) {
-		this.lagerPane = lagerPane;
-	}
-	public JPanel getLieferungPane() {
-		return lieferungPane;
-	}
-	public void setLieferungPane(JPanel lieferungPane) {
-		this.lieferungPane = lieferungPane;
-	}
-	public JLabel getLagerOptionenUeberschrift() {
-		return lagerOptionenUeberschrift;
-	}
-	public void setLagerOptionenUeberschrift(JLabel lagerOptionenUeberschrift) {
-		this.lagerOptionenUeberschrift = lagerOptionenUeberschrift;
-	}
-	public JLabel getLagerDetailsUeberschrift() {
-		return lagerDetailsUeberschrift;
-	}
-	public void setLagerDetailsUeberschrift(JLabel lagerDetailsUeberschrift) {
-		this.lagerDetailsUeberschrift = lagerDetailsUeberschrift;
-	}
-	public JLabel getLagerKapazitaetUeberschrift() {
-		return lagerKapazitaetUeberschrift;
-	}
-	public void setLagerKapazitaetUeberschrift(JLabel lagerKapazitaetUeberschrift) {
-		this.lagerKapazitaetUeberschrift = lagerKapazitaetUeberschrift;
-	}
-	public JLabel getLagerKapazitaet() {
-		return lagerKapazitaet;
-	}
-	public void setLagerKapazitaet(JLabel lagerKapazitaet) {
-		this.lagerKapazitaet = lagerKapazitaet;
-	}
-	public JLabel getLagerNameUeberschrift() {
-		return lagerNameUeberschrift;
-	}
-	public void setLagerNameUeberschrift(JLabel lagerNameUeberschrift) {
-		this.lagerNameUeberschrift = lagerNameUeberschrift;
-	}
-	public JLabel getLagerName() {
-		return lagerName;
-	}
-	public void setLagerName(JLabel lagerName) {
-		this.lagerName = lagerName;
-	}
-	public JLabel getLagerBestandUeberschrift() {
-		return lagerBestandUeberschrift;
-	}
-	public void setLagerBestandUeberschrift(JLabel lagerBestandUeberschrift) {
-		this.lagerBestandUeberschrift = lagerBestandUeberschrift;
-	}
-	public JLabel getLagerBestand() {
-		return lagerBestand;
-	}
-	public void setLagerBestand(JLabel lagerBestand) {
-		this.lagerBestand = lagerBestand;
-	}
-	public JLabel getBuchungenUeberschrift() {
-		return buchungenUeberschrift;
-	}
-	public void setBuchungenUeberschrift(JLabel buchungenUeberschrift) {
-		this.buchungenUeberschrift = buchungenUeberschrift;
-	}
-	public JLabel getLieferungsoptionenUeberschrift() {
-		return lieferungsoptionenUeberschrift;
-	}
-	public void setLieferungsoptionenUeberschrift(JLabel lieferungsoptionenUeberschrift) {
-		this.lieferungsoptionenUeberschrift = lieferungsoptionenUeberschrift;
-	}
-	public JLabel getLieferbezeichnungUeberschrift() {
-		return lieferbezeichnungUeberschrift;
-	}
-	public void setLieferbezeichnungUeberschrift(JLabel lieferbezeichnungUeberschrift) {
-		this.lieferbezeichnungUeberschrift = lieferbezeichnungUeberschrift;
-	}
-	public JLabel getLieferBezeichung() {
-		return lieferBezeichung;
-	}
-	public void setLieferBezeichung(JLabel lieferBezeichung) {
-		this.lieferBezeichung = lieferBezeichung;
-	}
-	public JLabel getLieferdatumUeberschrift() {
-		return lieferdatumUeberschrift;
-	}
-	public void setLieferdatumUeberschrift(JLabel lieferdatumUeberschrift) {
-		this.lieferdatumUeberschrift = lieferdatumUeberschrift;
-	}
-	public JLabel getLieferDatum() {
-		return lieferDatum;
-	}
-	public void setLieferDatum(JLabel lieferDatum) {
-		this.lieferDatum = lieferDatum;
-	}
-	public JLabel getGesamtmenge() {
-		return gesamtmenge;
-	}
-	public void setGesamtmenge(JLabel gesamtmenge) {
-		this.gesamtmenge = gesamtmenge;
-	}
-	public JButton getNeuesLagerErstellenButton() {
-		return neuesLagerErstellenButton;
-	}
-	public void setNeuesLagerErstellenButton(JButton neuesLagerErstellenButton) {
-		this.neuesLagerErstellenButton = neuesLagerErstellenButton;
-	}
-	public JButton getLagerLoeschenButton() {
-		return lagerLoeschenButton;
-	}
-	public void setLagerLoeschenButton(JButton lagerLoeschenButton) {
-		this.lagerLoeschenButton = lagerLoeschenButton;
-	}
-	public JButton getLagerUmbenennenButton() {
-		return lagerUmbenennenButton;
-	}
-	public void setLagerUmbenennenButton(JButton lagerUmbenennenButton) {
-		this.lagerUmbenennenButton = lagerUmbenennenButton;
-	}
-	public JButton getNeueZulieferungButton() {
-		return neueZulieferungButton;
-	}
-	public void setNeueZulieferungButton(JButton neueZulieferungButton) {
-		this.neueZulieferungButton = neueZulieferungButton;
-	}
-	public JButton getNeueAuslieferungButton() {
-		return neueAuslieferungButton;
-	}
-	public void setNeueAuslieferungButton(JButton neueAuslieferungButton) {
-		this.neueAuslieferungButton = neueAuslieferungButton;
-	}
-	public JSeparator getLagerUebersichtSeperator() {
-		return lagerUebersichtSeperator;
-	}
-	public void setLagerUebersichtSeperator(JSeparator lagerUebersichtSeperator) {
-		this.lagerUebersichtSeperator = lagerUebersichtSeperator;
-	}
-	public JSeparator getLieferungsUebersichtSeperator() {
-		return lieferungsUebersichtSeperator;
-	}
-	public void setLieferungsUebersichtSeperator(JSeparator lieferungsUebersichtSeperator) {
-		this.lieferungsUebersichtSeperator = lieferungsUebersichtSeperator;
-	}
-	public JList getBuchungsListe() {
-		return buchungsListe;
-	}
-	public void setBuchungsListe(JList buchungsListe) {
-		this.buchungsListe = buchungsListe;
-	}
-	public JList<Lieferung> getLieferungsListe() {
-		return lieferungsListe;
-	}
-	public void setLieferungsListe(JList<Lieferung> lieferungsListe) {
-		this.lieferungsListe = lieferungsListe;
-	}
-	public JTextField getGesamtmengeEingabe() {
-		return gesamtmengeEingabe;
-	}
-	public void setGesamtmengeEingabe(JTextField gesamtmengeEingabe) {
-		this.gesamtmengeEingabe = gesamtmengeEingabe;
-	}
 	
-	public DefaultListModel<Lieferung> getLieferungsModel(){
-		return lieferungModel;
-	}
-	public void setLieferungsModel(DefaultListModel<Lieferung> lieferungsModel){
-		this.lieferungModel = lieferungsModel;
-	}
-	JButton neuesLagerErstellenButton, lagerLoeschenButton, lagerUmbenennenButton, neueZulieferungButton,neueAuslieferungButton;
-	JSeparator lagerUebersichtSeperator, lieferungsUebersichtSeperator;
-	JList buchungsListe, zugehoerigeBuchungen;
-	JList<Lieferung> lieferungsListe;
-	JTextField gesamtmengeEingabe;
-	DefaultListModel<Lieferung> lieferungModel;
+	
 
 	private Hauptmenue( Controller controller) {
 		setResizable(false);
@@ -311,14 +77,14 @@ public class Hauptmenue extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setController(controller);
 		
-		menueLeiste = new JMenuBar();
+		JMenuBar menueLeiste = new JMenuBar();
 		menueLeiste.setBounds(0, 0, 794, 24);
 		getContentPane().add(menueLeiste);
 		
-		menueListe = new JMenu("Menü");
+		JMenu menueListe = new JMenu("Menü");
 		menueLeiste.add(menueListe);
 		
-		menueLaden = new JMenuItem("Laden");
+		JMenuItem menueLaden = new JMenuItem("Laden");
 		menueLaden.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
@@ -327,7 +93,7 @@ public class Hauptmenue extends JFrame {
 		});
 		menueListe.add(menueLaden);
 		
-		menueSpeichern = new JMenuItem("Speichern");
+		JMenuItem menueSpeichern = new JMenuItem("Speichern");
 		menueSpeichern.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
@@ -336,7 +102,7 @@ public class Hauptmenue extends JFrame {
 		});
 		menueListe.add(menueSpeichern);
 		
-		menueBeenden = new JMenuItem("Programm beenden");
+		JMenuItem menueBeenden = new JMenuItem("Programm beenden");
 		menueBeenden.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
@@ -345,25 +111,25 @@ public class Hauptmenue extends JFrame {
 		});
 		menueListe.add(menueBeenden);
 		
-		tabLeiste = new JTabbedPane();
+		JTabbedPane tabLeiste = new JTabbedPane();
 		tabLeiste.setBounds(0, 23, 794, 548);
 		getContentPane().add(tabLeiste,null);
 		
-		lageruebersichtTab = new JSplitPane();
+		JSplitPane lageruebersichtTab = new JSplitPane();
 		lageruebersichtTab.setEnabled(false);
 		lageruebersichtTab.setDividerLocation(0.5);
 		tabLeiste.addTab("Lagerübersicht", null, lageruebersichtTab, null);
 		
-		lagerPane = new JPanel();
+		JPanel lagerPane = new JPanel();
 		lageruebersichtTab.setRightComponent(lagerPane);
 		lagerPane.setLayout(null);
 		
-		lagerOptionenUeberschrift = new JLabel("Lager Optionen");
+		JLabel lagerOptionenUeberschrift = new JLabel("Lager Optionen");
 		lagerOptionenUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
 		lagerOptionenUeberschrift.setBounds(209, 14, 107, 23);
 		lagerOptionenUeberschrift.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lagerPane.add(lagerOptionenUeberschrift);
-		lagerDetailsUeberschrift = new JLabel("Lager Details");
+		JLabel lagerDetailsUeberschrift = new JLabel("Lager Details");
 		lagerDetailsUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
 		lagerDetailsUeberschrift.setBounds(220, 352, 107, 23);
 		lagerPane.add(lagerDetailsUeberschrift);
@@ -392,6 +158,7 @@ public class Hauptmenue extends JFrame {
 		lagerBestandUeberschrift.setHorizontalAlignment(SwingConstants.LEFT);
 		lagerBestandUeberschrift.setBounds(20, 464, 133, 14);
 		lagerPane.add(lagerBestandUeberschrift);
+		JList buchungsListe = new JList();
 		
 		lagerBestand = new JLabel("50");
 		lagerBestand.setHorizontalAlignment(SwingConstants.CENTER);
@@ -413,11 +180,11 @@ public class Hauptmenue extends JFrame {
 			}
 		});
 		lagerTree.setModel(controller.getLagerModel());
-		treeScrollBar = new JScrollPane(lagerTree);
+		JScrollPane treeScrollBar = new JScrollPane(lagerTree);
 		lageruebersichtTab.setLeftComponent(treeScrollBar);
 		lageruebersichtTab.setDividerLocation(250);
 		
-		neuesLagerErstellenButton = new JButton("Neues Lager erstellen");
+		JButton neuesLagerErstellenButton = new JButton("Neues Lager erstellen");
 		neuesLagerErstellenButton.setBounds(20, 48, 170, 23);
 		neuesLagerErstellenButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -435,7 +202,7 @@ public class Hauptmenue extends JFrame {
 		});
 		lagerPane.add(neuesLagerErstellenButton);
 		
-		lagerLoeschenButton = new JButton("Lager löschen");
+		JButton lagerLoeschenButton = new JButton("Lager löschen");
 		lagerLoeschenButton.setBounds(200, 48, 127, 23);
 		lagerLoeschenButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -452,22 +219,22 @@ public class Hauptmenue extends JFrame {
 		lagerPane.add(lagerLoeschenButton);
 		
 		
-		lagerUebersichtSeperator = new JSeparator();
+		JSeparator lagerUebersichtSeperator = new JSeparator();
 		lagerUebersichtSeperator.setBounds(0, 82, 533, 2);
 		lagerPane.add(lagerUebersichtSeperator);
 		
-		buchungenUeberschrift = new JLabel("Buchungen");
+		JLabel buchungenUeberschrift = new JLabel("Buchungen");
 		buchungenUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
 		buchungenUeberschrift.setBounds(220, 90, 107, 23);
 		lagerPane.add(buchungenUeberschrift);
 		
-		buchungsListe = new JList();
-		lagerBuchungScrollbBar = new JScrollPane(buchungsListe);
+		
+		JScrollPane lagerBuchungScrollbBar = new JScrollPane(buchungsListe);
 		lagerBuchungScrollbBar.setBounds(20, 124, 492, 222);
 
 		lagerPane.add(lagerBuchungScrollbBar);
 		
-		lagerUmbenennenButton = new JButton("Lager umbenennen");
+		JButton lagerUmbenennenButton = new JButton("Lager umbenennen");
 		lagerUmbenennenButton.setBounds(337, 48, 186, 23);
 		lagerUmbenennenButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -495,19 +262,19 @@ public class Hauptmenue extends JFrame {
 		
 		
 		
-		lieferungsuebersichtTab = new JSplitPane();
+		JSplitPane lieferungsuebersichtTab = new JSplitPane();
 		lieferungsuebersichtTab.setEnabled(false);
 		tabLeiste.addTab("Lieferungsübersicht", null, lieferungsuebersichtTab, null);
 		
 		lieferungsListe = new JList<Lieferung>();
 		lieferungModel = new DefaultListModel<Lieferung>();
 		lieferungsListe.setModel(lieferungModel);
-		lieferungScrollBar = new JScrollPane(lieferungsListe);
+		JScrollPane lieferungScrollBar = new JScrollPane(lieferungsListe);
 		lieferungsuebersichtTab.setLeftComponent(lieferungScrollBar);
 		lieferungsuebersichtTab.setDividerLocation(250);
 		
 
-		
+		JList<Buchung> zugehoerigeBuchungen = new JList<Buchung>();
 		
 		ListSelectionModel listSelectionModel= lieferungsListe.getSelectionModel();
 		listSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -526,21 +293,21 @@ public class Hauptmenue extends JFrame {
 		});
 
 		
-		lieferungPane = new JPanel();
+		JPanel lieferungPane = new JPanel();
 		lieferungsuebersichtTab.setRightComponent(lieferungPane);
 		lieferungPane.setLayout(null);
 		
-		lieferungsoptionenUeberschrift = new JLabel("Lieferungsoptionen");
+		JLabel lieferungsoptionenUeberschrift = new JLabel("Lieferungsoptionen");
 		lieferungsoptionenUeberschrift.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lieferungsoptionenUeberschrift.setHorizontalAlignment(SwingConstants.CENTER);
 		lieferungsoptionenUeberschrift.setBounds(220, 11, 123, 14);
 		lieferungPane.add(lieferungsoptionenUeberschrift);
 		
-		gesamtmengeEingabe = new JTextField();
+		JTextField gesamtmengeEingabe = new JTextField();
 		gesamtmengeEingabe.setBounds(257, 89, 97, 20);
 		lieferungPane.add(gesamtmengeEingabe);
 		
-		neueZulieferungButton = new JButton("Neue Zulieferung");
+		JButton neueZulieferungButton = new JButton("Neue Zulieferung");
 		neueZulieferungButton.setBounds(20, 48, 170, 23);
 		neueZulieferungButton.addActionListener(new ActionListener() {
 			
@@ -577,7 +344,7 @@ public class Hauptmenue extends JFrame {
 		});
 		lieferungPane.add(neueZulieferungButton);
 		
-		neueAuslieferungButton = new JButton("Neue Auslieferung");
+		JButton neueAuslieferungButton = new JButton("Neue Auslieferung");
 		neueAuslieferungButton.setBounds(340, 48, 170, 23);
 		neueAuslieferungButton.addActionListener(new ActionListener() 
 		{
@@ -619,23 +386,76 @@ public class Hauptmenue extends JFrame {
 		});
 		lieferungPane.add(neueAuslieferungButton);
 		
-		lieferungsUebersichtSeperator = new JSeparator();
+		JSeparator lieferungsUebersichtSeperator = new JSeparator();
 		lieferungsUebersichtSeperator.setBounds(0, 120, 533, 2);
 		lieferungPane.add(lieferungsUebersichtSeperator);		
 		
-		gesamtmenge = new JLabel("Lieferumfang:");
+		JLabel gesamtmenge = new JLabel("Lieferumfang:");
 		gesamtmenge.setBounds(174, 89, 95, 20);
 		lieferungPane.add(gesamtmenge);
 		
-		buchungenLieferung = new JLabel("Buchungen");
+		JLabel buchungenLieferung = new JLabel("Buchungen");
 		buchungenLieferung.setBounds(230, 150, 150, 20);
 		lieferungPane.add(buchungenLieferung);
-				
-		zugehoerigeBuchungen = new JList<Buchung>();
-		lieferungBuchungScrollBar = new JScrollPane(zugehoerigeBuchungen);
+		
+		JScrollPane lieferungBuchungScrollBar = new JScrollPane(zugehoerigeBuchungen);
 		lieferungBuchungScrollBar.setBounds(20, 180, 480, 330);
 		lieferungPane.add(lieferungBuchungScrollBar);
 }
+	public JTree getLagerTree() {
+		return lagerTree;
+	}
+	public void setLagerTree(JTree lagerTree) {
+		this.lagerTree = lagerTree;
+	}
+	public JLabel getLagerKapazitaetUeberschrift() {
+		return lagerKapazitaetUeberschrift;
+	}
+	public void setLagerKapazitaetUeberschrift(JLabel lagerKapazitaetUeberschrift) {
+		this.lagerKapazitaetUeberschrift = lagerKapazitaetUeberschrift;
+	}
+	public JLabel getLagerKapazitaet() {
+		return lagerKapazitaet;
+	}
+	public void setLagerKapazitaet(JLabel lagerKapazitaet) {
+		this.lagerKapazitaet = lagerKapazitaet;
+	}
+	public JLabel getLagerNameUeberschrift() {
+		return lagerNameUeberschrift;
+	}
+	public void setLagerNameUeberschrift(JLabel lagerNameUeberschrift) {
+		this.lagerNameUeberschrift = lagerNameUeberschrift;
+	}
+	public JLabel getLagerName() {
+		return lagerName;
+	}
+	public void setLagerName(JLabel lagerName) {
+		this.lagerName = lagerName;
+	}
+	public JLabel getLagerBestandUeberschrift() {
+		return lagerBestandUeberschrift;
+	}
+	public void setLagerBestandUeberschrift(JLabel lagerBestandUeberschrift) {
+		this.lagerBestandUeberschrift = lagerBestandUeberschrift;
+	}
+	public JLabel getLagerBestand() {
+		return lagerBestand;
+	}
+	public void setLagerBestand(JLabel lagerBestand) {
+		this.lagerBestand = lagerBestand;
+	}
+	public DefaultListModel<Lieferung> getLieferungsModel() {
+		return lieferungModel;
+	}
+	public void setLieferungsModel(DefaultListModel<Lieferung> lieferungModel) {
+		this.lieferungModel = lieferungModel;
+	}
+	public JList<Lieferung> getLieferungsListe() {
+		return lieferungsListe;
+	}
+	public void setLieferungsListe(JList<Lieferung> lieferungsListe) {
+		this.lieferungsListe = lieferungsListe;
+	}
 	public Controller getController() {
 		return controller;
 	}
