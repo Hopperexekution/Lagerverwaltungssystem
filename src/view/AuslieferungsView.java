@@ -28,7 +28,7 @@ import java.util.Vector;
 
 public class AuslieferungsView extends JFrame {
 	private Controller controller;
-	
+	private JLabel anzahlverfgbareEinheiten;
 	
 	
 	public AuslieferungsView(Controller controller, int gesamtMenge ) 
@@ -45,6 +45,14 @@ public class AuslieferungsView extends JFrame {
 		auswaehlbareLager = controller.findeAuswaehlbarLagerAuslieferung(auswaehlbareLager);
 
 		JComboBox<Lager> lagerAuswahl = new JComboBox<Lager>(auswaehlbareLager);
+		lagerAuswahl.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String s = controller.findePassendesLager(lagerAuswahl.getSelectedItem().toString(), controller.getLagerModel().getRoot()).getBestand() + "";
+				anzahlverfgbareEinheiten.setText(s);
+			}
+		});
 		lagerAuswahl.setBounds(10, 77, 130, 20);
 		getContentPane().add(lagerAuswahl);
 		
@@ -64,7 +72,7 @@ public class AuslieferungsView extends JFrame {
 		verfgbareEinheitenUeberschrift.setBounds(330, 47, 120, 20);
 		getContentPane().add(verfgbareEinheitenUeberschrift);
 		
-		JLabel anzahlverfgbareEinheiten = new JLabel();
+		anzahlverfgbareEinheiten = new JLabel();
 		anzahlverfgbareEinheiten.setText(controller.findePassendesLager(lagerAuswahl.getSelectedItem().toString(), controller.getLagerModel().getRoot()).getBestand()+ "");
 		anzahlverfgbareEinheiten.setBounds(330, 77, 50, 20);
 		getContentPane().add(anzahlverfgbareEinheiten);

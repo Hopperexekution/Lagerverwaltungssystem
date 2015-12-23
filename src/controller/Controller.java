@@ -549,7 +549,8 @@ public class Controller {
 
 		while (it.hasNext()) {
 			Lager aktuelles = (Lager) it.next();
-			if (aktuelles.getChildList().isEmpty() && aktuelles.getBestand() > 0) {
+			if (aktuelles.getChildList().isEmpty() && aktuelles.getBestand() > 0) 
+			{
 				auswaehlbareLager.add(aktuelles);
 			}
 			findeBlaetter(aktuelles, auswaehlbareLager);

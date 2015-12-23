@@ -504,7 +504,7 @@ public class Hauptmenue extends JFrame {
 		
 		
 		lieferungsuebersichtTab = new JSplitPane();
-		tabLeiste.addTab("Lieferungs\u00FCbersicht", null, lieferungsuebersichtTab, null);
+		tabLeiste.addTab("Lieferungsübersicht", null, lieferungsuebersichtTab, null);
 		
 		lieferungsListe = new JList<Lieferung>();
 		lieferungModel = new DefaultListModel<Lieferung>();
@@ -585,8 +585,12 @@ public class Hauptmenue extends JFrame {
 						{
 							JOptionPane.showMessageDialog(getContentPane(), "Bitte verwenden Sie nur ganzzahlige Zahlen \nbis zu einem Maximum von zwei Milliarden.");
 						}
-						else
+						else if(gesamtMenge > controller.getLagerModel().getRoot().getBestand())
 						{
+							JOptionPane.showMessageDialog(getContentPane(), "Sie können nicht mehr Einheiten ausliefern als der maximale Bestand beträgt.\nSie können maximal " + controller.getLagerModel().getRoot().getBestand() + " Einheiten ausliefern.");
+						}
+						else
+						{	
 							AuslieferungsView auslieferung = new AuslieferungsView(controller, gesamtMenge);
 						}
 					}
