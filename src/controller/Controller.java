@@ -219,28 +219,172 @@ public class Controller {
 		
 		
 	}	
-		//Lager ausgewaehlt = this.findePassendesLager("Bremen", (Lager) this.getLagerModel().getRoot());
-		private void erstelleLieferung()
-		{
-			Lieferung tempLieferung = null;
-			Buchung tempBuchung = null;
-			
-			
-			
-			tempLieferung = new Lieferung(Calendar.getInstance().getTime(), 1000, "Zulieferung");
-			
-			tempBuchung = new Buchung(500, "Bremen", true);
-			Lager zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
-			zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
-			tempLieferung.hinzufuegenBuchung(tempBuchung);
-			tempBuchung = new Buchung(200, "MV", true);
-			tempLieferung.hinzufuegenBuchung(tempBuchung);		
-			
-			hauptmenue.getLieferungsModel().addElement(tempLieferung);
-	    	hauptmenue.getLieferungsListe().setModel(hauptmenue.getLieferungsModel());
-		}
-//		hauptmenue.setLieferungsListe(tempStartliste);
-//		
+	
+	private void erstelleLieferung()
+	{
+		Lieferung tempLieferung = null;
+		Buchung tempBuchung = null;
+		Lager zuBuchungPassendes = null;
+		
+		
+		
+		//1---------------------------------------------------------------------------------------------------------------
+		tempLieferung = new Lieferung(Calendar.getInstance().getTime(), 1000, "Zulieferung");
+		
+		tempBuchung = new Buchung(500, "Bremen", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);
+		
+		tempBuchung = new Buchung(200, "MV", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);	
+		
+		tempBuchung = new Buchung(100, "Mailand", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);	
+		
+		tempBuchung = new Buchung(100, "Spanien", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);	
+		
+		tempBuchung = new Buchung(100, "Groﬂbritannien", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);
+		
+		hauptmenue.getLieferungsModel().addElement(tempLieferung);
+    	hauptmenue.getLieferungsListe().setModel(hauptmenue.getLieferungsModel());
+
+		
+    	
+    	
+    	
+		//2---------------------------------------------------------------------------------------------------------------
+		tempLieferung = new Lieferung(Calendar.getInstance().getTime(), 2000, "Zulieferung");
+		
+		tempBuchung = new Buchung(1000, "Nienburg", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);
+		
+		tempBuchung = new Buchung(400, "NRW", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);	
+		
+		tempBuchung = new Buchung(400, "Hessen", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);	
+		
+		tempBuchung = new Buchung(200, "Sachsen", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);	
+		
+		hauptmenue.getLieferungsModel().addElement(tempLieferung);
+    	hauptmenue.getLieferungsListe().setModel(hauptmenue.getLieferungsModel());
+    	
+    	
+    	
+    	
+    	//3---------------------------------------------------------------------------------------------------------------
+    	tempLieferung = new Lieferung(Calendar.getInstance().getTime(), 10000, "Zulieferung");
+		
+		tempBuchung = new Buchung(2000, "Brandenburg", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);
+		
+		tempBuchung = new Buchung(1000, "Orleans", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);	
+		
+		tempBuchung = new Buchung(2500, "L'Aquila", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);	
+		
+		tempBuchung = new Buchung(2500, "Spanien", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);	
+		
+		tempBuchung = new Buchung(2000, "Groﬂbritannien", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);	
+		
+		hauptmenue.getLieferungsModel().addElement(tempLieferung);
+    	hauptmenue.getLieferungsListe().setModel(hauptmenue.getLieferungsModel());
+    	
+    	
+    	
+    	
+    	//4---------------------------------------------------------------------------------------------------------------
+    	tempLieferung = new Lieferung(Calendar.getInstance().getTime(), 5000, "Zulieferung");
+		
+		tempBuchung = new Buchung(2500, "Nimes", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);
+		
+		tempBuchung = new Buchung(2000, "MV", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);	
+		
+		tempBuchung = new Buchung(500, "Nienburg", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);	
+				
+		hauptmenue.getLieferungsModel().addElement(tempLieferung);
+    	hauptmenue.getLieferungsListe().setModel(hauptmenue.getLieferungsModel());
+    	
+    	
+    	
+    	
+    	//5---------------------------------------------------------------------------------------------------------------
+    	tempLieferung = new Lieferung(Calendar.getInstance().getTime(), 12500, "Zulieferung");
+		
+		tempBuchung = new Buchung(3750, "Paris-Nord", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);
+		
+		tempBuchung = new Buchung(2500, "Brandenburg", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);	
+		
+		tempBuchung = new Buchung(1875, "Hannover-Misburg", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);	
+		
+		tempBuchung = new Buchung(1875, "Bremen", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);	
+		
+		tempBuchung = new Buchung(2500, "Mailand", true);
+		zuBuchungPassendes = this.findePassendesLager(tempBuchung.getZugehoerigesLager(), this.getLagerModel().getRoot());
+		zuBuchungPassendes.erhoeheBestand(tempBuchung.getEinheiten());
+		tempLieferung.hinzufuegenBuchung(tempBuchung);	
+				
+		hauptmenue.getLieferungsModel().addElement(tempLieferung);
+    	hauptmenue.getLieferungsListe().setModel(hauptmenue.getLieferungsModel());
+    	
+    	
+    	
+    	this.berechneBestand(this.getLagerModel().getRoot());
+	}
 
 	
 	
