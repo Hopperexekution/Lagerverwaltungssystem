@@ -52,7 +52,11 @@ import javax.swing.JMenu;
 import javax.swing.SwingConstants;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-
+/**
+ * Hauptfenster des Programms
+ * @author Birk
+ *
+ */
 public class Hauptmenue extends JFrame implements Observer {
 	private JTree lagerTree;
 	private Controller controller;
@@ -63,6 +67,11 @@ public class Hauptmenue extends JFrame implements Observer {
 	private DefaultListModel<Lieferung> lieferungModel;
 	private static Observer lagerObserver;
 	
+	/**
+	 * Singleton-Pattern. Hauptmenue darf nur ein mal erzeugt werden.
+	 * @param controller
+	 * @return
+	 */
 	public static Hauptmenue getInstance(Controller controller){
 			if(hauptmenue == null){
 				hauptmenue = new Hauptmenue(controller);
@@ -174,6 +183,7 @@ public class Hauptmenue extends JFrame implements Observer {
 		lagerTree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent event) {
 				if(lagerTree.getLastSelectedPathComponent() instanceof Lager){
+					//Auswahl erkennen und Anpassung der View initialisieren, um die korrekten Informationen anzuzeigen  
 					Lager ausgewaehltesLager = (Lager) lagerTree.getLastSelectedPathComponent();
 					controller.lagerSelected(ausgewaehltesLager);
 					DefaultListModel<Buchung> listModel = new DefaultListModel<Buchung>();
@@ -195,6 +205,7 @@ public class Hauptmenue extends JFrame implements Observer {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(lagerTree.getLastSelectedPathComponent() instanceof Lager){
+					//Lager hinzufügen initiieren. Das Lager wird als Kind des ausgewählten Lagers erstellt.
 					Lager ausgewaehltesLager = (Lager) lagerTree.getLastSelectedPathComponent();
 					LagerHinzufuegenView lagerHinzufuegenView = new LagerHinzufuegenView(controller,ausgewaehltesLager);
 				}
@@ -213,6 +224,7 @@ public class Hauptmenue extends JFrame implements Observer {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(lagerTree.getLastSelectedPathComponent() instanceof Lager){
+					//Löschen des Lagers auf Basis der Auswahl einleiten
 					controller.lagerLoeschen((Lager)(lagerTree.getLastSelectedPathComponent()));
 				}
 				else
@@ -253,6 +265,7 @@ public class Hauptmenue extends JFrame implements Observer {
 					}
 					else
 					{
+						//Umbennenen auf Basis der Auswahl einleiten 
 						LagerUmbenennenView lagerUmbenennenView = new LagerUmbenennenView(controller,ausgewaehltesLager);
 					}
 				}
@@ -287,6 +300,7 @@ public class Hauptmenue extends JFrame implements Observer {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
+				//Darstellung der Lieferung auf Basis der Auswahl
 				Lieferung lieferung = lieferungsListe.getSelectedValue();
 				DefaultListModel<Buchung> buchungsModel = new DefaultListModel<>();
 				if(lieferung.getZugehoerigeBuchungen() != null)
@@ -323,6 +337,7 @@ public class Hauptmenue extends JFrame implements Observer {
 			public void actionPerformed(ActionEvent e) {
 				try
 				{
+					//Einleiten einer neuen Zulieferung. Ungültige Angaben werden abgefangen.
 					if  (!gesamtmengeEingabe.getText().equals(""))
 					{//Eingabefeld gefüllt!
 						int gesamtMenge = Integer.parseInt(gesamtmengeEingabe.getText());
@@ -361,6 +376,7 @@ public class Hauptmenue extends JFrame implements Observer {
 			{
 				try
 				{
+					//Einleiten einer neuen Auslieferung. Ungültige Eingaben werden abgefangen.
 					if  (!gesamtmengeEingabe.getText().equals(""))
 					{//Eingabefeld gefüllt!
 						int gesamtMenge = Integer.parseInt(gesamtmengeEingabe.getText());
@@ -476,7 +492,9 @@ public class Hauptmenue extends JFrame implements Observer {
 
 
 
-
+	/**
+	 * Erneuerung der Lageransicht, falls im Observable ein setChanged() und notifyObervers() ausgelöst wird
+	 */
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		controller.refreshTree();		

@@ -7,14 +7,17 @@ import java.util.List;
 
 import javax.swing.tree.MutableTreeNode;
 
-
+/**
+ * Dies ist das Lagerobjekt. Hier werden die benötigten Lagerinformationen abgelegt. 
+ * Dazu gehören unter anderem der Vater(das in der Hierarchie höher gelegene Lager) 
+ * und die Liste mit den Unterlagern dieses Lagers.
+ * @author Jan
+ *
+ */
 
 public class Lager implements Serializable
 	{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -88137515948885056L;
 	private String name;
 	private int kapazitaet;

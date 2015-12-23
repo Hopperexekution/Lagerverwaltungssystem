@@ -35,7 +35,11 @@ import model.UndoRedoModel;
 import view.Hauptmenue;
 import view.LagerVerteilenView;
 
-
+/**
+ * Die Controller-Klasse des Programms. Diese Klasse startet das Programm und ist die zentrale Schnittstelle für alle wichtigen Operationen.
+ * @author Jan, Kevin, Robin
+ *
+ */
 public class Controller {
 	private LinkedList<UndoRedoModel> undoListe = new LinkedList<UndoRedoModel>();
 	private LinkedList<UndoRedoModel> redoListe = new LinkedList<UndoRedoModel>();
@@ -44,7 +48,12 @@ public class Controller {
 	private static Hauptmenue hauptmenue;
 	private List<Buchung> buchungsListe = new ArrayList<Buchung>();
 	private static LagerModel lagerModel;
-		
+	
+	/**
+	 * Start des Programms, erzeugen des Controller-Objekts, erstellen der Lagerliste und des Hauptmenüs.
+	 * @author Jan
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -66,11 +75,13 @@ public class Controller {
 	
 
 
-	public Controller()
-	{
-		
-	}
-	
+	/**
+	 * Hinzufügen einer neuen Buchung.
+	 * @param einheiten Einheiten die verbucht werden sollen.
+	 * @param zugehoerigesLager Lager auf die sich die Buchung bezieht.
+	 * @param zubuchung Abfrage ob es eine Zubuchung ist, wird false ausgewählt, ist es ein Abbuchung.
+	 *
+	 */
 	public void buchungHinzufügen(int einheiten, String zugehoerigesLager, boolean zubuchung)
 	{
 		Buchung buchung = new Buchung(einheiten, zugehoerigesLager, zubuchung);
@@ -80,12 +91,17 @@ public class Controller {
 	public Hauptmenue getHauptmenue(){
 		return hauptmenue;
 	}
-	
+	/**
+	 * Abgespeicherten Stand laden.
+	 * @author Kevin
+	 */
 	public void laden()
 	{
+		//Auswahl der Datei.
 		JFileChooser chooser = new JFileChooser();
 	    //------------------------------------------------------------------
 		chooser.removeChoosableFileFilter(chooser.getAcceptAllFileFilter());
+		//Dateityp der Dateien ist nsfw.
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
         		"NOT SAFE FOR WORK: .NSFW", "nsfw");
         FileNameExtensionFilter filter2 = new FileNameExtensionFilter(
@@ -100,6 +116,7 @@ public class Controller {
     	{
 			File savedFile = chooser.getSelectedFile();
 			try {
+					//Ausgewähltes Objekt einladen, die Models der View übergeben und diese aktuallisieren.
 					ObjectInputStream inStream = new ObjectInputStream(new FileInputStream(savedFile));
 					LagerUndListe lagerUndListe = (LagerUndListe) inStream.readObject();
 					lagerModel = lagerUndListe.getLagerModel();
@@ -118,7 +135,9 @@ public class Controller {
 				}
 		}
 	}	
-	
+	/**
+	 * @author Kevin
+	 */
 	public void speichern()
 	{		
 		{		
@@ -135,20 +154,20 @@ public class Controller {
 	        
 	        if (retValue == JFileChooser.APPROVE_OPTION) 
 	        {
-
+	        	//Dateien sollenen las nsfw-Dateien abgespeichert werden.
 		        File file = chooser.getSelectedFile();
 		        if(file.toString().toLowerCase().endsWith(".nsfw"))
-				{	//Konvertieren der letzten vier Buchstaben in Großbuchstaben
+				{	//Konvertieren der letzten vier Buchstaben in Großbuchstaben.
 					file = new File(file.toString().substring(0, file.toString().length()-4) + "NSFW");
 				}
 		        else
-		        {   //Anhängen der Dateiendung "NSFW"
+		        {   //Anhängen der Dateiendung "NSFW".
 		        	file = new File(file.toString() + ".NSFW");
 		        }
 		        			
 				try 
 				{
-
+					//Models in ein Objekt legen und dieses abspeichern
 		        	ObjectOutputStream OutStream = new ObjectOutputStream(new FileOutputStream(file));
 		        	LieferungListe lieferungListe = new LieferungListe(hauptmenue.getLieferungsModel());
 		        	LagerModel lagerModel = this.getLagerModel();
@@ -165,7 +184,10 @@ public class Controller {
 		}
 	}
 	
-	
+	/**
+	 * Programm Beenden Funktion
+	 * @author Jan
+	 */
 	public void programmBeenden()
 	{
 		String[] yesNoOptions = { "Ja", "Nein"};
@@ -175,7 +197,10 @@ public class Controller {
 			System.exit(0);
 		}
 	}
-	
+	/**
+	 * Erstellen der Standard-Lagerliste
+	 * @author Jan
+	 */
 	private static void erstelleLagerListe()
 	{
 		Lager root = new Lager("Lager");
@@ -202,10 +227,15 @@ public class Controller {
 	{
 		return lagerModel;
 	}
-
+	/**
+	 * Funktion um ein Lager zu löschen.
+	 * @param lager Das zu löschende Lager
+	 */
 	public void lagerLoeschen(Lager lager) {
+		//Abfragen ob das ausgewählte Lager das Root-Lager ist, da dieses nicht gelöscht werden kann.
 		if(!lagerModel.isRoot(lager)){
 			Lager vater = lager.getVater();
+			//Testen ob das ausgewählte Lager Kinder besitzt
 			if(!lager.getChildList().isEmpty()){
 				for(Lager kindLager : lager.getChildList()){
 					kindLager.setVater(vater);
@@ -215,6 +245,7 @@ public class Controller {
 				vater.setKapazitaet(vater.getKapazitaet() - lager.getKapazitaet());
 				lagerModel.lagerLoeschen(lager);
 			}
+			//Testen ob die der Vater mehr als ein Kind besitzt
 			else{
 				if(vater.getChildList().size() > 1){
 					Vector<Lager> childListe = findeAuswaehlbarLager(new Vector<Lager>());
@@ -241,6 +272,7 @@ public class Controller {
 					lagerModel.lagerLoeschen(lager);
 				}
 			}
+			//neue Bestände berechnen
 			this.berechneBestand(lagerModel.getRoot());
 			this.berechneKapazitaet(lagerModel.getRoot());
 		}
@@ -249,12 +281,22 @@ public class Controller {
 		}
 		
 	}
-
+	/**
+	 * Die Lageransicht erneuern
+	 * @author Jan
+	 */
 	public void refreshTree(){
 		hauptmenue.getLagerTree().setModel(null);
 		hauptmenue.getLagerTree().setModel(lagerModel);
 	}
 	
+	/**Erstellt eine neue Zubuchung
+	 * @author Robin
+	 * @param prozent Prozentangabe der Buchung
+	 * @param gesamtMenge Menge der Zubuchung
+	 * @param ausgewaehltesLager Lager auf die zugebucht werden soll
+	 * @return
+	 */
 	public Buchung erstelleZubuchung(double prozent, int gesamtMenge, String ausgewaehltesLager) {
 		int einheit = (int) (Math.floor((double)(gesamtMenge * (prozent/100))));;
 		
@@ -268,7 +310,12 @@ public class Controller {
 		}
 		return null;
 	}
-
+	/**
+	 * Finde die auswählbaren Lager für die Buchungsoperationen.
+	 * @author Robin
+	 * @param auswaehlbareLager Vector der mit den auswählbaren Lagern gefüllt wird
+	 * @return
+	 */
 	public Vector<Lager> findeAuswaehlbarLager(Vector<Lager> auswaehlbareLager)
 	{
 	Lager wurzel = (Lager) this.getLagerModel().getRoot();
@@ -279,7 +326,12 @@ public class Controller {
 	}
 	return auswaehlbareLager;
 	}
-	
+	/**
+	 * Findet die Blätter der gewählten Wurzel.
+	 * @author Robin
+	 * @param wurzel
+	 * @param auswaehlbarLager
+	 */
 	private void findeBlaetter(Lager wurzel, Vector<Lager> auswaehlbarLager) {
 		List<Lager> nachfolger = wurzel.getChildList();
 		Iterator it = nachfolger.iterator();
@@ -292,7 +344,13 @@ public class Controller {
 			findeBlaetter(aktuelles, auswaehlbarLager);
 		}
 	}
-	
+	/**
+	 * Finden des Lagers auf Basis des Namen.
+	 * @author Robin
+	 * @param lagername Name des gesuchten Lagers
+	 * @param wurzel Wurzel von der gestartet wird
+	 * @return
+	 */
 	public Lager findePassendesLager(String lagername, Lager wurzel)
 	{
 
@@ -316,7 +374,11 @@ public class Controller {
 		
 		return gefunden;
 	}
-
+	/**
+	 * Beziehen der Prozentanzahl.
+	 * @author Robin
+	 * @return
+	 */
 	public double getProzent() {
 		double prozent = 0;
 		if(undoListe != null && !undoListe.isEmpty())
@@ -327,7 +389,11 @@ public class Controller {
 		}
 		return prozent;
 	}
-	
+	/**
+	 * Beziehen der verteilten Einheiten
+	 * @author Robin
+	 * @return
+	 */
 	public int getVerteilteEinheiten()
 	{
 		int einheiten = 0;
@@ -341,7 +407,12 @@ public class Controller {
 	}
 	
 	
-	
+	/**
+	 * Berechnet den Bestand
+	 * @author Robin
+	 * @param wurzel
+	 * @return
+	 */
 	public int berechneBestand(Lager wurzel) 
 	{
 		int bestand = 0;
@@ -362,14 +433,19 @@ public class Controller {
 		wurzel.setBestand(bestand);
 		return bestand;
 	}
-	
+	/**
+	 * Berechnet die Kapazität
+	 * @author Robin
+	 * @param wurzel
+	 * @return
+	 */
 	public int berechneKapazitaet(Lager wurzel) 
 	{
 		int kapazitaet = 0;
 		List<Lager> nachfolger = wurzel.getChildList();
 		Iterator<Lager> it = nachfolger.iterator();
 				
-		while (it.hasNext()) // nur wenn liste nicht leer
+		while (it.hasNext()) // Nur wenn die liste nicht leer ist
 		{
 			Lager aktuelles = (Lager) it.next();
 			if (aktuelles.getChildList().isEmpty())
@@ -384,20 +460,32 @@ public class Controller {
 		wurzel.setKapazitaet(kapazitaet);
 		return kapazitaet;
 	}
-	
+	/**
+	 * Buchung rückgängig machen.
+	 * @author Kevin
+	 * @return
+	 */
 	public Buchung undo(){
 		redoListe.add(undoListe.getLast());
 		undoListe.removeLast();
 		return redoListe.getLast().getBuchung();
 
 	}
-	
+	/**
+	 * Buchung wiederholen.
+	 * @author Kevin
+	 * @return
+	 */
 	public Buchung redo(){
 		undoListe.add(redoListe.getLast());
 		redoListe.removeLast();
 		return undoListe.getLast().getBuchung();
 	}
-
+	/**
+	 * Prüfen ob Redo möglich ist.
+	 * @author Kevin
+	 * @return
+	 */
 	public boolean redoMoeglich() {
 		if(!redoListe.isEmpty())
 		{
@@ -408,7 +496,11 @@ public class Controller {
 			return false;
 		}
 	}
-	
+	/**
+	 * Prüfen ob undo möglich ist.
+	 * @author Kevin
+	 * @return
+	 */
 	public boolean undoMoeglich() {
 		if(!undoListe.isEmpty())
 		{
@@ -419,16 +511,23 @@ public class Controller {
 			return false;
 		}
 	}
-
+	/**
+	 * Erstellt eine neue Zulieferung.
+	 * @author Kevin
+	 * @param restEinheiten
+	 * @param gesamtMenge
+	 */
 	public void erstelleZulieferung(int restEinheiten, int gesamtMenge) 
 	{
 		Lieferung neueZulieferung;
 		if(restEinheiten != 0)
 		{
+			//Falls noch Resteinheiten vorhanden sind
 			neueZulieferung = new Lieferung(Calendar.getInstance().getTime(), (gesamtMenge + restEinheiten), "Zulieferung");
 		}
 		else
 		{
+			//Falls keine keine Resteinheiten übrig sind
 			neueZulieferung = new Lieferung(Calendar.getInstance().getTime(), gesamtMenge , "Zulieferung");
 		}
 		Lager zuBuchungPassendes;
@@ -440,6 +539,7 @@ public class Controller {
 			}
 			for(UndoRedoModel model : undoListe)
 			{
+				//Undo-Liste abfragen
 				neueZulieferung.hinzufuegenBuchung(model.getBuchung());
 				zuBuchungPassendes = this.findePassendesLager(model.getBuchung().getZugehoerigesLager(), (Lager) this.getLagerModel().getRoot());
 				zuBuchungPassendes.hinzufuegenBuchung(model.getBuchung());
@@ -455,7 +555,7 @@ public class Controller {
 		this.loescheUndoListe();
 
 		this.loescheRedoListe();
-		
+		//Zuliefern
 		DefaultListModel<Lieferung> lieferungsModel = this.getHauptmenue().getLieferungsModel();
 		lieferungsModel.addElement(neueZulieferung);
 		this.getHauptmenue().getLieferungsListe().setModel(lieferungsModel);
@@ -472,22 +572,33 @@ public class Controller {
 	public void loescheUndoListe() {
 		undoListe = new LinkedList<UndoRedoModel>();
 	}
-	
+	/**
+	 * Fügt ein neues Lager hinzu.
+	 * @author Jan
+	 * @param lager Lager, dass hinzugefügt werden soll  
+	 * @param vater Vater des Lagers, dass hinzugefügt werden soll. An dieses Lager wird das neue Lager angeheftet
+	 */
 	public void lagerHinzufuegen(Lager lager, Lager vater) 
 	{
+		//Übertragen des Bestands des Vaters an das Kind, falls dieses keine Kinder hatte Leer ist.
 		if (vater.getChildList().isEmpty())
 		{
 			lager.setBestand(vater.getBestand());
 		}
 		lagerModel.lagerHinzufuegen(vater, lager);
 		standardBeschriftung();
+		//Überarbeiten der Kapaziät/Bestand und erneuern der Lageransicht
 		this.berechneBestand(this.getLagerModel().getRoot());
 		this.berechneKapazitaet(this.getLagerModel().getRoot());
 		this.refreshTree();
 		hauptmenue.setAlwaysOnTop(true);
 		hauptmenue.setAlwaysOnTop(false);
 	}
-	
+	/**
+	 * @author Jan
+	 * Diese Methode aktualisiert die Lagerdetails, abhängig davin aus welcher Ebene das ausgewählte Lager ist.
+	 * @param lager Das ausgewählte Lager
+	 */
 	public void lagerSelected(Lager lager){
 		if(lagerModel.isLeaf(lager)){
 			hauptmenue.getLagerNameUeberschrift().setText("Lagername:");
@@ -515,7 +626,13 @@ public class Controller {
 		hauptmenue.getLagerBestand().setText("");
 		hauptmenue.getLagerKapazitaet().setText("");
 	}
-
+	/**
+	 * Erstellen einer Abbuchung.
+	 * @author Kevin
+	 * @param einheit Anzahl der abzubuchenden Einheiten
+	 * @param ausgewaehltesLager Lager aus dem abgebucht werden soll
+	 * @return
+	 */
 	public Buchung erstelleAbbuchung(int einheit, String ausgewaehltesLager) 
 	{
 		Buchung neueBuchung = new Buchung(einheit, ausgewaehltesLager, false);
@@ -524,7 +641,12 @@ public class Controller {
 		return neueBuchung;
 	}
 	
-
+	/**
+	 * Finden von Lagern für eine Auslieferung.
+	 * @author Kevin
+	 * @param auswaehlbareLager Vector in dem die gesuchten Lager abgelegt werden
+	 * @return
+	 */
 	public Vector<Lager> findeAuswaehlbarLagerAuslieferung(Vector<Lager> auswaehlbareLager) {
 		{
 			Lager wurzel = (Lager) this.getLagerModel().getRoot();
@@ -536,7 +658,12 @@ public class Controller {
 			return auswaehlbareLager;
 			}
 	}
-
+	/**
+	 * Findet die Blätter einer Wurzel für die Auslieferung.
+	 * @author Kevin
+	 * @param wurzel Wurzel von der nach Kindern gesucht werden soll
+	 * @param auswaehlbareLager Vector in dem die gefundenen Kinder abgelegt werden
+	 */
 	private void findeBlaetterAuslieferung(Lager wurzel, Vector<Lager> auswaehlbareLager) {
 		List<Lager> nachfolger = wurzel.getChildList();
 		Iterator it = nachfolger.iterator();
@@ -550,7 +677,11 @@ public class Controller {
 			findeBlaetter(aktuelles, auswaehlbareLager);
 		}
 	}
-
+	/**
+	 * Durchführen einer Auslieferung abhängig von der Gesamtmenge
+	 * @author Robin
+	 * @param gesamtMenge Anzahl an Einheiten, die ausgeliefert werden sollen
+	 */
 	public void erstelleAuslieferung(int gesamtMenge) {
 		Lieferung neueZulieferung = new Lieferung(Calendar.getInstance().getTime(), gesamtMenge, "Auslieferung");
 		Lager zuBuchungPassendes;

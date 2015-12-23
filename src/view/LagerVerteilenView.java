@@ -20,7 +20,11 @@ import javax.swing.JTextField;
 import controller.Controller;
 import model.Buchung;
 import model.Lager;
-
+/**
+ * Ansicht um Bestände eines Lagers zu verteilen, falls eine Löschoperation dies erfordert.
+ * @author Birk
+ *
+ */
 public class LagerVerteilenView extends JFrame {
 	private Controller controller;
 
@@ -29,7 +33,6 @@ public class LagerVerteilenView extends JFrame {
 	public LagerVerteilenView(Controller controller, int gesamtMenge, Lager zuLoeschendesLager) {
 this.controller = controller;
 		
-		//Frameeinstellungen
 		controller.getHauptmenue().setEnabled(false);
 		getContentPane().setLayout(null);
 		setBounds(400, 200, 600, 400);
@@ -37,8 +40,6 @@ this.controller = controller;
 		setVisible(true);
 		
 		
-		
-		//Windowlistener um Hauptmenue zu blockieren, während das Umbenennen-Fenster geöffnent ist
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent event) {
@@ -99,6 +100,7 @@ this.controller = controller;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(controller.undoMoeglich()){
+					//Undo-Mechanismus
 				Buchung undoBuchung = controller.undo();
 				Lager ausgewaehlt = controller.findePassendesLager(undoBuchung.getZugehoerigesLager(),(Lager) controller.getLagerModel().getRoot());
 				lagerAuswahl.addItem(ausgewaehlt);
@@ -116,6 +118,7 @@ this.controller = controller;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(controller.redoMoeglich()){
+					//Redo-Mechanismus
 				Buchung redoBuchung = controller.redo();
 				Lager ausgewaehlt = controller.findePassendesLager(redoBuchung.getZugehoerigesLager(), (Lager) controller.getLagerModel().getRoot());
 				lagerAuswahl.removeItem(ausgewaehlt);
@@ -135,6 +138,7 @@ this.controller = controller;
 			public void actionPerformed(ActionEvent e) {
 				if(controller.getProzent() == 100)
 				{
+					//Initiieren der Umbuchung und Löschung der Lagers
 					int restEinheiten;
 					restEinheiten = gesamtMenge - controller.getVerteilteEinheiten();
 					int auswahl = JOptionPane.showConfirmDialog(getContentPane(), "Die restliche(n) unverteilte(n) " + restEinheiten + " Einheit(en) wird/werden auf das zuletzt hinzugefügte Lager verteilt.\nWollen Sie das tun? Wenn nicht benutzen Sie den Undo Knopf und verteilen die Prozentangaben neu.", "Bestätigen", JOptionPane.YES_OPTION);
@@ -163,6 +167,7 @@ this.controller = controller;
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
+				//Prüfen der Prozenteingabe
 				if (lblAngabeProzent.getText().length() != 0) {
 					try{
 					double prozent = Double.parseDouble(lblAngabeProzent.getText());
@@ -185,6 +190,7 @@ this.controller = controller;
 					{
 						if(einheit != 0)
 						{
+							//Solange noch Einheiten vorhanden sind, müssen diese verteilt werden
 							if(lagerAuswahl.getSelectedItem() != null)
 							{
 								Lager ausgewaehlt = controller.findePassendesLager(lagerAuswahl.getSelectedItem().toString(), (Lager) controller.getLagerModel().getRoot());						
@@ -195,6 +201,7 @@ this.controller = controller;
 									lagerAuswahl.removeItem(ausgewaehlt);
 									if(!neueBuchung.equals(null))
 									{
+										//Buchung erstellen
 										lieferungsBuchungen.addElement(neueBuchung);
 										zulieferungLager.setModel(lieferungsBuchungen);
 								

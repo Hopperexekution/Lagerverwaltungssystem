@@ -27,7 +27,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Vector;
-
+/**
+ * Die Ansicht für eine neue Auslieferung
+ * @author Birk
+ *
+ */
 public class AuslieferungsView extends JFrame {
 	private Controller controller;
 	private JLabel anzahlverfgbareEinheiten;
@@ -70,6 +74,7 @@ public class AuslieferungsView extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//Auslesen welche Auswahl getroffen wurde
 				String s = controller.findePassendesLager(lagerAuswahl.getSelectedItem().toString(), controller.getLagerModel().getRoot()).getBestand() + "";
 				anzahlverfgbareEinheiten.setText(s);
 			}
@@ -118,8 +123,10 @@ public class AuslieferungsView extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//Auslieferung anfordern
 				if (anzahlAuszulieferndeEinheiten.getText().length() != 0) {
 					try{
+					//Einlsesen der auszuliefernden Einheiten, prüfen ob der Bestand des ausgewählten Lagers ausreicht
 					int einheit = Integer.parseInt(anzahlAuszulieferndeEinheiten.getText());
 					Lager ausgewaehlt = controller.findePassendesLager(lagerAuswahl.getSelectedItem().toString(), controller.getLagerModel().getRoot());
 					if (einheit > ausgewaehlt.getBestand()) 
@@ -136,6 +143,7 @@ public class AuslieferungsView extends JFrame {
 								lagerAuswahl.removeItem(ausgewaehlt);
 								if(!neueBuchung.equals(null))
 								{
+									//Auswahl akzeptabel -> Buchung erstellen
 									lieferungsBuchungen.addElement(neueBuchung);
 									buchungen.setModel(lieferungsBuchungen);
 							
@@ -167,6 +175,7 @@ public class AuslieferungsView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(controller.getVerteilteEinheiten() == gesamtMenge)
 				{
+					//Durchführung der Auslieferung
 					controller.erstelleAuslieferung(gesamtMenge);
 					controller.berechneBestand(controller.getLagerModel().getRoot());
 					controller.refreshTree();
@@ -201,6 +210,7 @@ public class AuslieferungsView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(controller.undoMoeglich()){
+					//Undo durchführen
 				Buchung undoBuchung = controller.undo();
 				Lager ausgewaehlt = controller.findePassendesLager(undoBuchung.getZugehoerigesLager(),(Lager) controller.getLagerModel().getRoot());
 				lagerAuswahl.addItem(ausgewaehlt);
@@ -218,6 +228,7 @@ public class AuslieferungsView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(controller.redoMoeglich()){
+					//Redo-Durchführen
 					Buchung redoBuchung = controller.redo();
 					Lager ausgewaehlt = controller.findePassendesLager(redoBuchung.getZugehoerigesLager(), (Lager) controller.getLagerModel().getRoot());
 					lagerAuswahl.removeItem(ausgewaehlt);

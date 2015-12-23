@@ -7,11 +7,17 @@ import java.util.Observable;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-
-public class LagerModel extends Observable implements TreeModel, Serializable{
 	/**
-	 * 
+	 * Dieses LagerModel beinhaltet die gesamte Liste mit allen Lagern. Diese Klasse wird genutzt um
+	 * eine Abfrage der Lager, z.B. ob das Lager ein Rootsegment ist und 
+	 * eine einfach Anzeige der Lager zu ermöglichen.
+	 * Die Klasse ist Observable, damit sich die Ansicht beim hinzufügen oder löschen von Lagern
+	 * automatisch aktualisiert. 
+	 * @author janra
+	 *
 	 */
+public class LagerModel extends Observable implements TreeModel, Serializable{
+
 	private static final long serialVersionUID = 7091360518037662600L;
 	private Lager root;
 	public LagerModel(Lager root){
@@ -24,6 +30,9 @@ public class LagerModel extends Observable implements TreeModel, Serializable{
 	}
 
 	@Override
+	/**
+	 * Gibt das Kind eines Lages, dass an der angegebenen Stelle in der ChildList liegt zurück.
+	 */
 	public Object getChild(Object parent, int index) {
 		if(parent instanceof Lager){
 			Lager lager = (Lager) parent;
@@ -36,6 +45,9 @@ public class LagerModel extends Observable implements TreeModel, Serializable{
 	}
 
 	@Override
+	/**
+	 * Anzahl der Kinder eines Lagers
+	 */
 	public int getChildCount(Object parent) {
 		if (parent instanceof Lager){
 				Lager lager = (Lager) parent;
@@ -61,6 +73,9 @@ public class LagerModel extends Observable implements TreeModel, Serializable{
 	}
 
 	@Override
+	/**
+	 * Überprüfung ob das Lager ein Blatt ist.
+	 */
 	public boolean isLeaf(Object node) {
 		if(node instanceof Lager){
 			Lager lager = (Lager) node;
@@ -82,22 +97,36 @@ public class LagerModel extends Observable implements TreeModel, Serializable{
 		// TODO Auto-generated method stub
 		
 	}
+	/**
+	 * Überprüfung ob das Lager das Rootobjekt ist.
+	 */
 	public boolean isRoot(Lager object){
 		if(object.equals(root)){
 			return true;
 		}
 		return false;
 	}
+	/**
+	 * Löschen eines ausgewählten Lagers.
+	 * @param lager Das zu löschende Lager
+	 */
 	public void lagerLoeschen(Lager lager){
 		if(lager.getVater() != null){
 			Lager vater = lager.getVater();
 			vater.getChildList().remove(lager);
+			//Benachrichtigung an den Observer
 			setChanged();
 			notifyObservers();
 		}
 	}
+	/**
+	 * Fügt ein neues Lager hinzu
+	 * @param vater Vater des Lagers
+	 * @param hinzuzufuegendesLager Lager das hinzugefügt werden soll
+	 */
 	public void lagerHinzufuegen(Lager vater, Lager hinzuzufuegendesLager){
 		vater.getChildList().add(hinzuzufuegendesLager);
+		//Benachrichtigung an den Observer
 		setChanged();
 		notifyObservers();
 	}

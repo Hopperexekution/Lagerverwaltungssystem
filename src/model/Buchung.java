@@ -2,7 +2,11 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
-
+/**
+ * 
+ * @author Robin
+ *
+ */
 public class Buchung implements Serializable{
 	int einheiten;
 	String zugehoerigesLager;
@@ -14,6 +18,7 @@ public class Buchung implements Serializable{
 		this.einheiten = einheiten;
 		this.zugehoerigesLager = zugehoerigesLager;
 		this.zubuchung = zubuchung;
+		//Überprüfung ob eine Zubuchung oder Abbuchung vorliegt
 		if(this.getBuchungsStatus())
 		{
 			this.zuOderAbbuchung = "Zubuchung";
@@ -37,7 +42,9 @@ public class Buchung implements Serializable{
 		return this.zugehoerigesLager;
 	}
 	
-	
+	/**
+	 * Überschriebene toString-Methode um eine korrekte Anzeige in der Buchungsliste zu ermöglichen
+	 */
 	public String toString()
 	{
 		return this.getZuOderAbbuchung()+ " Einheiten: " + this.einheiten + " Lager: " + this.zugehoerigesLager;

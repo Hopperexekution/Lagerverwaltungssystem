@@ -1,7 +1,11 @@
 package model;
 
 import java.io.Serializable;
-
+/**
+ * Objekt um die Models abspeichern zu können
+ * @author Robin
+ *
+ */
 public class LagerUndListe implements Serializable{
 	LagerModel lagerModel;
 	LieferungListe lieferungListe;

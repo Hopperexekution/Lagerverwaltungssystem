@@ -1,5 +1,10 @@
 package model;
 
+/**
+ * Model für den Redo/Undo-Mechanismus
+ * @author Robin
+ *
+ */
 public class UndoRedoModel {
 	Buchung beinhalteteBuchung;
 	double prozent;

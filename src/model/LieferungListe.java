@@ -4,7 +4,11 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
-
+/**
+ * Liste in die die Lieferungen abgelegt werden.
+ * @author Kevin
+ *
+ */
 public class LieferungListe implements Serializable {
 	/**
 	 * 

@@ -3,7 +3,11 @@ package model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedList;
-
+/**
+ * Mit dieser Klasse können Lieferungem erzeugt werden
+ * @author Kevin
+ *
+ */
 public class Lieferung  implements Serializable{
 	LinkedList<Buchung> zugehoerigeBuchungen = new LinkedList<Buchung>();
 	Date datum;

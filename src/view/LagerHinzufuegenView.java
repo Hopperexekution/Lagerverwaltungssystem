@@ -16,7 +16,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
+/**
+ * Ansicht um ein neues Lager zu Erstellen
+ * @author Birk
+ *
+ */
 public class LagerHinzufuegenView extends JFrame {
 	private JTextField bezeichnungsTextfeld;
 	private JTextField kapazitaetsTextfeld;
@@ -65,7 +69,7 @@ public class LagerHinzufuegenView extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try{
-					
+						//Lager erstellen einleiten. Ungültige Eingaben werden gefiltert.
 						String lagerName = bezeichnungsTextfeld.getText();
 						int kapazitaet = Integer.parseInt(kapazitaetsTextfeld.getText());
 						lagerName = lagerName.trim();
