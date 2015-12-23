@@ -33,6 +33,7 @@ import javax.swing.AbstractListModel;
 import java.awt.GridLayout;
 import java.awt.Color;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
@@ -59,6 +60,7 @@ public class Hauptmenue extends JFrame {
 		   lagerNameUeberschrift, lagerName, lagerBestandUeberschrift, lagerBestand, buchungenUeberschrift, 
 		   lieferungsoptionenUeberschrift, lieferbezeichnungUeberschrift, lieferBezeichung, lieferdatumUeberschrift, lieferDatum,
 		   gesamtmenge;
+	private JScrollPane treeScrollBar, lieferungScrollBar;
 	private static Hauptmenue hauptmenue = null;
 
 	public static Hauptmenue getInstance(Controller controller){
@@ -316,7 +318,7 @@ public class Hauptmenue extends JFrame {
 		menueLeiste.setBounds(0, 0, 794, 24);
 		getContentPane().add(menueLeiste);
 		
-		menueListe = new JMenu("Men\u00FC");
+		menueListe = new JMenu("Menü");
 		menueLeiste.add(menueListe);
 		
 		menueLaden = new JMenuItem("Laden");
@@ -408,7 +410,8 @@ public class Hauptmenue extends JFrame {
 			}
 		});
 		lagerTree.setModel(controller.getLagerModel());
-		lageruebersichtTab.setLeftComponent(lagerTree);
+		treeScrollBar = new JScrollPane(lagerTree);
+		lageruebersichtTab.setLeftComponent(treeScrollBar);
 		lageruebersichtTab.setDividerLocation(250);
 		
 		neuesLagerErstellenButton = new JButton("Neues Lager erstellen");
@@ -506,7 +509,8 @@ public class Hauptmenue extends JFrame {
 		lieferungsListe = new JList<Lieferung>();
 		lieferungModel = new DefaultListModel<Lieferung>();
 		lieferungsListe.setModel(lieferungModel);
-		lieferungsuebersichtTab.setLeftComponent(lieferungsListe);
+		lieferungScrollBar = new JScrollPane(lieferungsListe);
+		lieferungsuebersichtTab.setLeftComponent(lieferungScrollBar);
 		lieferungsuebersichtTab.setDividerLocation(250);
 
 		
@@ -628,27 +632,6 @@ public class Hauptmenue extends JFrame {
 		gesamtmenge.setBounds(174, 89, 95, 20);
 		lieferungPane.add(gesamtmenge);
 		
-		/*JList<Lieferung> lieferungsListe = new JList<Lieferung>();
-		lieferungsListe.setBounds(24, 198, 509, 215);
-		lieferungsListe.setModel(new AbstractListModel() {
-			String[] values = new String[] {"Lager1 100", "Lager2 50"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		lieferungPane.add(lieferungsListe);
-	}*/
-	/*private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME, "SwingAction");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-		}
-	}*/
 }
 	public Controller getController() {
 		return controller;
