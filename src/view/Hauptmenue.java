@@ -173,7 +173,7 @@ public class Hauptmenue extends JFrame implements Observer {
 		lagerBestandUeberschrift.setHorizontalAlignment(SwingConstants.LEFT);
 		lagerBestandUeberschrift.setBounds(20, 464, 133, 14);
 		lagerPane.add(lagerBestandUeberschrift);
-		final JList buchungsListe = new JList();
+		final JList<Buchung> buchungsListe = new JList<Buchung>();
 		
 		lagerBestand = new JLabel("0");
 		lagerBestand.setHorizontalAlignment(SwingConstants.CENTER);
@@ -187,11 +187,11 @@ public class Hauptmenue extends JFrame implements Observer {
 					//Auswahl erkennen und Anpassung der View initialisieren, um die korrekten Informationen anzuzeigen  
 					Lager ausgewaehltesLager = (Lager) lagerTree.getLastSelectedPathComponent();
 					controller.lagerSelected(ausgewaehltesLager);
-
+					DefaultListModel<Buchung> listeModelBuchungen = new DefaultListModel<Buchung>();
 					for(Buchung buchung: ausgewaehltesLager.getBuchungen()){
-						listModel.addElement(buchung);
+						listeModelBuchungen.addElement(buchung);
 					}
-					buchungsListe.setModel(listModel);
+					buchungsListe.setModel(listeModelBuchungen);
 				}
 			}
 		});
@@ -249,7 +249,6 @@ public class Hauptmenue extends JFrame implements Observer {
 		
 		JScrollPane lagerBuchungScrollbBar = new JScrollPane(buchungsListe);
 		lagerBuchungScrollbBar.setBounds(20, 124, 492, 222);
-
 		lagerPane.add(lagerBuchungScrollbBar);
 		
 		JButton lagerUmbenennenButton = new JButton("Lager umbenennen");
